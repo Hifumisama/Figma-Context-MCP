@@ -37,12 +37,6 @@ async function getFigmaData(
   try {
     const { fileKey, nodeId, depth } = params;
 
-    Logger.log(
-      `Fetching ${depth ? `${depth} layers deep` : "all layers"} of ${
-        nodeId ? `node ${nodeId} from file` : `full file`
-      } ${fileKey}`,
-    );
-
     // Get raw Figma API response
     let rawApiResponse: GetFileResponse | GetFileNodesResponse;
     if (nodeId) {
@@ -58,10 +52,6 @@ async function getFigmaData(
 
     writeLogs("figma-simplified.json", simplifiedDesign);
 
-    Logger.log(
-      `Successfully extracted data: ${simplifiedDesign.nodes.length} nodes, ${Object.keys(simplifiedDesign.globalVars.styles).length} styles`,
-    );
-
     const { nodes, globalVars, ...metadata } = simplifiedDesign;
     const result = {
       metadata,
@@ -69,11 +59,9 @@ async function getFigmaData(
       globalVars,
     };
 
-    Logger.log(`Generating ${outputFormat.toUpperCase()} result from extracted data`);
     const formattedResult =
       outputFormat === "json" ? JSON.stringify(result, null, 2) : yaml.dump(result);
 
-    Logger.log("Sending result to client");
     return {
       content: [{ type: "text" as const, text: formattedResult }],
     };

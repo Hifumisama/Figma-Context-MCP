@@ -4,8 +4,10 @@ import { Logger } from "../utils/logger.js";
 import {
   downloadFigmaImagesTool,
   getFigmaDataTool,
+  evaluateDesignTool,
   type DownloadImagesParams,
   type GetFigmaDataParams,
+  type EvaluateDesignParams,
 } from "./tools/index.js";
 
 const serverInfo = {
@@ -47,6 +49,15 @@ function registerTools(
     getFigmaDataTool.parameters,
     (params: GetFigmaDataParams) =>
       getFigmaDataTool.handler(params, figmaService, options.outputFormat),
+  );
+
+  // Register evaluate_design tool
+  server.tool(
+    evaluateDesignTool.name,
+    evaluateDesignTool.description,
+    evaluateDesignTool.parameters,
+    (params: EvaluateDesignParams) =>
+      evaluateDesignTool.handler(params, figmaService),
   );
 
   // Register download_figma_images tool if CLI flag or env var is not set
