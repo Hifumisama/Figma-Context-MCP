@@ -44,7 +44,7 @@ async function evaluateDesign(params: EvaluateDesignParams, figmaService: FigmaS
     // --- Step 2: Read Analysis Template ---
     // Note: The path is relative to the project root where the script is executed.
     // This might need adjustment based on the final execution context.
-    const templatePath = path.resolve(process.cwd(), 'src/templates/figma-analysis-template.md');
+    const templatePath = path.resolve(process.cwd(), 'src/templates/figma-analysis-abridged.md');
     const analysisTemplate = await fs.readFile(templatePath, 'utf-8');
 
     // --- Step 3: Assemble the Final Prompt ---
