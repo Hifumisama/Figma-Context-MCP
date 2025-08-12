@@ -1,3 +1,12 @@
+/**
+ * @file Layer Naming Rule
+ * @description This rule checks for default layer names in the Figma file, such as
+ * "Frame 123" or "Rectangle 45".
+ * @functionality It uses a regular expression to identify common default names assigned by
+ * Figma. Using descriptive names for layers is a fundamental best practice for improving
+ * the clarity and maintainability of a design file, making collaboration between designers
+ * and developers much smoother.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

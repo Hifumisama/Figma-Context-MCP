@@ -1,3 +1,11 @@
+/**
+ * @file Auto Layout Usage Rule
+ * @description This rule checks for containers (FRAMEs or GROUPs) that have multiple
+ * children but do not use Auto Layout.
+ * @functionality It recursively traverses the node tree and identifies nodes that are candidates
+ * for conversion to Auto Layout, which is crucial for responsive and maintainable designs.
+ * It suggests converting these nodes to improve consistency and development handoff.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

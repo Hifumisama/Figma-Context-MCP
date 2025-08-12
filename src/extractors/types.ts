@@ -82,6 +82,7 @@ export interface SimplifiedNode {
   componentProperties?: ComponentProperties[];
   exportSettings?: string; // JSON string of export settings
   absoluteBoundingBox?: Rectangle | null;
+  visible?: boolean;
   // children
   children?: SimplifiedNode[];
 }

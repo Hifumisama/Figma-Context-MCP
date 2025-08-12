@@ -1,3 +1,12 @@
+/**
+ * @file Audit Figma Design Tool
+ * @description This tool serves as the main engine for auditing a Figma design.
+ * It takes a JSON string of simplified Figma data (produced by `get_figma_context`) and
+ * runs a series of validation rules against it. The rules are organized into purely
+ * programmatic checks and more complex, AI-based analyses. The tool aggregates the
+ * results from all rules and formats them into a comprehensive report, which can be
+ * output as either Markdown for readability or JSON for machine processing.
+ */
 import { z } from "zod";
 import type { FigmaContext } from "../get-figma-context/types.js";
 import type { AuditReport, AuditResult } from "./types.js";
@@ -10,6 +19,7 @@ import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
 import { findVariantCandidates } from "./rules/find-variant-candidates.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
+import { checkHiddenLayers } from "./rules/check-hidden-layers.js";
 import { Logger } from "../../../utils/logger.js";
 
 // --- Parameters ---
@@ -17,7 +27,7 @@ const parameters = {
     figmaDataJson: z.string().describe("A JSON string containing the simplified Figma data from the 'get_figma_context' tool."),
     outputFormat: z.enum(["markdown", "json"]).optional().default("markdown").describe("The desired output format for the report."),
 };
-const auditParamsSchema = z.object(parameters);
+export const auditParamsSchema = z.object(parameters);
 type AuditParams = z.infer<typeof auditParamsSchema>;
 
 
@@ -32,6 +42,7 @@ const allRules = [
     findVariantCandidates,
     checkInteractionStates,
     checkColorNames,
+    checkHiddenLayers,
 ];
 
 function runAudit(context: FigmaContext): AuditReport {

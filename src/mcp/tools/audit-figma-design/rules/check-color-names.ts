@@ -1,5 +1,13 @@
+/**
+ * @file Color Naming Rule (AI-based)
+ * @description This rule checks if color styles in the Figma file use semantic naming conventions
+ * instead of literal names (e.g., "primary-500" vs. "blue").
+ * @functionality It extracts all color style names from the Figma context and generates a
+ * prompt for an AI model to analyze them. For now, it returns a placeholder result
+ * containing the generated prompt, paving the way for future AI integration without
+ * making a live API call.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
-import type { FigmaContext } from "../get-figma-context/types.js";
 
 const RULE_ID = "non-semantic-color-names";
 

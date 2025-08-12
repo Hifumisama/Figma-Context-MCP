@@ -1,3 +1,12 @@
+/**
+ * @file Detached Styles Rule
+ * @description This rule identifies elements that use "detached" or inline styles instead of
+ * linking to a shared, global style from the Design System.
+ * @functionality It recursively traverses the node tree, checking properties like `fills`,
+ * `strokes`, and `textStyle`. If a style value is a raw string (e.g., a hex code)
+ * instead of a style reference (e.g., "styles:..."), it's flagged as a detached style,
+ * which hinders maintainability.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

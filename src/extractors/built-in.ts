@@ -111,6 +111,15 @@ export const exportSettingsExtractor: ExtractorFn = (node, result) => {
 };
 
 /**
+ * Extracts visibility from a node.
+ */
+export const visibilityExtractor: ExtractorFn = (node, result) => {
+    if (hasValue("visible", node) && node.visible === false) {
+        result.visible = false;
+    }
+};
+
+/**
  * Extracts component-related properties from INSTANCE nodes.
  */
 export const componentExtractor: ExtractorFn = (node, result, context) => {
@@ -137,7 +146,7 @@ export const componentExtractor: ExtractorFn = (node, result, context) => {
 /**
  * All extractors - replicates the current parseNode behavior.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

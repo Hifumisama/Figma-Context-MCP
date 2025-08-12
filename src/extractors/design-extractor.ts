@@ -6,7 +6,6 @@ import type {
   ComponentSet,
 } from "@figma/rest-api-spec";
 import { simplifyComponents, simplifyComponentSets } from "~/transformers/component.js";
-import { isVisible } from "~/utils/common.js";
 import type { ExtractorFn, TraversalOptions, GlobalVars, SimplifiedDesign } from "./types.js";
 import { extractFromDesign } from "./node-walker.js";
 
@@ -68,12 +67,12 @@ function parseAPIResponse(data: GetFileResponse | GetFileNodesResponse) {
         Object.assign(aggregatedComponentSets, nodeResponse.componentSets);
       }
     });
-    nodesToParse = nodeResponses.map((n) => n.document).filter(isVisible);
+    nodesToParse = nodeResponses.map((n) => n.document);
   } else {
     // GetFileResponse
     Object.assign(aggregatedComponents, data.components);
     Object.assign(aggregatedComponentSets, data.componentSets);
-    nodesToParse = data.document.children.filter(isVisible);
+    nodesToParse = data.document.children;
   }
 
   const { name, lastModified, thumbnailUrl } = data;

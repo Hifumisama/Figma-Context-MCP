@@ -1,3 +1,12 @@
+/**
+ * @file Missing Interaction States Rule
+ * @description This rule checks if interactive components (like buttons, inputs) have defined
+ * variants for common interaction states (e.g., hover, focus, disabled).
+ * @functionality It identifies components likely to be interactive based on keywords in their
+ * names. It then groups them by a base name (e.g., "button/primary") and checks if variants
+ * for standard states like "hover" or "focus" exist within that group. Missing states
+ * are reported to ensure a complete and usable component set.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

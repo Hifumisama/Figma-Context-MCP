@@ -1,4 +1,11 @@
-import { z } from "zod";
+/**
+ * @file Get Figma Context Tool
+ * @description This tool is responsible for fetching and simplifying data from a Figma URL.
+ * It parses the URL to identify the file key and an optional node ID, then uses the FigmaService
+ * to retrieve the raw data. The data is then processed by a series of extractors to create
+ * a simplified, serializable representation of the design, which is returned as a JSON string.
+ * This simplified context is the primary input for the audit tool.
+ */
 import { FigmaService } from "../../../services/figma.js";
 import { simplifyRawFigmaObject, allExtractors } from "../../../extractors/index.js";
 import { GetFigmaContextParamsSchema } from "./types.js";

@@ -1,3 +1,12 @@
+/**
+ * @file Find Duplicates Rule
+ * @description This rule identifies groups of elements that are structurally identical but have
+ * not been converted into reusable components.
+ * @functionality It works by generating a "structural signature" for each non-component container
+ * node (e.g., `FRAME(TEXT,RECTANGLE)`). It then groups nodes with identical signatures.
+ * If a group contains more than one node, it means they are duplicates and should be
+ * converted into a single component to enforce consistency and maintainability.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

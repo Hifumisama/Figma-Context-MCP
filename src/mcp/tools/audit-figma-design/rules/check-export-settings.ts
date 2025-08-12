@@ -1,3 +1,12 @@
+/**
+ * @file Missing Export Settings Rule
+ * @description This rule checks for nodes that are likely assets (icons, images) but do not
+ * have any export settings defined in Figma.
+ * @functionality It identifies potential assets based on node type (e.g., VECTOR, COMPONENT),
+ * naming conventions (e.g., contains "icon"), or if they have an image fill. It then flags
+ * any of these candidates that are missing `exportSettings`, which is crucial for a smooth
+ * developer handoff.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

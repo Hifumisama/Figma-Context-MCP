@@ -4,11 +4,14 @@ import { Logger } from "../utils/logger.js";
 import {
   downloadFigmaImagesTool,
   getFigmaDataTool,
-  evaluateDesignTool,
+  getFigmaContextTool,
+  auditFigmaDesignTool,
   type DownloadImagesParams,
   type GetFigmaDataParams,
-  type EvaluateDesignParams,
 } from "./tools/index.js";
+import { GetFigmaContextParamsSchema } from "./tools/get-figma-context/types.js";
+import { auditParamsSchema } from "./tools/audit-figma-design/audit-figma-design-tool.js";
+import { z } from "zod";
 
 const serverInfo = {
   name: "Figma MCP Server",
@@ -18,6 +21,7 @@ const serverInfo = {
 type CreateServerOptions = {
   isHTTP?: boolean;
   outputFormat?: "yaml" | "json";
+  
   skipImageDownloads?: boolean;
 };
 
@@ -51,13 +55,23 @@ function registerTools(
       getFigmaDataTool.handler(params, figmaService, options.outputFormat),
   );
 
-  // Register evaluate_design tool
+  // Register get_figma_context tool
   server.tool(
-    evaluateDesignTool.name,
-    evaluateDesignTool.description,
-    evaluateDesignTool.parameters,
-    (params: EvaluateDesignParams) =>
-      evaluateDesignTool.handler(params, figmaService),
+    getFigmaContextTool.name,
+    getFigmaContextTool.description,
+    getFigmaContextTool.parameters,
+    (params: z.infer<typeof GetFigmaContextParamsSchema>) =>
+        getFigmaContextTool.handler(params, figmaService),
+  );
+
+  // Register audit_figma_design tool
+  server.tool(
+    auditFigmaDesignTool.name,
+    auditFigmaDesignTool.description,
+    auditFigmaDesignTool.parameters,
+    // We don't need the figmaService for this one as it's pure data processing
+    (params: z.infer<typeof auditParamsSchema>) =>
+        auditFigmaDesignTool.handler(params),
   );
 
   // Register download_figma_images tool if CLI flag or env var is not set

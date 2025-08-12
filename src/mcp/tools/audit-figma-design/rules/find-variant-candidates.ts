@@ -1,6 +1,14 @@
-// This file will implement the logic for the "Find Variant Candidates" rule.
-// It will use a hybrid approach: programmatic filtering followed by LLM-based analysis.
-
+/**
+ * @file Find Variant Candidates Rule
+ * @description This rule identifies existing components that are structurally and dimensionally
+ * similar, suggesting they should be combined into variants of a single component set.
+ * @functionality It operates by first finding all defined `COMPONENT` nodes in the design.
+ * It then creates a "profile" for each one, containing its structural signature and
+ * dimensions. Components are then grouped first by identical structure, and then by
+ * similar dimensions. Groups of similar components are flagged as strong candidates
+ * for refactoring into a unified component with variants.
+ * It will use a hybrid approach: programmatic filtering followed by LLM-based analysis.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 

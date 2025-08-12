@@ -43,10 +43,10 @@ export function simplifyComponents(
  * Remove unnecessary component set properties and convert to simplified format.
  */
 export function simplifyComponentSets(
-  aggregatedComponentSets: Record<string, ComponentSet>,
+  aggregatedComponents: Record<string, ComponentSet>,
 ): Record<string, SimplifiedComponentSetDefinition> {
   return Object.fromEntries(
-    Object.entries(aggregatedComponentSets).map(([id, set]) => [
+    Object.entries(aggregatedComponents).map(([id, set]) => [
       id,
       {
         id,

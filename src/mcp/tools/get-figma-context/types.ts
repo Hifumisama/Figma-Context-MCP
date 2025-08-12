@@ -1,3 +1,9 @@
+/**
+ * @file Types for Get Figma Context Tool
+ * @description This file defines the TypeScript types and Zod schemas for the parameters
+ * and return value of the `get_figma_context` tool. It ensures that the inputs are correctly
+ * validated and that the output, `FigmaContext`, conforms to the `SimplifiedDesign` structure.
+ */
 import { z } from "zod";
 import type { SimplifiedDesign } from "../../../extractors/types.js";
 

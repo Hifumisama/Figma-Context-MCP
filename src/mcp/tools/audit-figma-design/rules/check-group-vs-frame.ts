@@ -1,3 +1,11 @@
+/**
+ * @file Group vs. Frame Rule
+ * @description This rule suggests converting `GROUP` nodes with multiple children into `FRAME` nodes.
+ * @functionality A `FRAME` is a more powerful container than a `GROUP` as it can have its
+ * own layout properties (like Auto Layout), styles, and clipping. This rule identifies
+ * `GROUP` nodes that are likely being used as containers and suggests converting them
+ * to `FRAME`s to improve structural quality and enable better responsive behavior.
+ */
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
