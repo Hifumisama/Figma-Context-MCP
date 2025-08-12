@@ -19,7 +19,7 @@ function findOrCreateVar(globalVars: any, value: any, prefix: string): string {
   // Check if the same value already exists
   const [existingVarId] =
     Object.entries(globalVars.styles).find(
-      ([_, existingValue]) => JSON.stringify(existingValue) === JSON.stringify(value),
+      ([_, existingValue]) => JSON.stringify((existingValue as any).value) === JSON.stringify(value),
     ) ?? [];
 
   if (existingVarId) {
@@ -28,7 +28,7 @@ function findOrCreateVar(globalVars: any, value: any, prefix: string): string {
 
   // Create a new variable if it doesn't exist
   const varId = generateVarId(prefix);
-  globalVars.styles[varId] = value;
+  globalVars.styles[varId] = { name: '', value: value }; // Name will be populated later
   return varId;
 }
 
@@ -39,6 +39,10 @@ export const layoutExtractor: ExtractorFn = (node, result, context) => {
   const layout = buildSimplifiedLayout(node, context.parent);
   if (Object.keys(layout).length > 1) {
     result.layout = findOrCreateVar(context.globalVars, layout, "layout");
+  }
+
+  if (hasValue("absoluteBoundingBox", node)) {
+    result.absoluteBoundingBox = node.absoluteBoundingBox;
   }
 };
 
@@ -98,6 +102,15 @@ export const visualsExtractor: ExtractorFn = (node, result, context) => {
 };
 
 /**
+ * Extracts export settings from a node.
+ */
+export const exportSettingsExtractor: ExtractorFn = (node, result) => {
+  if (hasValue("exportSettings", node) && Array.isArray(node.exportSettings) && node.exportSettings.length > 0) {
+    result.exportSettings = JSON.stringify(node.exportSettings);
+  }
+};
+
+/**
  * Extracts component-related properties from INSTANCE nodes.
  */
 export const componentExtractor: ExtractorFn = (node, result, context) => {
@@ -124,7 +137,7 @@ export const componentExtractor: ExtractorFn = (node, result, context) => {
 /**
  * All extractors - replicates the current parseNode behavior.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

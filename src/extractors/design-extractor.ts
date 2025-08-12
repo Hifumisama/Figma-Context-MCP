@@ -30,6 +30,15 @@ export function simplifyRawFigmaObject(
     globalVars,
   );
 
+  // Add style names to the globalVars
+  if ("styles" in apiResponse && apiResponse.styles) {
+    for (const styleId in finalGlobalVars.styles) {
+      if (apiResponse.styles[styleId]) {
+        (finalGlobalVars.styles as any)[styleId].name = apiResponse.styles[styleId].name;
+      }
+    }
+  }
+
   // Return complete design
   return {
     ...metadata,

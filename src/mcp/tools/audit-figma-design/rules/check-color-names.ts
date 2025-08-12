@@ -1,0 +1,43 @@
+import type { AuditRule, AuditResult } from "../types.js";
+import type { FigmaContext } from "../get-figma-context/types.js";
+
+const RULE_ID = "non-semantic-color-names";
+
+function generateColorNamePrompt(colorNames: string[]): string {
+    return `
+As an expert in Design Systems, analyze the following list of color style names from a Figma file.
+Identify which names are "literal" (e.g., "Blue", "light-grey") and which are "semantic" (e.g., "primary-500", "text-color-danger").
+Literal names are a bad practice because they don't describe the color's purpose.
+
+For each literal name, provide a semantic suggestion.
+
+Respond in JSON format with an array of objects, where each object has the keys "literal_name" and "semantic_suggestion".
+
+Color names to analyze:
+${colorNames.map(name => `- ${name}`).join('\n')}
+`;
+}
+
+export const checkColorNames: AuditRule = (context) => {
+  const allStyleNames = Object.values(context.globalVars.styles)
+    .map(styleDef => styleDef.name)
+    .filter(name => !!name && name.toLowerCase().includes('color')); // Focus on color styles
+
+  if (allStyleNames.length === 0) {
+    return [];
+  }
+  
+  // For now, instead of calling an LLM, we will return an audit result
+  // containing the prompt that we would have sent. This is for debugging.
+  const prompt = generateColorNamePrompt(allStyleNames);
+
+  return [{
+    ruleId: RULE_ID,
+    message: "The following prompt would be sent to an AI for semantic color name analysis. (This is a placeholder for the actual AI integration).",
+    nodeId: "DOCUMENT",
+    nodeName: "Color Styles",
+    // We can add the prompt in a custom data field if the type supports it,
+    // for now, we'll just log it for demonstration.
+    // data: { prompt } 
+  }];
+};
