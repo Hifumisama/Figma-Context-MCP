@@ -62,16 +62,9 @@ function runAudit(context: FigmaContext): AuditReport {
 }
 
 // --- Report Formatting ---
-function formatReportAsMarkdown(report: AuditReport): string {
-    if (report.summary.totalIssues === 0) {
-        return "✅ **Rapport d'Audit Figma:** Aucun problème détecté. Excellent travail !";
-    }
 
-    let markdown = `# 📊 Rapport d'Audit Figma\n\n## 📋 Résumé\n\n`;
-    markdown += `**${report.summary.totalIssues}** problèmes détectés répartis sur **${Object.keys(report.summary.issuesByRule).length}** types de règles.\n\n`;
-
-    // Regrouper les résultats par composant/nœud
-    const resultsByNode = report.results.reduce((acc, result) => {
+function groupResultsByNode(results: AuditResult[]): Record<string, {nodeName: string, nodeId: string, issues: {ruleId: string, message: string}[]}> {
+    return results.reduce((acc, result) => {
         const nodeKey = `${result.nodeName} (${result.nodeId})`;
         if (!acc[nodeKey]) {
             acc[nodeKey] = {
@@ -86,6 +79,18 @@ function formatReportAsMarkdown(report: AuditReport): string {
         });
         return acc;
     }, {} as Record<string, {nodeName: string, nodeId: string, issues: {ruleId: string, message: string}[]}>);
+}
+
+function formatReportAsMarkdown(report: AuditReport): string {
+    if (report.summary.totalIssues === 0) {
+        return "✅ **Rapport d'Audit Figma:** Aucun problème détecté. Excellent travail !";
+    }
+
+    let markdown = `# 📊 Rapport d'Audit Figma\n\n## 📋 Résumé\n\n`;
+    markdown += `**${report.summary.totalIssues}** problèmes détectés répartis sur **${Object.keys(report.summary.issuesByRule).length}** types de règles.\n\n`;
+
+    // Regrouper les résultats par composant/nœud
+    const resultsByNode = groupResultsByNode(report.results);
 
     markdown += `---\n\n## 🧩 Composants à corriger\n\n`;
 
@@ -157,7 +162,12 @@ async function auditFigmaDesignHandler(params: AuditParams) {
         
         let outputText: string;
         if (params.outputFormat === 'json') {
-            outputText = JSON.stringify(report, null, 2);
+            const groupedResults = groupResultsByNode(report.results);
+            const structuredReport = {
+                summary: report.summary,
+                resultsByNode: groupedResults
+            };
+            outputText = JSON.stringify(structuredReport, null, 2);
         } else {
             outputText = formatReportAsMarkdown(report);
         }
