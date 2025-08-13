@@ -10,26 +10,45 @@ import {
   isTextNode,
 } from "~/transformers/text.js";
 import { hasValue, isRectangleCornerRadii } from "~/utils/identity.js";
-import { generateVarId } from "~/utils/common.js";
+import type { GlobalVars, StyleTypes } from "./types.js";
 
+type StyleType = "fill" | "stroke" | "effect" | "text";
 /**
- * Helper function to find or create a global variable.
+ * Determines if a style is global or local and updates the context accordingly.
+ *
+ * @param node - The Figma node being processed.
+ * @param styleType - The type of style to process (e.g., "fill", "text").
+ * @param value - The computed style value.
+ * @param result - The simplified node to update.
+ * @param context - The traversal context.
  */
-function findOrCreateVar(globalVars: any, value: any, prefix: string): string {
-  // Check if the same value already exists
-  const [existingVarId] =
-    Object.entries(globalVars.styles).find(
-      ([_, existingValue]) => JSON.stringify((existingValue as any).value) === JSON.stringify(value),
-    ) ?? [];
+function processStyle(
+  node: FigmaDocumentNode,
+  styleType: StyleType,
+  value: StyleTypes,
+  result: any,
+  context: { globalVars: GlobalVars },
+) {
+  const styleKey = node.styles?.[styleType];
 
-  if (existingVarId) {
-    return existingVarId;
+  if (styleKey) {
+    // It's a global style
+    if (!context.globalVars.styles[styleKey]) {
+      // Assuming the style name can be retrieved from a design document object
+      // This part might need adjustment based on where style names are stored
+      context.globalVars.styles[styleKey] = {
+        name: `style_${styleType}`, // Placeholder name
+        value: value,
+      };
+    }
+    result[`${styleType}s`] = styleKey;
+  } else {
+    // It's a local style
+    if (!result.localVariables) {
+      result.localVariables = {};
+    }
+    result.localVariables[`${styleType}s`] = value;
   }
-
-  // Create a new variable if it doesn't exist
-  const varId = generateVarId(prefix);
-  globalVars.styles[varId] = { name: '', value: value }; // Name will be populated later
-  return varId;
 }
 
 /**
@@ -38,7 +57,10 @@ function findOrCreateVar(globalVars: any, value: any, prefix: string): string {
 export const layoutExtractor: ExtractorFn = (node, result, context) => {
   const layout = buildSimplifiedLayout(node, context.parent);
   if (Object.keys(layout).length > 1) {
-    result.layout = findOrCreateVar(context.globalVars, layout, "layout");
+    if (!result.localVariables) {
+      result.localVariables = {};
+    }
+    result.localVariables["layout"] = layout;
   }
 
   if (hasValue("absoluteBoundingBox", node)) {
@@ -58,7 +80,7 @@ export const textExtractor: ExtractorFn = (node, result, context) => {
   // Extract text style
   if (hasTextStyle(node)) {
     const textStyle = extractTextStyle(node);
-    result.textStyle = findOrCreateVar(context.globalVars, textStyle, "style");
+    processStyle(node, "text", textStyle as StyleTypes, result, context);
   }
 };
 
@@ -67,28 +89,39 @@ export const textExtractor: ExtractorFn = (node, result, context) => {
  */
 export const visualsExtractor: ExtractorFn = (node, result, context) => {
   // Check if node has children to determine CSS properties
-  const hasChildren = hasValue("children", node) && Array.isArray(node.children) && node.children.length > 0;
-  
+  const hasChildren =
+    hasValue("children", node) &&
+    Array.isArray(node.children) &&
+    node.children.length > 0;
+
   // fills
-  if (hasValue("fills", node) && Array.isArray(node.fills) && node.fills.length) {
+  if (
+    hasValue("fills", node) &&
+    Array.isArray(node.fills) &&
+    node.fills.length
+  ) {
     const fills = node.fills.map((fill) => parsePaint(fill, hasChildren));
-    result.fills = findOrCreateVar(context.globalVars, fills, "fill");
+    processStyle(node, "fill", fills, result, context);
   }
 
   // strokes
   const strokes = buildSimplifiedStrokes(node, hasChildren);
   if (strokes.colors.length) {
-    result.strokes = findOrCreateVar(context.globalVars, strokes, "stroke");
+    processStyle(node, "stroke", strokes, result, context);
   }
 
   // effects
   const effects = buildSimplifiedEffects(node);
   if (Object.keys(effects).length) {
-    result.effects = findOrCreateVar(context.globalVars, effects, "effect");
+    processStyle(node, "effect", effects, result, context);
   }
 
   // opacity
-  if (hasValue("opacity", node) && typeof node.opacity === "number" && node.opacity !== 1) {
+  if (
+    hasValue("opacity", node) &&
+    typeof node.opacity === "number" &&
+    node.opacity !== 1
+  ) {
     result.opacity = node.opacity;
   }
 

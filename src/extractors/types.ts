@@ -1,5 +1,5 @@
 import type { Node as FigmaDocumentNode, Rectangle } from "@figma/rest-api-spec";
-import type { StyleId } from "~/utils/common.js";
+import type { StyleKey } from "~/utils/common.js";
 import type { SimplifiedTextStyle } from "~/transformers/text.js";
 import type { SimplifiedLayout } from "~/transformers/layout.js";
 import type { SimplifiedFill, SimplifiedStroke } from "~/transformers/style.js";
@@ -24,7 +24,8 @@ export interface StyleDefinition {
 }
 
 export type GlobalVars = {
-  styles: Record<StyleId, StyleDefinition>;
+  styles: Record<StyleKey, StyleDefinition>;
+  localVariables?: Record<string, StyleTypes>;
 };
 
 export interface TraversalContext {
@@ -83,6 +84,7 @@ export interface SimplifiedNode {
   exportSettings?: string; // JSON string of export settings
   absoluteBoundingBox?: Rectangle | null;
   visible?: boolean;
+  localVariables?: Record<string, StyleTypes>;
   // children
   children?: SimplifiedNode[];
 }

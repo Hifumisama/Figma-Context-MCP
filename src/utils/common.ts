@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import type { Node as FigmaDocumentNode } from "@figma/rest-api-spec";
 
-export type StyleId = `${string}_${string}` & { __brand: "StyleId" };
+export type StyleKey = string;
 
 /**
  * Download Figma image and save it locally
@@ -122,23 +123,6 @@ export function removeEmptyKeys<T>(input: T): T {
   }
 
   return result;
-}
-
-/**
- * Generate a 6-character random variable ID
- * @param prefix - ID prefix
- * @returns A 6-character random ID string with prefix
- */
-export function generateVarId(prefix: string = "var"): StyleId {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let result = "";
-
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    result += chars[randomIndex];
-  }
-
-  return `${prefix}_${result}` as StyleId;
 }
 
 /**

@@ -21,7 +21,7 @@ export function simplifyRawFigmaObject(
   const { metadata, rawNodes, components, componentSets } = parseAPIResponse(apiResponse);
 
   // Process nodes using the flexible extractor system
-  const globalVars: GlobalVars = { styles: {} };
+  const globalVars: GlobalVars = { styles: {}, localVariables: {} };
   const { nodes: extractedNodes, globalVars: finalGlobalVars } = extractFromDesign(
     rawNodes,
     nodeExtractors,
