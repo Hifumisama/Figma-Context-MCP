@@ -25,7 +25,7 @@ export interface StyleDefinition {
 
 export type GlobalVars = {
   styles: Record<StyleKey, StyleDefinition>;
-  localVariables?: Record<string, StyleTypes>;
+  localVariables: Record<string, StyleTypes>;
 };
 
 export interface TraversalContext {
@@ -84,7 +84,7 @@ export interface SimplifiedNode {
   exportSettings?: string; // JSON string of export settings
   absoluteBoundingBox?: Rectangle | null;
   visible?: boolean;
-  localVariables?: Record<string, StyleTypes>;
+  localVariableRefs?: Record<string, string>;
   // children
   children?: SimplifiedNode[];
 }

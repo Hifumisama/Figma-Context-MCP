@@ -198,3 +198,20 @@ export function pixelRound(num: number): number {
   }
   return Number(Number(num).toFixed(2));
 }
+
+/**
+ * Generate a 6-character random variable ID
+ * @param prefix - ID prefix
+ * @returns A 6-character random ID string with prefix
+ */
+export function generateVarId(prefix: string = "var"): string {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+
+  for (let i = 0; i < 6; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    result += chars[randomIndex];
+  }
+
+  return `${prefix}_${result}`;
+}

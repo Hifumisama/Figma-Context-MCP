@@ -11,8 +11,36 @@ import {
 } from "~/transformers/text.js";
 import { hasValue, isRectangleCornerRadii } from "~/utils/identity.js";
 import type { GlobalVars, StyleTypes } from "./types.js";
+import { generateVarId } from "~/utils/common.js";
 
-type StyleType = "fill" | "stroke" | "effect" | "text";
+type StyleType = "fill" | "stroke" | "effect" | "text" | "layout";
+
+/**
+ * Finds an existing local variable or creates a new one.
+ * @param localVariables - The dictionary of local variables.
+ * @param value - The style value to find or create.
+ * @param prefix - The prefix for the new variable ID.
+ * @returns The ID of the existing or new local variable.
+ */
+function findOrCreateLocalVar(
+  localVariables: Record<string, StyleTypes>,
+  value: StyleTypes,
+  prefix: string,
+): string {
+  const jsonValue = JSON.stringify(value);
+  const existingVarId = Object.keys(localVariables).find(
+    (key) => JSON.stringify(localVariables[key]) === jsonValue,
+  );
+
+  if (existingVarId) {
+    return existingVarId;
+  }
+
+  const newVarId = generateVarId(prefix);
+  localVariables[newVarId] = value;
+  return newVarId;
+}
+
 /**
  * Determines if a style is global or local and updates the context accordingly.
  *
@@ -43,11 +71,16 @@ function processStyle(
     }
     result[`${styleType}s`] = styleKey;
   } else {
-    // It's a local style
-    if (!result.localVariables) {
-      result.localVariables = {};
+    // It's a local style, find or create it
+    const localVarId = findOrCreateLocalVar(
+      context.globalVars.localVariables,
+      value,
+      styleType,
+    );
+    if (!result.localVariableRefs) {
+      result.localVariableRefs = {};
     }
-    result.localVariables[`${styleType}s`] = value;
+    result.localVariableRefs[styleType] = localVarId;
   }
 }
 
@@ -57,10 +90,7 @@ function processStyle(
 export const layoutExtractor: ExtractorFn = (node, result, context) => {
   const layout = buildSimplifiedLayout(node, context.parent);
   if (Object.keys(layout).length > 1) {
-    if (!result.localVariables) {
-      result.localVariables = {};
-    }
-    result.localVariables["layout"] = layout;
+    processStyle(node, "layout", layout, result, context);
   }
 
   if (hasValue("absoluteBoundingBox", node)) {

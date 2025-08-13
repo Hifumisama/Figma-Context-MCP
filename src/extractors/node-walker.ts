@@ -22,7 +22,7 @@ export function extractFromDesign(
   nodes: FigmaDocumentNode[],
   extractors: ExtractorFn[],
   options: TraversalOptions = {},
-  globalVars: GlobalVars = { styles: {} },
+  globalVars: GlobalVars = { styles: {}, localVariables: {} },
 ): { nodes: SimplifiedNode[]; globalVars: GlobalVars } {
   const context: TraversalContext = {
     globalVars,
