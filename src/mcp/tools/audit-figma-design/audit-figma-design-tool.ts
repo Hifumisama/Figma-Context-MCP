@@ -64,28 +64,88 @@ function runAudit(context: FigmaContext): AuditReport {
 // --- Report Formatting ---
 function formatReportAsMarkdown(report: AuditReport): string {
     if (report.summary.totalIssues === 0) {
-        return "✅ **Figma Audit Report:** No issues found. Excellent work!";
+        return "✅ **Rapport d'Audit Figma:** Aucun problème détecté. Excellent travail !";
     }
 
-    let markdown = `# Figma Audit Report\n\nFound ${report.summary.totalIssues} potential issues.\n\n`;
+    let markdown = `# 📊 Rapport d'Audit Figma\n\n## 📋 Résumé\n\n`;
+    markdown += `**${report.summary.totalIssues}** problèmes détectés répartis sur **${Object.keys(report.summary.issuesByRule).length}** types de règles.\n\n`;
 
-    const resultsByRule = report.results.reduce((acc, result) => {
-        if (!acc[result.ruleId]) {
-            acc[result.ruleId] = [];
+    // Regrouper les résultats par composant/nœud
+    const resultsByNode = report.results.reduce((acc, result) => {
+        const nodeKey = `${result.nodeName} (${result.nodeId})`;
+        if (!acc[nodeKey]) {
+            acc[nodeKey] = {
+                nodeName: result.nodeName,
+                nodeId: result.nodeId,
+                issues: []
+            };
         }
-        acc[result.ruleId].push(result);
+        acc[nodeKey].issues.push({
+            ruleId: result.ruleId,
+            message: result.message
+        });
         return acc;
-    }, {} as Record<string, AuditResult[]>);
+    }, {} as Record<string, {nodeName: string, nodeId: string, issues: {ruleId: string, message: string}[]}>);
 
-    for (const ruleId in resultsByRule) {
-        markdown += `## Rule: ${ruleId} (${resultsByRule[ruleId].length} issues)\n\n`;
-        for (const result of resultsByRule[ruleId]) {
-            markdown += `- **Node:** "${result.nodeName}" (ID: \`${result.nodeId}\`)\n  - **Issue:** ${result.message}\n`;
+    markdown += `---\n\n## 🧩 Composants à corriger\n\n`;
+
+    // Pour chaque composant, créer un tableau des règles à corriger
+    for (const nodeKey in resultsByNode) {
+        const node = resultsByNode[nodeKey];
+        markdown += `### 🔧 **${node.nodeName}**\n`;
+        markdown += `*ID Figma:* \`${node.nodeId}\`\n\n`;
+        
+        markdown += `| 🚨 Règle | 📝 Description du problème | 🔧 Action à effectuer |\n`;
+        markdown += `|----------|---------------------------|------------------------|\n`;
+        
+        for (const issue of node.issues) {
+            const actionSuggestion = getActionSuggestion(issue.ruleId);
+            markdown += `| **${issue.ruleId}** | ${issue.message} | ${actionSuggestion} |\n`;
         }
-        markdown += `\n`;
+        
+        markdown += `\n---\n\n`;
+    }
+
+    // Ajouter un résumé par type de règle
+    markdown += `## 📊 Répartition par type de règle\n\n`;
+    markdown += `| 🔍 Type de règle | 🔢 Nombre d'occurrences | 📈 Impact |\n`;
+    markdown += `|------------------|-------------------------|----------|\n`;
+    
+    for (const ruleId in report.summary.issuesByRule) {
+        const count = report.summary.issuesByRule[ruleId];
+        const impact = getImpactLevel(ruleId);
+        markdown += `| **${ruleId}** | ${count} | ${impact} |\n`;
     }
 
     return markdown;
+}
+
+// Fonction helper pour suggérer des actions correctives
+function getActionSuggestion(ruleId: string): string {
+    const suggestions: Record<string, string> = {
+        'detached-styles': 'Reconnecter aux styles du Design System',
+        'layer-naming': 'Renommer avec une convention claire (ex: btn-primary)',
+        'auto-layout-usage': 'Activer Auto Layout dans les propriétés',
+        'duplicates': 'Créer un composant réutilisable',
+        'export-settings': 'Configurer les paramètres d\'export',
+        'group-vs-frame': 'Convertir le groupe en Frame',
+        'variant-candidates': 'Créer des variants du composant',
+        'interaction-states': 'Ajouter les états hover/focus/disabled',
+        'color-names': 'Utiliser des noms sémantiques (primary, secondary)',
+        'hidden-layers': 'Supprimer ou rendre visible le calque'
+    };
+    
+    return suggestions[ruleId] || 'Consulter la documentation Figma';
+}
+
+// Fonction helper pour évaluer l'impact
+function getImpactLevel(ruleId: string): string {
+    const highImpact = ['detached-styles', 'auto-layout-usage', 'interaction-states'];
+    const mediumImpact = ['layer-naming', 'duplicates', 'variant-candidates'];
+    
+    if (highImpact.includes(ruleId)) return '🔴 Élevé';
+    if (mediumImpact.includes(ruleId)) return '🟡 Moyen';
+    return '🟢 Faible';
 }
 
 
