@@ -13,29 +13,45 @@ import type { SimplifiedNode } from "../../../../extractors/types.js";
 const RULE_ID = "detached-styles";
 
 // Helper function to recursively check a node and its children
-function checkNode(node: SimplifiedNode): AuditResult[] {
+function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   let results: AuditResult[] = [];
 
-  // Check for detached styles on the current node
-  const checkProperties: (keyof SimplifiedNode)[] = ['fills', 'strokes', 'textStyle'];
-  for (const prop of checkProperties) {
-    const value = node[prop];
-    // A "detached" style is assumed to be any plain string value that doesn't look like a style reference.
-    // The extractor replaces linked styles with a "styles:..." reference.
-    if (typeof value === 'string' && value && !value.startsWith('styles:')) {
-      results.push({
-        ruleId: RULE_ID,
-        message: `The property "${prop}" uses a detached style ("${value}"). It should be linked to a shared style.`,
-        nodeId: node.id,
-        nodeName: node.name,
-      });
+  // The properties to exclude from this check as they are handled by other rules.
+  const excludedProperties = ['layout', 'text'];
+
+  // Check for detached styles by looking for local variable references
+  if (node.localVariableRefs) {
+    for (const [prop, refId] of Object.entries(node.localVariableRefs)) {
+      // Skip properties that are handled by other rules
+      if (excludedProperties.includes(prop)) {
+        continue;
+      }
+
+      
+
+      
+      const localStyle = globalVars.localVariables[refId];
+      
+      // Skip 'fills' property if it contains an image, as this is handled by export-settings rule
+      if (localStyle && localStyle[0] && localStyle[0].type === 'IMAGE') {
+        continue;
+      }
+
+      if (localStyle) {
+        results.push({
+          ruleId: RULE_ID,
+          message: `The property "${prop}" uses a detached style. (${JSON.stringify(localStyle)}) It should be linked to a shared style.`,
+          nodeId: node.id,
+          nodeName: node.name,
+        });
+      }
     }
   }
 
   // Recursively check children
   if (node.children) {
     for (const child of node.children) {
-      results = results.concat(checkNode(child));
+      results = results.concat(checkNode(child, globalVars));
     }
   }
 
@@ -45,7 +61,7 @@ function checkNode(node: SimplifiedNode): AuditResult[] {
 export const checkDetachedStyles: AuditRule = (context) => {
   const allResults: AuditResult[] = [];
   for (const node of context.nodes) {
-    allResults.push(...checkNode(node));
+    allResults.push(...checkNode(node, context.globalVars));
   }
   return allResults;
 };

@@ -13,7 +13,7 @@ import type { SimplifiedNode } from "../../../../extractors/types.js";
 const RULE_ID = "missing-export-settings";
 
 // These node types are often assets that should be exportable.
-const ASSET_TYPES = ['VECTOR', 'COMPONENT', 'INSTANCE', 'RECTANGLE'];
+const ASSET_TYPES = ['VECTOR', 'COMPONENT', 'INSTANCE', 'RECTANGLE', 'IMAGE-SVG'];
 // Icons are often named with a convention.
 const ICON_NAME_REGEX = /icon/i;
 

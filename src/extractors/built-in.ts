@@ -69,7 +69,8 @@ function processStyle(
         value: value,
       };
     }
-    result[`${styleType}s`] = styleKey;
+    const propName = styleType === 'text' ? 'textStyle' : `${styleType}s`;
+    result[propName] = styleKey;
   } else {
     // It's a local style, find or create it
     const localVarId = findOrCreateLocalVar(
@@ -204,12 +205,25 @@ export const componentExtractor: ExtractorFn = (node, result, context) => {
   }
 };
 
+/**
+ * Extracts mask-related properties from nodes.
+ */
+export const maskExtractor: ExtractorFn = (node, result, context) => {
+  // Check if the node is a mask (has maskType property)
+  
+  if (hasValue("maskType", node)) {
+    result.maskType = node.maskType as string;
+    // Change the type to "MASK" to clearly identify it
+    result.type = "MASK";
+  }
+};
+
 // -------------------- CONVENIENCE COMBINATIONS --------------------
 
 /**
  * All extractors - replicates the current parseNode behavior.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

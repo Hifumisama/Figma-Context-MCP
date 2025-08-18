@@ -63,22 +63,18 @@ function runAudit(context: FigmaContext): AuditReport {
 
 // --- Report Formatting ---
 
-function groupResultsByNode(results: AuditResult[]): Record<string, {nodeName: string, nodeId: string, issues: {ruleId: string, message: string}[]}> {
+function groupResultsByRule(results: AuditResult[]): Record<string, {nodeName: string, nodeId: string, message: string}[]> {
     return results.reduce((acc, result) => {
-        const nodeKey = `${result.nodeName} (${result.nodeId})`;
-        if (!acc[nodeKey]) {
-            acc[nodeKey] = {
-                nodeName: result.nodeName,
-                nodeId: result.nodeId,
-                issues: []
-            };
+        if (!acc[result.ruleId]) {
+            acc[result.ruleId] = [];
         }
-        acc[nodeKey].issues.push({
-            ruleId: result.ruleId,
+        acc[result.ruleId].push({
+            nodeName: result.nodeName,
+            nodeId: result.nodeId,
             message: result.message
         });
         return acc;
-    }, {} as Record<string, {nodeName: string, nodeId: string, issues: {ruleId: string, message: string}[]}>);
+    }, {} as Record<string, {nodeName: string, nodeId: string, message: string}[]>);
 }
 
 function formatReportAsMarkdown(report: AuditReport): string {
@@ -89,23 +85,25 @@ function formatReportAsMarkdown(report: AuditReport): string {
     let markdown = `# 📊 Rapport d'Audit Figma\n\n## 📋 Résumé\n\n`;
     markdown += `**${report.summary.totalIssues}** problèmes détectés répartis sur **${Object.keys(report.summary.issuesByRule).length}** types de règles.\n\n`;
 
-    // Regrouper les résultats par composant/nœud
-    const resultsByNode = groupResultsByNode(report.results);
+    // Regrouper les résultats par règle
+    const resultsByRule = groupResultsByRule(report.results);
 
-    markdown += `---\n\n## 🧩 Composants à corriger\n\n`;
+    markdown += `---\n\n## 🔍 Checklist par règle\n\n`;
 
-    // Pour chaque composant, créer un tableau des règles à corriger
-    for (const nodeKey in resultsByNode) {
-        const node = resultsByNode[nodeKey];
-        markdown += `### 🔧 **${node.nodeName}**\n`;
-        markdown += `*ID Figma:* \`${node.nodeId}\`\n\n`;
+    // Pour chaque règle, créer une section avec les composants concernés
+    for (const ruleId in resultsByRule) {
+        const nodes = resultsByRule[ruleId];
+        const actionSuggestion = getActionSuggestion(ruleId);
+        const impact = getImpactLevel(ruleId);
         
-        markdown += `| 🚨 Règle | 📝 Description du problème | 🔧 Action à effectuer |\n`;
-        markdown += `|----------|---------------------------|------------------------|\n`;
+        markdown += `### 🚨 **${ruleId}** (${nodes.length} composant${nodes.length > 1 ? 's' : ''})\n`;
+        markdown += `*Impact:* ${impact} | *Action:* ${actionSuggestion}\n\n`;
         
-        for (const issue of node.issues) {
-            const actionSuggestion = getActionSuggestion(issue.ruleId);
-            markdown += `| **${issue.ruleId}** | ${issue.message} | ${actionSuggestion} |\n`;
+        markdown += `| 🔧 Composant | 📝 Problème |\n`;
+        markdown += `|--------------|-------------|\n`;
+        
+        for (const node of nodes) {
+            markdown += `| **${node.nodeName}** (ID: \`${node.nodeId}\`) | ${node.message} |\n`;
         }
         
         markdown += `\n---\n\n`;
@@ -162,10 +160,10 @@ async function auditFigmaDesignHandler(params: AuditParams) {
         
         let outputText: string;
         if (params.outputFormat === 'json') {
-            const groupedResults = groupResultsByNode(report.results);
+            const groupedResults = groupResultsByRule(report.results);
             const structuredReport = {
                 summary: report.summary,
-                resultsByNode: groupedResults
+                resultsByRule: groupedResults
             };
             outputText = JSON.stringify(structuredReport, null, 2);
         } else {

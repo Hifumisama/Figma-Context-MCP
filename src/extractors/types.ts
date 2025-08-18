@@ -76,8 +76,6 @@ export interface SimplifiedNode {
   effects?: string;
   opacity?: number;
   borderRadius?: string;
-  // layout & alignment
-  layout?: string;
   // for rect-specific strokes, etc.
   componentId?: string;
   componentProperties?: ComponentProperties[];
@@ -85,6 +83,8 @@ export interface SimplifiedNode {
   absoluteBoundingBox?: Rectangle | null;
   visible?: boolean;
   localVariableRefs?: Record<string, string>;
+  // masking
+  maskType?: string; // "ALPHA" or "VECTOR"
   // children
   children?: SimplifiedNode[];
 }
