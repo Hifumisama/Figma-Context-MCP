@@ -13,7 +13,6 @@ import type { AuditReport, AuditResult } from "./types.js";
 import { checkDetachedStyles } from "./rules/check-detached-styles.js";
 import { checkLayerNaming } from "./rules/check-layer-naming.js";
 import { checkAutoLayoutUsage } from "./rules/check-auto-layout-usage.js";
-import { findDuplicates } from "./rules/find-duplicates.js";
 import { checkExportSettings } from "./rules/check-export-settings.js";
 import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
 import { findVariantCandidates } from "./rules/find-variant-candidates.js";
@@ -36,7 +35,7 @@ const allRules = [
     checkDetachedStyles,
     checkLayerNaming,
     checkAutoLayoutUsage,
-    findDuplicates,
+
     checkExportSettings,
     checkGroupVsFrame,
     findVariantCandidates,
@@ -129,7 +128,7 @@ function getActionSuggestion(ruleId: string): string {
         'detached-styles': 'Reconnecter aux styles du Design System',
         'layer-naming': 'Renommer avec une convention claire (ex: btn-primary)',
         'auto-layout-usage': 'Activer Auto Layout dans les propriétés',
-        'duplicates': 'Créer un composant réutilisable',
+        'find-component-candidates': 'Créer un composant réutilisable pour ce pattern',
         'export-settings': 'Configurer les paramètres d\'export',
         'group-vs-frame': 'Convertir le groupe en Frame',
         'variant-candidates': 'Créer des variants du composant',
@@ -144,7 +143,7 @@ function getActionSuggestion(ruleId: string): string {
 // Fonction helper pour évaluer l'impact
 function getImpactLevel(ruleId: string): string {
     const highImpact = ['detached-styles', 'auto-layout-usage', 'interaction-states'];
-    const mediumImpact = ['layer-naming', 'duplicates', 'variant-candidates'];
+    const mediumImpact = ['layer-naming', 'find-component-candidates', 'variant-candidates'];
     
     if (highImpact.includes(ruleId)) return '🔴 Élevé';
     if (mediumImpact.includes(ruleId)) return '🟡 Moyen';

@@ -1,0 +1,2623 @@
+{
+  "name": "Portfolio Corrected",
+  "lastModified": "2025-08-19T07:12:18Z",
+  "thumbnailUrl": "https://s3-alpha.figma.com/thumbnails/be888f75-258a-446d-a565-5a6a0960582d?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ4GOSFWCXTH6DU7C%2F20250817%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20250817T120000Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a9a560aae4cc792237bd492ed09fefdb194e13c44d989b4488c8e9b5cf86944e",
+  "nodes": [
+    {
+      "id": "0:1",
+      "name": "Page 1",
+      "type": "CANVAS",
+      "children": [
+        {
+          "id": "0:3",
+          "name": "Home",
+          "type": "FRAME",
+          "localVariableRefs": {
+            "layout": "layout_797P3R"
+          },
+          "absoluteBoundingBox": {
+            "x": -720,
+            "y": -589,
+            "width": 1440,
+            "height": 2898
+          },
+          "fills": "2:109",
+          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+          "children": [
+            {
+              "id": "119:66",
+              "name": "Header",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_ACP4YM"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": -555,
+                "width": 1246,
+                "height": 36
+              },
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+              "children": [
+                {
+                  "id": "2:3",
+                  "name": "John Doe",
+                  "type": "TEXT",
+                  "localVariableRefs": {
+                    "layout": "layout_9GV2U8",
+                    "text": "text_A4KYJ6"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -623,
+                    "y": -555,
+                    "width": 114,
+                    "height": 36
+                  },
+                  "text": "John Doe",
+                  "fills": "2:106"
+                },
+                {
+                  "id": "2:8",
+                  "name": "Menu",
+                  "type": "FRAME",
+                  "localVariableRefs": {
+                    "layout": "layout_AI8Q8C"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -130,
+                    "y": -550.5,
+                    "width": 276,
+                    "height": 27
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                  "children": [
+                    {
+                      "id": "0:11",
+                      "name": "Home",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_9GV2U8",
+                        "text": "text_8OIIQH"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -130,
+                        "y": -550.5,
+                        "width": 54,
+                        "height": 27
+                      },
+                      "text": "Home",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "2:2",
+                      "name": "About",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_9GV2U8",
+                        "text": "text_8OIIQH"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -15,
+                        "y": -550.5,
+                        "width": 54,
+                        "height": 27
+                      },
+                      "text": "About",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "0:12",
+                      "name": "Work",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_9GV2U8",
+                        "text": "text_8OIIQH"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 100,
+                        "y": -550.5,
+                        "width": 46,
+                        "height": 27
+                      },
+                      "text": "Work",
+                      "fills": "2:106"
+                    }
+                  ]
+                },
+                {
+                  "id": "119:65",
+                  "name": "Social Media Icons",
+                  "type": "FRAME",
+                  "localVariableRefs": {
+                    "layout": "layout_7QHQSJ"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 525,
+                    "y": -545.8947143554688,
+                    "width": 98,
+                    "height": 17.789474487304688
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                  "children": [
+                    {
+                      "id": "2:39",
+                      "name": "medium-4 1",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_RKHNS2"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 525,
+                        "y": -545.8947143554688,
+                        "width": 26,
+                        "height": 15.052631378173828
+                      },
+                      "componentId": "2:38",
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                      "children": [
+                        {
+                          "id": "I2:39;2:37",
+                          "name": "Vector",
+                          "type": "IMAGE-SVG",
+                          "localVariableRefs": {
+                            "layout": "layout_FSULKF"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 525,
+                            "y": -545.8621215820312,
+                            "width": 26,
+                            "height": 14.987442016601562
+                          },
+                          "fills": "2:106",
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "2:24",
+                      "name": "behance-2 1",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_2BGL5W"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 561,
+                        "y": -545.8947143554688,
+                        "width": 26,
+                        "height": 16.095245361328125
+                      },
+                      "componentId": "2:21",
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                      "children": [
+                        {
+                          "id": "I2:24;2:10",
+                          "name": "Vector",
+                          "type": "IMAGE-SVG",
+                          "localVariableRefs": {
+                            "layout": "layout_4X5U8O"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 561.0034790039062,
+                            "y": -545.8947143554688,
+                            "width": 25.99347496032715,
+                            "height": 16.095386505126953
+                          },
+                          "fills": "2:106",
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "2:26",
+                      "name": "twitter-6 1",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_GZRMCK"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 597,
+                        "y": -545.8947143554688,
+                        "width": 26,
+                        "height": 17.789474487304688
+                      },
+                      "componentId": "2:23",
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                      "children": [
+                        {
+                          "id": "I2:26;2:14",
+                          "name": "Vector",
+                          "type": "IMAGE-SVG",
+                          "localVariableRefs": {
+                            "layout": "layout_VI6NVH"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 600.8702392578125,
+                            "y": -544.0283813476562,
+                            "width": 19.281707763671875,
+                            "height": 15.923120498657227
+                          },
+                          "fills": "2:106",
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "119:68",
+              "name": "Hero Frame",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_JAFCAG"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": -509,
+                "width": 1246,
+                "height": 509
+              },
+              "children": [
+                {
+                  "id": "119:67",
+                  "name": "Descriptive text",
+                  "type": "FRAME",
+                  "localVariableRefs": {
+                    "layout": "layout_DP1EE8"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -623,
+                    "y": -422.5,
+                    "width": 616,
+                    "height": 336
+                  },
+                  "children": [
+                    {
+                      "id": "2:31",
+                      "name": "Hello, I’m John,",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_9GV2U8",
+                        "text": "text_2BK22E"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": -422.5,
+                        "width": 211,
+                        "height": 42
+                      },
+                      "text": "Hello, I’m John,",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "2:32",
+                      "name": "Product Designer",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_8MBPYQ",
+                        "text": "text_EOYVA2"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": -370.5,
+                        "width": 616,
+                        "height": 232
+                      },
+                      "text": "Product Designer",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "2:33",
+                      "name": "based in Netherland.",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_9GV2U8",
+                        "text": "text_2BK22E"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": -128.5,
+                        "width": 294,
+                        "height": 42
+                      },
+                      "text": "based in Netherland.",
+                      "fills": "2:106"
+                    }
+                  ]
+                },
+                {
+                  "id": "2:94",
+                  "name": "Profile image",
+                  "type": "INSTANCE",
+                  "localVariableRefs": {
+                    "layout": "layout_PFUPXU"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 117,
+                    "y": -509,
+                    "width": 506,
+                    "height": 509
+                  },
+                  "componentId": "2:93",
+                  "children": [
+                    {
+                      "id": "I2:94;122:61",
+                      "name": "Mask Group",
+                      "type": "FRAME",
+                      "localVariableRefs": {
+                        "layout": "layout_9091S6"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 130,
+                        "y": -509,
+                        "width": 493,
+                        "height": 493.0000305175781
+                      },
+                      "children": [
+                        {
+                          "id": "I2:94;2:89",
+                          "name": "unsplash:d1UPkiFd04A",
+                          "type": "MASK",
+                          "localVariableRefs": {
+                            "layout": "layout_9RKYAJ"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 130,
+                            "y": -509,
+                            "width": 493,
+                            "height": 493.0000305175781
+                          },
+                          "fills": "121:32",
+                          "maskType": "ALPHA"
+                        },
+                        {
+                          "id": "I2:94;2:91",
+                          "name": "unsplash:d1UPkiFd04A",
+                          "type": "RECTANGLE",
+                          "localVariableRefs": {
+                            "layout": "layout_WQKGHE",
+                            "fill": "fill_R6QOTX"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 130,
+                            "y": -509,
+                            "width": 493,
+                            "height": 532
+                          },
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "I2:94;2:90",
+                      "name": "Vector",
+                      "type": "IMAGE-SVG",
+                      "localVariableRefs": {
+                        "layout": "layout_YLOA9A"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 117,
+                        "y": -493,
+                        "width": 493,
+                        "height": 493
+                      },
+                      "strokes": "2:107",
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "119:41",
+              "name": "Button Component",
+              "type": "INSTANCE",
+              "localVariableRefs": {
+                "layout": "layout_49TLNT"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 10,
+                "width": 164,
+                "height": 68
+              },
+              "componentId": "11:40",
+              "children": [
+                {
+                  "id": "I119:41;11:37",
+                  "name": "Background",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_6KOCC5"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -617,
+                    "y": 17,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "fills": "2:108",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "I119:41;11:38",
+                  "name": "Outline",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_HHLM2R"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -623,
+                    "y": 10,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "strokes": "2:107",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "I119:41;11:39",
+                  "name": "Button Text",
+                  "type": "TEXT",
+                  "localVariableRefs": {
+                    "layout": "layout_1Y2G9U",
+                    "text": "text_EM8TGT"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -585,
+                    "y": 26,
+                    "width": 81,
+                    "height": 30
+                  },
+                  "text": "Resume",
+                  "fills": "2:107"
+                }
+              ]
+            },
+            {
+              "id": "2:34",
+              "name": "about.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_9GV2U8",
+                "text": "text_EOYVA2"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 88,
+                "width": 341,
+                "height": 116
+              },
+              "text": "about.",
+              "fills": "2:110"
+            },
+            {
+              "id": "2:35",
+              "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_8DI3B3",
+                "text": "text_Q99R2C"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 214,
+                "width": 900,
+                "height": 132
+              },
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "fills": "2:106"
+            },
+            {
+              "id": "120:29",
+              "name": "About container",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_PQL4L5"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 356,
+                "width": 1246,
+                "height": 566
+              },
+              "children": [
+                {
+                  "id": "119:99",
+                  "name": "About list",
+                  "type": "FRAME",
+                  "localVariableRefs": {
+                    "layout": "layout_D0VV8N"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -277,
+                    "y": 356,
+                    "width": 900,
+                    "height": 566
+                  },
+                  "children": [
+                    {
+                      "id": "119:47",
+                      "name": "About",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_X9GUKI"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -277,
+                        "y": 356,
+                        "width": 900,
+                        "height": 182
+                      },
+                      "componentId": "119:46",
+                      "children": [
+                        {
+                          "id": "I119:47;2:49",
+                          "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_OLHZ7C",
+                            "text": "text_Q99R2C"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -260,
+                            "y": 406,
+                            "width": 883,
+                            "height": 132
+                          },
+                          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "fills": "2:106"
+                        },
+                        {
+                          "id": "I119:47;2:50",
+                          "name": "2014-2018",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_3AZB65",
+                            "text": "text_TWGQJ7"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -277,
+                            "y": 356,
+                            "width": 158,
+                            "height": 40
+                          },
+                          "text": "2014-2018",
+                          "fills": "2:106"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "119:51",
+                      "name": "About",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_X9GUKI"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -277,
+                        "y": 548,
+                        "width": 900,
+                        "height": 182
+                      },
+                      "componentId": "119:46",
+                      "children": [
+                        {
+                          "id": "I119:51;2:49",
+                          "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_OLHZ7C",
+                            "text": "text_Q99R2C"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -260,
+                            "y": 598,
+                            "width": 883,
+                            "height": 132
+                          },
+                          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "fills": "2:106"
+                        },
+                        {
+                          "id": "I119:51;2:50",
+                          "name": "2014-2018",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_YIL49Y",
+                            "text": "text_TWGQJ7"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -277,
+                            "y": 548,
+                            "width": 162,
+                            "height": 40
+                          },
+                          "text": "2018-2020",
+                          "fills": "2:106"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "119:55",
+                      "name": "About",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_X9GUKI"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -277,
+                        "y": 740,
+                        "width": 900,
+                        "height": 182
+                      },
+                      "componentId": "119:46",
+                      "children": [
+                        {
+                          "id": "I119:55;2:49",
+                          "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_OLHZ7C",
+                            "text": "text_Q99R2C"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -260,
+                            "y": 790,
+                            "width": 883,
+                            "height": 132
+                          },
+                          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                          "fills": "2:106"
+                        },
+                        {
+                          "id": "I119:55;2:50",
+                          "name": "2014-2018",
+                          "type": "TEXT",
+                          "localVariableRefs": {
+                            "layout": "layout_RZ75FF",
+                            "text": "text_TWGQJ7"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -277,
+                            "y": 740,
+                            "width": 213,
+                            "height": 40
+                          },
+                          "text": "2020 - Present",
+                          "fills": "2:106"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "2:59",
+              "name": "work.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_9GV2U8",
+                "text": "text_EOYVA2"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 932,
+                "width": 292,
+                "height": 116
+              },
+              "text": "work.",
+              "fills": "2:110"
+            },
+            {
+              "id": "2:58",
+              "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_8DI3B3",
+                "text": "text_Q99R2C"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 1058,
+                "width": 900,
+                "height": 132
+              },
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "fills": "2:106"
+            },
+            {
+              "id": "119:98",
+              "name": "Studycase container",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_VSVTFT"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 1200,
+                "width": 1246,
+                "height": 614
+              },
+              "children": [
+                {
+                  "id": "119:84",
+                  "name": "StudyCase",
+                  "type": "INSTANCE",
+                  "localVariableRefs": {
+                    "layout": "layout_FPVPRV"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -623,
+                    "y": 1200,
+                    "width": 560,
+                    "height": 614
+                  },
+                  "componentId": "119:70",
+                  "children": [
+                    {
+                      "id": "I119:84;119:27",
+                      "name": "Image Variants",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_DXMRDV"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": 1200,
+                        "width": 560,
+                        "height": 400
+                      },
+                      "componentId": "11:78",
+                      "componentProperties": [
+                        {
+                          "name": "Property 1",
+                          "value": "Default",
+                          "type": "VARIANT"
+                        }
+                      ],
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                      "children": [
+                        {
+                          "id": "I119:84;119:27;11:77",
+                          "name": "Image",
+                          "type": "RECTANGLE",
+                          "localVariableRefs": {
+                            "layout": "layout_DXMRDV",
+                            "fill": "fill_19V7H3"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": -623,
+                            "y": 1200,
+                            "width": 560,
+                            "height": 400
+                          },
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "I119:84;2:69",
+                      "name": "November 24, 2019",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_VPGEV0",
+                        "text": "text_84S10F"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": 1610,
+                        "width": 141,
+                        "height": 44
+                      },
+                      "text": "November 24, 2019",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "I119:84;2:67",
+                      "name": "Some Case Study",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_MZ9J0I",
+                        "text": "text_LK0MY9"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": 1664,
+                        "width": 215,
+                        "height": 44
+                      },
+                      "text": "Some Case Study",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "I119:84;2:68",
+                      "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_DFYWLC",
+                        "text": "text_WGXN9E"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": 1718,
+                        "width": 560,
+                        "height": 96
+                      },
+                      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                      "fills": "2:106"
+                    }
+                  ]
+                },
+                {
+                  "id": "119:91",
+                  "name": "StudyCase",
+                  "type": "INSTANCE",
+                  "localVariableRefs": {
+                    "layout": "layout_FPVPRV"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 63,
+                    "y": 1200,
+                    "width": 560,
+                    "height": 614
+                  },
+                  "componentId": "119:70",
+                  "children": [
+                    {
+                      "id": "I119:91;119:27",
+                      "name": "Image Variants",
+                      "type": "INSTANCE",
+                      "localVariableRefs": {
+                        "layout": "layout_DXMRDV"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 63,
+                        "y": 1200,
+                        "width": 560,
+                        "height": 400
+                      },
+                      "componentId": "119:14",
+                      "componentProperties": [
+                        {
+                          "name": "Property 1",
+                          "value": "Variant 2",
+                          "type": "VARIANT"
+                        }
+                      ],
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                      "children": [
+                        {
+                          "id": "I119:91;119:27;119:15",
+                          "name": "Image",
+                          "type": "RECTANGLE",
+                          "localVariableRefs": {
+                            "layout": "layout_DXMRDV",
+                            "fill": "fill_HW5KME"
+                          },
+                          "absoluteBoundingBox": {
+                            "x": 63,
+                            "y": 1200,
+                            "width": 560,
+                            "height": 400
+                          },
+                          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "I119:91;2:69",
+                      "name": "November 24, 2019",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_VPGEV0",
+                        "text": "text_84S10F"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 63,
+                        "y": 1610,
+                        "width": 141,
+                        "height": 44
+                      },
+                      "text": "November 24, 2019",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "I119:91;2:67",
+                      "name": "Some Case Study",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_MZ9J0I",
+                        "text": "text_LK0MY9"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 63,
+                        "y": 1664,
+                        "width": 215,
+                        "height": 44
+                      },
+                      "text": "Some Case Study",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "I119:91;2:68",
+                      "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_DFYWLC",
+                        "text": "text_WGXN9E"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": 63,
+                        "y": 1718,
+                        "width": 560,
+                        "height": 96
+                      },
+                      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                      "fills": "2:106"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "2:71",
+              "name": "contact.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_9GV2U8",
+                "text": "text_EOYVA2"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 1824,
+                "width": 436,
+                "height": 116
+              },
+              "text": "contact.",
+              "fills": "2:110"
+            },
+            {
+              "id": "120:31",
+              "name": "Contact Container",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_ZJA5WI"
+              },
+              "absoluteBoundingBox": {
+                "x": -623,
+                "y": 1950,
+                "width": 1121,
+                "height": 338
+              },
+              "children": [
+                {
+                  "id": "120:41",
+                  "name": "Image Variants",
+                  "type": "INSTANCE",
+                  "localVariableRefs": {
+                    "layout": "layout_Y12EVQ"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -623,
+                    "y": 1950,
+                    "width": 456,
+                    "height": 284
+                  },
+                  "componentId": "120:32",
+                  "componentProperties": [
+                    {
+                      "name": "Property 1",
+                      "value": "Variant3",
+                      "type": "VARIANT"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "id": "I120:41;120:33",
+                      "name": "Image",
+                      "type": "RECTANGLE",
+                      "localVariableRefs": {
+                        "layout": "layout_A3UO10",
+                        "fill": "fill_Z2Y1ZY"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -623,
+                        "y": 1950,
+                        "width": 456,
+                        "height": 284
+                      },
+                      "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                    }
+                  ]
+                },
+                {
+                  "id": "120:30",
+                  "name": "Text Contact Container",
+                  "type": "FRAME",
+                  "localVariableRefs": {
+                    "layout": "layout_O5D4QW"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -142,
+                    "y": 1950,
+                    "width": 640,
+                    "height": 338
+                  },
+                  "children": [
+                    {
+                      "id": "2:77",
+                      "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_XXTSAB",
+                        "text": "text_Q99R2C"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -142,
+                        "y": 1950,
+                        "width": 640,
+                        "height": 176
+                      },
+                      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "16:17",
+                      "name": "johndoe@mail.com",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_XXTSAB",
+                        "text": "text_Q99R2C"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -142,
+                        "y": 2136,
+                        "width": 640,
+                        "height": 44
+                      },
+                      "text": "johndoe@mail.com",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "16:18",
+                      "name": "twitter.com/johndoe",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_XXTSAB",
+                        "text": "text_Q99R2C"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -142,
+                        "y": 2190,
+                        "width": 640,
+                        "height": 44
+                      },
+                      "text": "twitter.com/johndoe",
+                      "fills": "2:106"
+                    },
+                    {
+                      "id": "16:19",
+                      "name": "behance.com/johndoe",
+                      "type": "TEXT",
+                      "localVariableRefs": {
+                        "layout": "layout_XXTSAB",
+                        "text": "text_Q99R2C"
+                      },
+                      "absoluteBoundingBox": {
+                        "x": -142,
+                        "y": 2244,
+                        "width": 640,
+                        "height": 44
+                      },
+                      "text": "behance.com/johndoe",
+                      "fills": "2:106"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "119:46",
+          "name": "About",
+          "type": "COMPONENT",
+          "localVariableRefs": {
+            "layout": "layout_6TQ9LH"
+          },
+          "absoluteBoundingBox": {
+            "x": 2015,
+            "y": -235,
+            "width": 900,
+            "height": 182
+          },
+          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+          "children": [
+            {
+              "id": "2:49",
+              "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_OLHZ7C",
+                "text": "text_Q99R2C"
+              },
+              "absoluteBoundingBox": {
+                "x": 2032,
+                "y": -185,
+                "width": 883,
+                "height": 132
+              },
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+              "fills": "2:106"
+            },
+            {
+              "id": "2:50",
+              "name": "2014-2018",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_3AZB65",
+                "text": "text_TWGQJ7"
+              },
+              "absoluteBoundingBox": {
+                "x": 2015,
+                "y": -235,
+                "width": 158,
+                "height": 40
+              },
+              "text": "2014-2018",
+              "fills": "2:106"
+            }
+          ]
+        },
+        {
+          "id": "2:102",
+          "name": "Secondary",
+          "type": "RECTANGLE",
+          "localVariableRefs": {
+            "layout": "layout_W9KKQD"
+          },
+          "absoluteBoundingBox": {
+            "x": -720,
+            "y": -951,
+            "width": 143,
+            "height": 143
+          },
+          "fills": "2:106",
+          "borderRadius": "40px"
+        },
+        {
+          "id": "2:103",
+          "name": "Primary darker",
+          "type": "RECTANGLE",
+          "localVariableRefs": {
+            "layout": "layout_W9KKQD"
+          },
+          "absoluteBoundingBox": {
+            "x": -354,
+            "y": -951,
+            "width": 143,
+            "height": 143
+          },
+          "fills": "2:108",
+          "borderRadius": "40px"
+        },
+        {
+          "id": "2:104",
+          "name": "Primary",
+          "type": "RECTANGLE",
+          "localVariableRefs": {
+            "layout": "layout_W9KKQD"
+          },
+          "absoluteBoundingBox": {
+            "x": -171,
+            "y": -951,
+            "width": 143,
+            "height": 143
+          },
+          "fills": "2:109",
+          "borderRadius": "40px"
+        },
+        {
+          "id": "2:105",
+          "name": "Secondary darker",
+          "type": "RECTANGLE",
+          "localVariableRefs": {
+            "layout": "layout_W9KKQD"
+          },
+          "absoluteBoundingBox": {
+            "x": -537,
+            "y": -951,
+            "width": 143,
+            "height": 143
+          },
+          "fills": "2:107",
+          "borderRadius": "40px"
+        },
+        {
+          "id": "11:41",
+          "name": "Button Component",
+          "type": "COMPONENT_SET",
+          "localVariableRefs": {
+            "layout": "layout_J0C74Z"
+          },
+          "absoluteBoundingBox": {
+            "x": 922,
+            "y": -235,
+            "width": 204,
+            "height": 196
+          },
+          "borderRadius": "5px",
+          "children": [
+            {
+              "id": "11:40",
+              "name": "Property 1=Default",
+              "type": "COMPONENT",
+              "localVariableRefs": {
+                "layout": "layout_NGGQ9O"
+              },
+              "absoluteBoundingBox": {
+                "x": 942,
+                "y": -215,
+                "width": 164,
+                "height": 68
+              },
+              "children": [
+                {
+                  "id": "11:37",
+                  "name": "Background",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_6KOCC5"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 948,
+                    "y": -208,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "fills": "2:108",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "11:38",
+                  "name": "Outline",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_HHLM2R"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 942,
+                    "y": -215,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "strokes": "2:107",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "11:39",
+                  "name": "Button Text",
+                  "type": "TEXT",
+                  "localVariableRefs": {
+                    "layout": "layout_1Y2G9U",
+                    "text": "text_EM8TGT"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 980,
+                    "y": -199,
+                    "width": 81,
+                    "height": 30
+                  },
+                  "text": "Resume",
+                  "fills": "2:107"
+                }
+              ]
+            },
+            {
+              "id": "11:42",
+              "name": "Clicked",
+              "type": "COMPONENT",
+              "localVariableRefs": {
+                "layout": "layout_W2VYCI"
+              },
+              "absoluteBoundingBox": {
+                "x": 942,
+                "y": -127,
+                "width": 164,
+                "height": 68
+              },
+              "children": [
+                {
+                  "id": "11:43",
+                  "name": "Outline",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_6KOCC5"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 948,
+                    "y": -120,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "fills": "2:108",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "11:44",
+                  "name": "Background",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_6KOCC5"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 948,
+                    "y": -120,
+                    "width": 158,
+                    "height": 61
+                  },
+                  "strokes": "2:107",
+                  "borderRadius": "6px"
+                },
+                {
+                  "id": "11:45",
+                  "name": "Button Text",
+                  "type": "TEXT",
+                  "localVariableRefs": {
+                    "layout": "layout_CGLZNQ",
+                    "text": "text_EM8TGT"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 987,
+                    "y": -105,
+                    "width": 81,
+                    "height": 30
+                  },
+                  "text": "Resume",
+                  "fills": "2:107"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11:79",
+          "name": "Image Variants",
+          "type": "COMPONENT_SET",
+          "localVariableRefs": {
+            "layout": "layout_AJDLCI"
+          },
+          "absoluteBoundingBox": {
+            "x": 1174,
+            "y": -235,
+            "width": 600,
+            "height": 1280
+          },
+          "borderRadius": "5px",
+          "children": [
+            {
+              "id": "11:78",
+              "name": "Property 1=Default",
+              "type": "COMPONENT",
+              "localVariableRefs": {
+                "layout": "layout_U6I32V"
+              },
+              "absoluteBoundingBox": {
+                "x": 1194,
+                "y": -215,
+                "width": 560,
+                "height": 400
+              },
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+              "children": [
+                {
+                  "id": "11:77",
+                  "name": "Image",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_DXMRDV",
+                    "fill": "fill_19V7H3"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 1194,
+                    "y": -215,
+                    "width": 560,
+                    "height": 400
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                }
+              ]
+            },
+            {
+              "id": "120:32",
+              "name": "Property 1=Variant3",
+              "type": "COMPONENT",
+              "localVariableRefs": {
+                "layout": "layout_2DPSG7"
+              },
+              "absoluteBoundingBox": {
+                "x": 1194,
+                "y": 625,
+                "width": 560,
+                "height": 400
+              },
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+              "children": [
+                {
+                  "id": "120:33",
+                  "name": "Image",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_DXMRDV",
+                    "fill": "fill_Z2Y1ZY"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 1194,
+                    "y": 625,
+                    "width": 560,
+                    "height": 400
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                }
+              ]
+            },
+            {
+              "id": "119:14",
+              "name": "Property 1=Variant 2",
+              "type": "COMPONENT",
+              "localVariableRefs": {
+                "layout": "layout_3XZG9D"
+              },
+              "absoluteBoundingBox": {
+                "x": 1194,
+                "y": 205,
+                "width": 560,
+                "height": 400
+              },
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+              "children": [
+                {
+                  "id": "119:15",
+                  "name": "Image",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_DXMRDV",
+                    "fill": "fill_HW5KME"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 1194,
+                    "y": 205,
+                    "width": 560,
+                    "height": 400
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "119:70",
+          "name": "StudyCase",
+          "type": "COMPONENT",
+          "localVariableRefs": {
+            "layout": "layout_4Q3MNC"
+          },
+          "absoluteBoundingBox": {
+            "x": 2015,
+            "y": 125,
+            "width": 560,
+            "height": 614
+          },
+          "children": [
+            {
+              "id": "119:27",
+              "name": "Image Variants",
+              "type": "INSTANCE",
+              "localVariableRefs": {
+                "layout": "layout_DXMRDV"
+              },
+              "absoluteBoundingBox": {
+                "x": 2015,
+                "y": 125,
+                "width": 560,
+                "height": 400
+              },
+              "componentId": "119:14",
+              "componentProperties": [
+                {
+                  "name": "Property 1",
+                  "value": "Variant 2",
+                  "type": "VARIANT"
+                }
+              ],
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+              "children": [
+                {
+                  "id": "I119:27;119:15",
+                  "name": "Image",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_DXMRDV",
+                    "fill": "fill_HW5KME"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 2015,
+                    "y": 125,
+                    "width": 560,
+                    "height": 400
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                }
+              ]
+            },
+            {
+              "id": "2:69",
+              "name": "November 24, 2019",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_VPGEV0",
+                "text": "text_84S10F"
+              },
+              "absoluteBoundingBox": {
+                "x": 2015,
+                "y": 535,
+                "width": 141,
+                "height": 44
+              },
+              "text": "November 24, 2019",
+              "fills": "2:106"
+            },
+            {
+              "id": "2:67",
+              "name": "Some Case Study",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_MZ9J0I",
+                "text": "text_LK0MY9"
+              },
+              "absoluteBoundingBox": {
+                "x": 2015,
+                "y": 589,
+                "width": 215,
+                "height": 44
+              },
+              "text": "Some Case Study",
+              "fills": "2:106"
+            },
+            {
+              "id": "2:68",
+              "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+              "type": "TEXT",
+              "localVariableRefs": {
+                "layout": "layout_DFYWLC",
+                "text": "text_WGXN9E"
+              },
+              "absoluteBoundingBox": {
+                "x": 2015,
+                "y": 643,
+                "width": 560,
+                "height": 96
+              },
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+              "fills": "2:106"
+            }
+          ]
+        },
+        {
+          "id": "2:93",
+          "name": "Profile image",
+          "type": "COMPONENT",
+          "localVariableRefs": {
+            "layout": "layout_GW7QBN"
+          },
+          "absoluteBoundingBox": {
+            "x": 2042,
+            "y": 917,
+            "width": 506,
+            "height": 509
+          },
+          "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+          "children": [
+            {
+              "id": "122:61",
+              "name": "Mask Group",
+              "type": "FRAME",
+              "localVariableRefs": {
+                "layout": "layout_9091S6"
+              },
+              "absoluteBoundingBox": {
+                "x": 2055,
+                "y": 917,
+                "width": 493,
+                "height": 493.0000305175781
+              },
+              "children": [
+                {
+                  "id": "2:89",
+                  "name": "unsplash:d1UPkiFd04A",
+                  "type": "MASK",
+                  "localVariableRefs": {
+                    "layout": "layout_9RKYAJ"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 2055,
+                    "y": 917,
+                    "width": 493,
+                    "height": 493.0000305175781
+                  },
+                  "fills": "121:32",
+                  "maskType": "ALPHA"
+                },
+                {
+                  "id": "2:91",
+                  "name": "unsplash:d1UPkiFd04A",
+                  "type": "RECTANGLE",
+                  "localVariableRefs": {
+                    "layout": "layout_WQKGHE",
+                    "fill": "fill_R6QOTX"
+                  },
+                  "absoluteBoundingBox": {
+                    "x": 2055,
+                    "y": 917,
+                    "width": 493,
+                    "height": 532
+                  },
+                  "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                }
+              ]
+            },
+            {
+              "id": "2:90",
+              "name": "Vector",
+              "type": "IMAGE-SVG",
+              "localVariableRefs": {
+                "layout": "layout_YLOA9A"
+              },
+              "absoluteBoundingBox": {
+                "x": 2042,
+                "y": 933,
+                "width": 493,
+                "height": 493
+              },
+              "strokes": "121:32",
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16:20",
+      "name": "Thumbnail",
+      "type": "CANVAS",
+      "children": [
+        {
+          "id": "16:21",
+          "name": "Desktop - 1",
+          "type": "FRAME",
+          "localVariableRefs": {
+            "layout": "layout_BS3PY9"
+          },
+          "absoluteBoundingBox": {
+            "x": -720,
+            "y": -512,
+            "width": 1920,
+            "height": 960
+          },
+          "children": [
+            {
+              "id": "16:22",
+              "name": "Home 1",
+              "type": "RECTANGLE",
+              "localVariableRefs": {
+                "layout": "layout_TBPJOP",
+                "fill": "fill_KMDNRW"
+              },
+              "absoluteBoundingBox": {
+                "x": -480,
+                "y": -512,
+                "width": 1440,
+                "height": 960
+              },
+              "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": {
+    "2:38": {
+      "id": "2:38",
+      "key": "1921c704ebbe79328e4b9d3a5b98423d28862fd6",
+      "name": "medium-4 1"
+    },
+    "2:21": {
+      "id": "2:21",
+      "key": "9fddf4b3ab8f984b977cd99321e57e81e427f104",
+      "name": "behance-2 1"
+    },
+    "2:23": {
+      "id": "2:23",
+      "key": "e17e939d5fd9e8ed55cf78e5e9632bbe0a04ae0e",
+      "name": "twitter-6 1"
+    },
+    "2:93": {
+      "id": "2:93",
+      "key": "7a8303ca8f4150b8c8f2c8f4b807daec280e64e2",
+      "name": "Profile image"
+    },
+    "11:40": {
+      "id": "11:40",
+      "key": "d9d112149d698a256f7960c6923436f2378482dc",
+      "name": "Property 1=Default",
+      "componentSetId": "11:41"
+    },
+    "119:46": {
+      "id": "119:46",
+      "key": "f0b071f37cccc724cd0d963b5cf9ad9369e9699c",
+      "name": "About"
+    },
+    "119:70": {
+      "id": "119:70",
+      "key": "3555e9325bf97d78c4ed3ea1d64350e121f59e54",
+      "name": "StudyCase"
+    },
+    "11:78": {
+      "id": "11:78",
+      "key": "b78bfc8e86339cd294ef5bf3850babd8c6cd9233",
+      "name": "Property 1=Default",
+      "componentSetId": "11:79"
+    },
+    "119:14": {
+      "id": "119:14",
+      "key": "fe71711fec7688386b6b177f5cc2a5f74684272b",
+      "name": "Property 1=Variant 2",
+      "componentSetId": "11:79"
+    },
+    "120:32": {
+      "id": "120:32",
+      "key": "dfe72bcdda208a686be7339f75a7ee3f67b3df24",
+      "name": "Property 1=Variant3",
+      "componentSetId": "11:79"
+    },
+    "11:42": {
+      "id": "11:42",
+      "key": "ac27abb02a0aadbcddcff5a54059a03781f799e6",
+      "name": "Clicked",
+      "componentSetId": "11:41"
+    }
+  },
+  "componentSets": {
+    "11:41": {
+      "id": "11:41",
+      "key": "578f48ee9799c2b2ac0421d637543a46dc3c3e93",
+      "name": "Button Component",
+      "description": ""
+    },
+    "11:79": {
+      "id": "11:79",
+      "key": "896c0312be3a4cda4696b02c75a13b3177b88e90",
+      "name": "Image Variants",
+      "description": ""
+    }
+  },
+  "globalVars": {
+    "styles": {
+      "2:109": {
+        "name": "Light Yellow",
+        "value": [
+          "#FBF8CC"
+        ]
+      },
+      "2:106": {
+        "name": "Dark Blue",
+        "value": [
+          "#03045E"
+        ]
+      },
+      "121:32": {
+        "name": "Black",
+        "value": [
+          "#000000"
+        ]
+      },
+      "2:107": {
+        "name": "Dark Brown",
+        "value": {
+          "colors": [
+            "#474306"
+          ],
+          "strokeWeight": "1px"
+        }
+      },
+      "2:108": {
+        "name": "Yellow",
+        "value": [
+          "#F5EE84"
+        ]
+      },
+      "2:110": {
+        "name": "Too Light Yellow",
+        "value": [
+          "#F7F197"
+        ]
+      }
+    },
+    "localVariables": {
+      "layout_797P3R": {
+        "mode": "column",
+        "gap": "10px",
+        "padding": "34px 97px",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 1440,
+          "height": 2898
+        }
+      },
+      "layout_ACP4YM": {
+        "mode": "row",
+        "justifyContent": "space-between",
+        "alignItems": "center",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 1246
+        }
+      },
+      "layout_9GV2U8": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "hug",
+          "vertical": "hug"
+        }
+      },
+      "text_A4KYJ6": {
+        "fontFamily": "Poppins",
+        "fontWeight": 600,
+        "fontSize": 24,
+        "lineHeight": "1.5em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_AI8Q8C": {
+        "mode": "row",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "gap": "61px",
+        "sizing": {
+          "horizontal": "hug",
+          "vertical": "hug"
+        }
+      },
+      "text_8OIIQH": {
+        "fontFamily": "Poppins",
+        "fontWeight": 400,
+        "fontSize": 18,
+        "lineHeight": "1.5em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_7QHQSJ": {
+        "mode": "row",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "hug",
+          "vertical": "hug"
+        }
+      },
+      "layout_RKHNS2": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 26,
+          "height": 15.05
+        }
+      },
+      "layout_FSULKF": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0.03
+        },
+        "dimensions": {
+          "width": 26,
+          "height": 14.99
+        }
+      },
+      "layout_2BGL5W": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 26,
+          "height": 16.1
+        }
+      },
+      "layout_4X5U8O": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 25.99,
+          "height": 16.1
+        }
+      },
+      "layout_GZRMCK": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 26,
+          "height": 17.79
+        }
+      },
+      "layout_VI6NVH": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 3.87,
+          "y": 1.87
+        },
+        "dimensions": {
+          "width": 19.28,
+          "height": 15.92
+        }
+      },
+      "layout_JAFCAG": {
+        "mode": "row",
+        "justifyContent": "space-between",
+        "alignItems": "center",
+        "alignSelf": "stretch",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fill",
+          "vertical": "hug"
+        }
+      },
+      "layout_DP1EE8": {
+        "mode": "column",
+        "justifyContent": "center",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "hug",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "height": 336
+        }
+      },
+      "text_2BK22E": {
+        "fontFamily": "Poppins",
+        "fontWeight": 500,
+        "fontSize": 28,
+        "lineHeight": "1.5em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_8MBPYQ": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 616
+        }
+      },
+      "text_EOYVA2": {
+        "fontFamily": "Poppins",
+        "fontWeight": 800,
+        "fontSize": 100,
+        "lineHeight": "1.16em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "BOTTOM"
+      },
+      "layout_PFUPXU": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 506,
+          "height": 509
+        }
+      },
+      "layout_9091S6": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 13,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 493,
+          "height": 493
+        }
+      },
+      "layout_9RKYAJ": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 493,
+          "height": 493
+        }
+      },
+      "layout_WQKGHE": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 493,
+          "height": 532
+        }
+      },
+      "fill_R6QOTX": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2a01ae6116feae586714736be2b9de679c20ad7d",
+          "scaleMode": "FILL",
+          "objectFit": "cover",
+          "isBackground": false,
+          "imageDownloadArguments": {
+            "needsCropping": false,
+            "requiresImageDimensions": false
+          }
+        }
+      ],
+      "layout_YLOA9A": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 16
+        },
+        "dimensions": {
+          "width": 493,
+          "height": 493
+        }
+      },
+      "layout_49TLNT": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 164,
+          "height": 68
+        }
+      },
+      "layout_6KOCC5": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 6,
+          "y": 7
+        },
+        "dimensions": {
+          "width": 158,
+          "height": 61
+        }
+      },
+      "layout_HHLM2R": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 158,
+          "height": 61
+        }
+      },
+      "layout_1Y2G9U": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 38,
+          "y": 16
+        },
+        "dimensions": {
+          "width": 81,
+          "height": 30
+        }
+      },
+      "text_EM8TGT": {
+        "fontFamily": "Poppins",
+        "fontWeight": 400,
+        "fontSize": 20,
+        "lineHeight": "1.5em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_8DI3B3": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 900
+        }
+      },
+      "text_Q99R2C": {
+        "fontFamily": "Poppins",
+        "fontWeight": 400,
+        "fontSize": 24,
+        "lineHeight": "1.8333333333333333em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_PQL4L5": {
+        "mode": "column",
+        "alignItems": "flex-end",
+        "alignSelf": "stretch",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fill",
+          "vertical": "hug"
+        }
+      },
+      "layout_D0VV8N": {
+        "mode": "column",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 900
+        }
+      },
+      "layout_X9GUKI": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 900,
+          "height": 182
+        }
+      },
+      "layout_OLHZ7C": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 17,
+          "y": 50
+        },
+        "dimensions": {
+          "width": 883,
+          "height": 132
+        }
+      },
+      "layout_3AZB65": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 158,
+          "height": 40
+        }
+      },
+      "text_TWGQJ7": {
+        "fontFamily": "Poppins",
+        "fontWeight": 600,
+        "fontSize": 24,
+        "lineHeight": "1.6666666666666667em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_YIL49Y": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 162,
+          "height": 40
+        }
+      },
+      "layout_RZ75FF": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 213,
+          "height": 40
+        }
+      },
+      "layout_VSVTFT": {
+        "mode": "row",
+        "justifyContent": "space-between",
+        "alignSelf": "stretch",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fill",
+          "vertical": "hug"
+        }
+      },
+      "layout_FPVPRV": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 614
+        }
+      },
+      "layout_DXMRDV": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 400
+        }
+      },
+      "fill_19V7H3": [
+        {
+          "type": "IMAGE",
+          "imageRef": "b045e2b5e1bc87bc36e884076522da080b2989d8",
+          "scaleMode": "FILL",
+          "objectFit": "cover",
+          "isBackground": false,
+          "imageDownloadArguments": {
+            "needsCropping": false,
+            "requiresImageDimensions": false
+          }
+        }
+      ],
+      "layout_VPGEV0": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 410
+        },
+        "dimensions": {
+          "width": 141,
+          "height": 44
+        }
+      },
+      "text_84S10F": {
+        "fontFamily": "Poppins",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "lineHeight": "2.933333333333333em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_MZ9J0I": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 464
+        },
+        "dimensions": {
+          "width": 215,
+          "height": 44
+        }
+      },
+      "text_LK0MY9": {
+        "fontFamily": "Poppins",
+        "fontWeight": 600,
+        "fontSize": 24,
+        "lineHeight": "1.8333333333333333em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "layout_DFYWLC": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 518
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 96
+        }
+      },
+      "text_WGXN9E": {
+        "fontFamily": "Poppins",
+        "fontWeight": 400,
+        "fontSize": 18,
+        "lineHeight": "1.7777777777777777em",
+        "textAlignHorizontal": "LEFT",
+        "textAlignVertical": "TOP"
+      },
+      "fill_HW5KME": [
+        {
+          "type": "IMAGE",
+          "imageRef": "7c93a6e7106409894577da2e6431f298e822b3c7",
+          "scaleMode": "FILL",
+          "objectFit": "cover",
+          "isBackground": false,
+          "imageDownloadArguments": {
+            "needsCropping": false,
+            "requiresImageDimensions": false
+          }
+        }
+      ],
+      "layout_ZJA5WI": {
+        "mode": "row",
+        "justifyContent": "space-between",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 1121
+        }
+      },
+      "layout_Y12EVQ": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "fixed"
+        },
+        "dimensions": {
+          "width": 456,
+          "height": 284
+        }
+      },
+      "layout_A3UO10": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 0,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 456,
+          "height": 284
+        }
+      },
+      "fill_Z2Y1ZY": [
+        {
+          "type": "IMAGE",
+          "imageRef": "c6e676bf8ef856e67494e400cf18b4ec19eab724",
+          "scaleMode": "FILL",
+          "objectFit": "cover",
+          "isBackground": false,
+          "imageDownloadArguments": {
+            "needsCropping": false,
+            "requiresImageDimensions": false
+          }
+        }
+      ],
+      "layout_O5D4QW": {
+        "mode": "column",
+        "gap": "10px",
+        "sizing": {
+          "horizontal": "fixed",
+          "vertical": "hug"
+        },
+        "dimensions": {
+          "width": 640
+        }
+      },
+      "layout_XXTSAB": {
+        "mode": "none",
+        "sizing": {
+          "horizontal": "fill",
+          "vertical": "hug"
+        }
+      },
+      "layout_6TQ9LH": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 900,
+          "height": 182
+        }
+      },
+      "layout_W9KKQD": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 143,
+          "height": 143
+        }
+      },
+      "layout_J0C74Z": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 204,
+          "height": 196
+        }
+      },
+      "layout_NGGQ9O": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 20,
+          "y": 20
+        },
+        "dimensions": {
+          "width": 164,
+          "height": 68
+        }
+      },
+      "layout_W2VYCI": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 20,
+          "y": 108
+        },
+        "dimensions": {
+          "width": 164,
+          "height": 68
+        }
+      },
+      "layout_CGLZNQ": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 45,
+          "y": 22
+        },
+        "dimensions": {
+          "width": 81,
+          "height": 30
+        }
+      },
+      "layout_AJDLCI": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 600,
+          "height": 1280
+        }
+      },
+      "layout_U6I32V": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 20,
+          "y": 20
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 400
+        }
+      },
+      "layout_2DPSG7": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 20,
+          "y": 860
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 400
+        }
+      },
+      "layout_3XZG9D": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 20,
+          "y": 440
+        },
+        "dimensions": {
+          "width": 560,
+          "height": 400
+        }
+      },
+      "layout_4Q3MNC": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 560,
+          "height": 614
+        }
+      },
+      "layout_GW7QBN": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 506,
+          "height": 509
+        }
+      },
+      "layout_BS3PY9": {
+        "mode": "none",
+        "sizing": {},
+        "dimensions": {
+          "width": 1920,
+          "height": 960
+        }
+      },
+      "layout_TBPJOP": {
+        "mode": "none",
+        "sizing": {},
+        "locationRelativeToParent": {
+          "x": 240,
+          "y": 0
+        },
+        "dimensions": {
+          "width": 1440,
+          "height": 960
+        }
+      },
+      "fill_KMDNRW": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ab2f88c90c36bff2f61b892d523fdd1ed2aaced8",
+          "scaleMode": "STRETCH",
+          "objectFit": "fill",
+          "isBackground": false,
+          "imageDownloadArguments": {
+            "needsCropping": true,
+            "requiresImageDimensions": false,
+            "cropTransform": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0.24096384644508362,
+                3.566981472340967e-18
+              ]
+            ],
+            "filenameSuffix": "328db0"
+          }
+        }
+      ]
+    }
+  }
+}

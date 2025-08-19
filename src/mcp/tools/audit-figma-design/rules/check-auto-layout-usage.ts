@@ -15,9 +15,6 @@ const RULE_ID = "auto-layout-usage";
 function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
   let results: AuditResult[] = [];
 
-  // A container with multiple children that doesn't use Auto Layout is a candidate for this rule.
-  // We check if layout property does not contain 'AUTO'. The simplified extractor puts 'AUTO' if it's an auto-layout.
-  // We also check if there's a 'mode' property in localVariableRefs with 'column' or 'row' values, which indicates auto-layout.
   const layoutRef = node.localVariableRefs?.layout && localVariables[node.localVariableRefs.layout].mode;
   const hasAutoLayoutMode = layoutRef && ['column', 'row'].includes(layoutRef as string);
   
