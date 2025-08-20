@@ -21,17 +21,17 @@ const serverInfo = {
 type CreateServerOptions = {
   isHTTP?: boolean;
   outputFormat?: "yaml" | "json";
-  
   skipImageDownloads?: boolean;
+  enableAiRules?: boolean;
 };
 
 function createServer(
   authOptions: FigmaAuthOptions,
-  { isHTTP = false, outputFormat = "yaml", skipImageDownloads = false }: CreateServerOptions = {},
+  { isHTTP = false, outputFormat = "yaml", skipImageDownloads = false, enableAiRules = false }: CreateServerOptions = {},
 ) {
   const server = new McpServer(serverInfo);
   const figmaService = new FigmaService(authOptions);
-  registerTools(server, figmaService, { outputFormat, skipImageDownloads });
+  registerTools(server, figmaService, { outputFormat, skipImageDownloads, enableAiRules });
 
   Logger.isHTTP = isHTTP;
 
@@ -44,6 +44,7 @@ function registerTools(
   options: {
     outputFormat: "yaml" | "json";
     skipImageDownloads: boolean;
+    enableAiRules: boolean;
   },
 ): void {
   // Register get_figma_data tool
@@ -71,7 +72,7 @@ function registerTools(
     auditFigmaDesignTool.parameters,
     // We don't need the figmaService for this one as it's pure data processing
     (params: z.infer<typeof auditParamsSchema>) =>
-        auditFigmaDesignTool.handler(params),
+        auditFigmaDesignTool.handler(params, { enableAiRules: options.enableAiRules }),
   );
 
   // Register download_figma_images tool if CLI flag or env var is not set

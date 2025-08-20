@@ -9,6 +9,7 @@ interface ServerConfig {
   port: number;
   outputFormat: "yaml" | "json";
   skipImageDownloads?: boolean;
+  enableAiRules?: boolean;
   configSources: {
     figmaApiKey: "cli" | "env";
     figmaOAuthToken: "cli" | "env" | "none";
@@ -16,6 +17,7 @@ interface ServerConfig {
     outputFormat: "cli" | "env" | "default";
     envFile: "cli" | "default";
     skipImageDownloads?: "cli" | "env" | "default";
+    enableAiRules?: "cli" | "env" | "default";
   };
 }
 
@@ -31,6 +33,7 @@ interface CliArgs {
   port?: number;
   json?: boolean;
   "skip-image-downloads"?: boolean;
+  "enable-ai-rules"?: boolean;
 }
 
 export function getServerConfig(isStdioMode: boolean): ServerConfig {
@@ -63,6 +66,11 @@ export function getServerConfig(isStdioMode: boolean): ServerConfig {
         description: "Do not register the download_figma_images tool (skip image downloads)",
         default: false,
       },
+      "enable-ai-rules": {
+        type: "boolean",
+        description: "Enable AI-based rules in the audit tool",
+        default: false,
+      },
     })
     .help()
     .version(process.env.NPM_PACKAGE_VERSION ?? "unknown")
@@ -93,6 +101,7 @@ export function getServerConfig(isStdioMode: boolean): ServerConfig {
     port: 3333,
     outputFormat: "yaml",
     skipImageDownloads: false,
+    enableAiRules: false,
     configSources: {
       figmaApiKey: "env",
       figmaOAuthToken: "none",
@@ -100,6 +109,7 @@ export function getServerConfig(isStdioMode: boolean): ServerConfig {
       outputFormat: "default",
       envFile: envFileSource,
       skipImageDownloads: "default",
+      enableAiRules: "default",
     },
   };
 
@@ -150,6 +160,15 @@ export function getServerConfig(isStdioMode: boolean): ServerConfig {
     config.configSources.skipImageDownloads = "env";
   }
 
+  // Handle enableAiRules
+  if (argv["enable-ai-rules"]) {
+    config.enableAiRules = true;
+    config.configSources.enableAiRules = "cli";
+  } else if (process.env.ENABLE_AI_RULES === "true") {
+    config.enableAiRules = true;
+    config.configSources.enableAiRules = "env";
+  }
+
   // Validate configuration
   if (!auth.figmaApiKey && !auth.figmaOAuthToken) {
     console.error(
@@ -179,6 +198,9 @@ export function getServerConfig(isStdioMode: boolean): ServerConfig {
     );
     console.log(
       `- SKIP_IMAGE_DOWNLOADS: ${config.skipImageDownloads} (source: ${config.configSources.skipImageDownloads})`,
+    );
+    console.log(
+      `- ENABLE_AI_RULES: ${config.enableAiRules} (source: ${config.configSources.enableAiRules})`,
     );
     console.log(); // Empty line for better readability
   }

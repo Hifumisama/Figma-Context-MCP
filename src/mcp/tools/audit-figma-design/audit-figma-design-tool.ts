@@ -23,28 +23,40 @@ import { Logger } from "../../../utils/logger.js";
 
 // --- Parameters ---
 const parameters = {
-    figmaDataJson: z.string().describe("A JSON string containing the simplified Figma data from the 'get_figma_context' tool."),
+    figmaDataJson: z.string().describe("A JSON string containing the simplified Figma data from the 'get_figma_context' tool. it is used to analyse a part of a Figma file and points out issues."),
     outputFormat: z.enum(["markdown", "json"]).optional().default("markdown").describe("The desired output format for the report."),
 };
 export const auditParamsSchema = z.object(parameters);
 type AuditParams = z.infer<typeof auditParamsSchema>;
 
+interface AuditOptions {
+    enableAiRules?: boolean;
+}
 
 // --- Rule Engine ---
-const allRules = [
+const programmaticRules = [
     checkDetachedStyles,
     checkLayerNaming,
     checkAutoLayoutUsage,
     checkExportSettings,
     checkGroupVsFrame,
-    findComponentCandidates,
-    checkInteractionStates,
-    checkColorNames,
     checkHiddenLayers,
 ];
 
-function runAudit(context: FigmaContext): AuditReport {
-    const allResults = allRules.flatMap(rule => rule(context));
+const aiBasedRules = [
+    findComponentCandidates,
+    checkInteractionStates,
+    checkColorNames,
+];
+
+function runAudit(context: FigmaContext, options: AuditOptions): AuditReport {
+    let allResults = programmaticRules.flatMap(rule => rule(context));
+
+    if (options.enableAiRules) {
+        const aiResults = aiBasedRules.flatMap(rule => rule(context));
+        allResults = [...allResults, ...aiResults];
+    }
+    
     const issuesByRule = allResults.reduce((acc, result) => {
         acc[result.ruleId] = (acc[result.ruleId] || 0) + 1;
         return acc;
@@ -151,10 +163,10 @@ function getImpactLevel(ruleId: string): string {
 
 
 // --- Handler ---
-async function auditFigmaDesignHandler(params: AuditParams) {
+async function auditFigmaDesignHandler(params: AuditParams, options: AuditOptions) {
     try {
         const figmaContext: FigmaContext = JSON.parse(params.figmaDataJson);
-        const report = runAudit(figmaContext);
+        const report = runAudit(figmaContext, options);
         
         let outputText: string;
         if (params.outputFormat === 'json') {
