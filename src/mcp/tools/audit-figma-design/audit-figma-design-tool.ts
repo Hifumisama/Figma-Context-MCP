@@ -15,7 +15,7 @@ import { checkLayerNaming } from "./rules/check-layer-naming.js";
 import { checkAutoLayoutUsage } from "./rules/check-auto-layout-usage.js";
 import { checkExportSettings } from "./rules/check-export-settings.js";
 import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
-import { findVariantCandidates } from "./rules/find-variant-candidates.js";
+import { findComponentCandidates } from "./rules/find-component-candidates.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkHiddenLayers } from "./rules/check-hidden-layers.js";
@@ -35,10 +35,9 @@ const allRules = [
     checkDetachedStyles,
     checkLayerNaming,
     checkAutoLayoutUsage,
-
     checkExportSettings,
     checkGroupVsFrame,
-    findVariantCandidates,
+    findComponentCandidates,
     checkInteractionStates,
     checkColorNames,
     checkHiddenLayers,

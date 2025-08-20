@@ -12,24 +12,34 @@ import { GetFigmaContextParamsSchema } from "./types.js";
 import type { GetFigmaContextParams } from "./types.js";
 import type { GetFileResponse, GetFileNodesResponse } from "@figma/rest-api-spec";
 import { Logger } from "../../../utils/logger.js";
+import { URL } from "url";
 
 // --- Parameters ---
 const parameters = GetFigmaContextParamsSchema.shape;
 
 // --- Helper Functions ---
-const figmaUrlRegex = /figma\.com\/(file|design)\/([a-zA-Z0-9]+)\/.*?(\?.*node-id=([0-9%A-Z-]+))?/;
+function parseFigmaUrl(url: string): FigmaUrlParts | null {
+    try {
+        const parsedUrl = new URL(url);
+        const pathParts = parsedUrl.pathname.split('/');
+        const fileKeyIndex = pathParts.findIndex(part => part === 'file' || part === 'design');
+        
+        if (fileKeyIndex === -1 || fileKeyIndex + 1 >= pathParts.length) {
+            return null;
+        }
+        
+        const fileKey = pathParts[fileKeyIndex + 1];
+        const nodeId = parsedUrl.searchParams.get('node-id') ?? undefined;
+        
+        return { fileKey, nodeId };
+    } catch (error) {
+        return null;
+    }
+}
 
 interface FigmaUrlParts {
     fileKey: string;
     nodeId?: string;
-}
-
-function parseFigmaUrl(url: string): FigmaUrlParts | null {
-    const matches = url.match(figmaUrlRegex);
-    if (!matches) return null;
-    const fileKey = matches[2];
-    const nodeId = matches[4] ? decodeURIComponent(matches[4]) : undefined;
-    return { fileKey, nodeId };
 }
 
 // --- Handler ---
@@ -41,12 +51,12 @@ async function getFigmaContextHandler(params: GetFigmaContextParams, figmaServic
         }
 
         const { fileKey, nodeId: urlNodeId } = urlParts;
-        let targetNodeId: string | undefined;
+        let targetNodeId = params.nodeId ?? urlNodeId;
         const scope = params.scope ?? 'auto';
 
         if (scope === 'file') {
             targetNodeId = undefined;
-        } else if (scope === 'node' || scope === 'auto') {
+        } else if ((scope === 'node' || scope === 'auto') && !targetNodeId) {
             targetNodeId = urlNodeId;
         }
 
