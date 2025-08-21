@@ -1,0 +1,59 @@
+steps:
+  # Étape 1: Construire l'image Docker
+  # On utilise le builder Docker de Cloud Build.
+  - name: 'gcr.io/cloud-builders/docker'
+    # 'PROJECT_ID' est une variable fournie par Cloud Build, pas besoin de la changer.
+    # 'REPO_NAME' est le nom que vous donnerez à votre dépôt Artifact Registry.
+    # 'SERVICE_NAME' est le nom de votre service (ex: figma-mcp-server).
+    # 'COMMIT_SHA' est une variable fournie par Cloud Build, c'est le hash du commit git.
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}',
+        '.',
+        '-f',
+        'Dockerfile'
+      ]
+
+  # Étape 2: Pousser l'image vers Artifact Registry
+  # Une fois l'image construite, on la pousse dans le registre pour la stocker.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}']
+
+  # Étape 3: Déployer sur Cloud Run
+  # On déploie la nouvelle image sur Cloud Run.
+  - name: 'gcr.io/google-appengine/exec-wrapper'
+    args:
+      - '-i'
+      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - '-s'
+      - '${_SERVICE_NAME}'
+      - '--revision-suffix'
+      - '${SHORT_SHA}'
+      - '--port'
+      - '8080'
+      - '--region'
+      - 'europe-west9'
+      - '--'
+      - 'gcloud'
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image'
+      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - '--region'
+      - 'europe-west9'
+      # --allow-unauthenticated permet de rendre le service accessible publiquement
+      # Si votre API doit être privée, il faudra changer cette option
+      - '--allow-unauthenticated'
+
+# On spécifie quelles images doivent être stockées dans Artifact Registry après le build.
+images:
+  - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+
+# Options pour la substitution de variables
+# Vous pourrez définir ces variables au moment de créer le trigger Cloud Build
+substitutions:
+  _SERVICE_NAME: figma-mcp-server
+  _REPO_NAME: figma-mcp-repo
