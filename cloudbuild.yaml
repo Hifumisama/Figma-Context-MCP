@@ -57,3 +57,6 @@ images:
 substitutions:
   _SERVICE_NAME: figma-mcp-server
   _REPO_NAME: figma-mcp-repo
+
+options:
+  logging: CLOUD_LOGGING_ONLY
