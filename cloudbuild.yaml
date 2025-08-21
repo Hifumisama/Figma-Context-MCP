@@ -10,7 +10,7 @@ steps:
       [
         'build',
         '-t',
-        'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}',
+        'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${TAG_NAME}',
         '.',
         '-f',
         'Dockerfile'
@@ -19,18 +19,18 @@ steps:
   # Étape 2: Pousser l'image vers Artifact Registry
   # Une fois l'image construite, on la pousse dans le registre pour la stocker.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}']
+    args: ['push', 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${TAG_NAME}']
 
   # Étape 3: Déployer sur Cloud Run
   # On déploie la nouvelle image sur Cloud Run.
   - name: 'gcr.io/google-appengine/exec-wrapper'
     args:
       - '-i'
-      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${TAG_NAME}'
       - '-s'
       - '${_SERVICE_NAME}'
       - '--revision-suffix'
-      - '${SHORT_SHA}'
+      - '${TAG_NAME}'
       - '--port'
       - '8080'
       - '--region'
@@ -41,7 +41,7 @@ steps:
       - 'deploy'
       - '${_SERVICE_NAME}'
       - '--image'
-      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${TAG_NAME}'
       - '--region'
       - 'europe-west9'
       # --allow-unauthenticated permet de rendre le service accessible publiquement
@@ -50,7 +50,7 @@ steps:
 
 # On spécifie quelles images doivent être stockées dans Artifact Registry après le build.
 images:
-  - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+  - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${TAG_NAME}'
 
 # Options pour la substitution de variables
 # Vous pourrez définir ces variables au moment de créer le trigger Cloud Build

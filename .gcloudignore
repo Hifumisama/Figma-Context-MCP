@@ -1,0 +1,24 @@
+# Ce fichier indique à gcloud quels fichiers NE PAS envoyer lors d'un build.
+# La syntaxe est la même que pour .gitignore.
+
+# Fichiers de configuration spécifiques à gcloud
+.gcloudignore
+
+# On ignore les dépendances locales, elles seront réinstallées proprement par pnpm dans le cloud.
+node_modules/
+
+# On ignore les fichiers d'environnement locaux pour ne pas envoyer de secrets par erreur.
+.env
+.env.*
+
+# On ignore les logs et les dossiers de build locaux
+/dist/
+/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/coverage/
+
+# On n'ignore PAS le dossier .git, c'est ce qui permet à Cloud Build de récupérer le COMMIT_SHA
+# En commentant ou ne mettant pas la ligne ci-dessous, on s'assure qu'il est bien inclus.
+# .git
