@@ -7,9 +7,6 @@ import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { Server } from "http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Logger } from "./utils/logger.js";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { FigmaService } from "./services/figma.js";
-import { evaluateDesign } from "./mcp/tools/evaluate-design-tool.js";
 
 let httpServer: Server | null = null;
 const transports = {
@@ -149,57 +146,6 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     } else {
       res.status(400).send(`No transport found for sessionId ${sessionId}`);
       return;
-    }
-  });
-
-  app.post("/api/evaluate", async (req, res) => {
-    try {
-      const { figmaApiKey, figmaUrl } = req.body;
-      const geminiApiKey = process.env.GEMINI_API_KEY;
-
-      if (!figmaApiKey || !figmaUrl) {
-        return res.status(400).json({ error: "figmaApiKey and figmaUrl are required." });
-      }
-      if (!geminiApiKey) {
-        Logger.error("GEMINI_API_KEY is not configured on the server.");
-        return res.status(500).json({ error: "GEMINI_API_KEY is not configured on the server." });
-      }
-
-      const parseFigmaUrl = (url: string): { fileKey: string; nodeId?: string } => {
-        const fileMatch = url.match(/file\/([a-zA-Z0-9_-]+)/);
-        if (!fileMatch) throw new Error("Invalid Figma URL: Could not parse file key.");
-        const nodeIdMatch = url.match(/node-id=([^&]+)/);
-        return {
-          fileKey: fileMatch[1],
-          nodeId: nodeIdMatch ? decodeURIComponent(nodeIdMatch[1]) : undefined,
-        };
-      };
-
-      const { fileKey, nodeId } = parseFigmaUrl(figmaUrl);
-      const figmaService = new FigmaService(figmaApiKey);
-      const evaluationResult = await evaluateDesign({ fileKey, nodeId }, figmaService);
-
-      if (evaluationResult.isError || !evaluationResult.content[0]?.text) {
-        const errorMessage =
-          evaluationResult.content[0]?.text ?? "An unknown error occurred during design evaluation.";
-        Logger.error(`Error during design evaluation: ${errorMessage}`);
-        return res.status(500).json({ error: errorMessage });
-      }
-
-      const prompt = evaluationResult.content[0].text;
-
-      const genAI = new GoogleGenerativeAI(geminiApiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
-
-      res.json({ analysis: text });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "An unknown error occurred.";
-      Logger.error(`Error in /api/evaluate: ${message}`);
-      res.status(500).json({ error: message });
     }
   });
 
