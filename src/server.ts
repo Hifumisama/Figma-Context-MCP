@@ -17,16 +17,13 @@ const transports = {
 export async function startHttpServer(port: number, mcpServer: McpServer): Promise<void> {
   const app = express();
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
   // Modern Streamable HTTP endpoint
   app.post("/mcp", async (req, res) => {
     Logger.log("Received StreamableHTTP request");
     const sessionId = req.headers["mcp-session-id"] as string | undefined;
-    // Logger.log("Session ID:", sessionId);
-    // Logger.log("Headers:", req.headers);
-    // Logger.log("Body:", req.body);
-    // Logger.log("Is Initialize Request:", isInitializeRequest(req.body));
     let transport: StreamableHTTPServerTransport;
 
     if (sessionId && transports.streamable[sessionId]) {
@@ -65,7 +62,6 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
 
     let progressInterval: NodeJS.Timeout | null = null;
     const progressToken = req.body.params?._meta?.progressToken;
-    // Logger.log("Progress token:", progressToken);
     let progress = 0;
     if (progressToken) {
       Logger.log(
