@@ -85,7 +85,7 @@ async function getFigmaContextHandler(params: GetFigmaContextParams, figmaServic
 // --- Tool Definition ---
 export const getFigmaContextTool = {
     name: "get_figma_context",
-    description: "Fetches and simplifies Figma data from a URL, scoping to the file, page, or a specific node.",
+    description: "Fetches and simplifies Figma data from a URL, scoping to the file, page, or a specific node. Only used to evaluate the context of a Figma file. and tied to audit tool",
     parameters,
     handler: getFigmaContextHandler,
 } as const;

@@ -79,7 +79,7 @@ async function getFigmaData(
 export const getFigmaDataTool = {
   name: "get_figma_data",
   description:
-    "Get comprehensive Figma file data including layout, content, visuals, and component information",
+    "Get comprehensive Figma file data including layout, content, visuals, and component information. used when we want to get the full context of a Figma file, and to implement a new project",
   parameters,
   handler: getFigmaData,
 } as const;
