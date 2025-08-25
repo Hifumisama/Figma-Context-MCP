@@ -1,4 +1,4 @@
-import type { Node as FigmaDocumentNode } from "@figma/rest-api-spec";
+import type { Node as FigmaDocumentNode, ConnectorNode as FigmaConnectorNode } from "@figma/rest-api-spec";
 import type { ExtractorFn } from "./types.js";
 import { buildSimplifiedLayout } from "~/transformers/layout.js";
 import { buildSimplifiedStrokes, parsePaint } from "~/transformers/style.js";
@@ -51,12 +51,14 @@ function findOrCreateLocalVar(
  * @param context - The traversal context.
  */
 function processStyle(
-  node: FigmaDocumentNode,
+  node: FigmaDocumentNode | FigmaConnectorNode,
   styleType: StyleType,
   value: StyleTypes,
   result: any,
   context: { globalVars: GlobalVars },
 ) {
+
+  console.log(node);
   const styleKey = node.styles?.[styleType];
 
   if (styleKey) {
