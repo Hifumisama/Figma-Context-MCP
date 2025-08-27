@@ -1,0 +1,242 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px; // Espace pour le header fixe
+  position: relative;
+  
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 506px;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: relative;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 283px; // Grand espace comme dans la maquette
+  }
+
+  &__greeting,
+  &__location {
+    margin: 0;
+  }
+
+  &__cta {
+    margin-top: 32px;
+  }
+
+  &__resume-btn {
+    display: inline-block;
+  }
+
+  // Image de profil
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+}
+
+.profile-container {
+  position: relative;
+  width: 506px;
+  height: 509px;
+}
+
+.profile-image {
+  width: 493px;
+  height: 493px;
+  object-fit: cover;
+  border-radius: 50%;
+  position: absolute;
+  top: 16px;
+  left: 13px;
+  z-index: 2;
+}
+
+.profile-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 493px;
+  height: 493px;
+  border: 1px solid var(--color-secondary);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+// Éléments décoratifs
+.hero__decorations {
+  position: absolute;
+  top: 50%;
+  right: -200px;
+  transform: translateY(-50%);
+}
+
+.decoration-group {
+  display: flex;
+  gap: 21.77px;
+  margin-bottom: 30px;
+}
+
+.decoration {
+  width: 16.77px;
+  height: 29.44px;
+  background-color: var(--color-secondary);
+  border-radius: 2px;
+
+  &--rect1 { background-color: var(--color-secondary); }
+  &--rect2 { background-color: var(--color-secondary); }
+  &--rect3 { background-color: var(--color-secondary); }
+  &--rect4 { background-color: var(--color-secondary); }
+  &--rect5 { background-color: var(--color-secondary); }
+}
+
+.decoration-crosses {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-left: 26px;
+}
+
+.cross {
+  position: relative;
+  width: 24px;
+  height: 24px;
+
+  &__vertical {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 24px;
+    background-color: var(--color-secondary);
+    border-radius: 3px;
+  }
+
+  &__horizontal {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 6px;
+    background-color: var(--color-secondary);
+    border-radius: 3px;
+  }
+
+  &--2 {
+    margin-left: 26px;
+  }
+
+  &--3 {
+    margin-top: 32px;
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .hero {
+    &__content {
+      grid-template-columns: 1fr 400px;
+      gap: 40px;
+    }
+  }
+
+  .profile-container {
+    width: 400px;
+    height: 400px;
+  }
+
+  .profile-image,
+  .profile-frame {
+    width: 380px;
+    height: 380px;
+  }
+
+  .hero__decorations {
+    right: -100px;
+  }
+}
+
+@media (max-width: 968px) {
+  .hero {
+    &__content {
+      grid-template-columns: 1fr;
+      gap: 60px;
+      text-align: center;
+    }
+
+    &__description {
+      gap: 20px;
+    }
+
+    &__decorations {
+      display: none;
+    }
+  }
+
+  .profile-container {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
+
+  .profile-image,
+  .profile-frame {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 120px;
+
+    &__name {
+      font-size: 20px;
+    }
+  }
+
+  .profile-container {
+    width: 250px;
+    height: 250px;
+  }
+
+  .profile-image,
+  .profile-frame {
+    width: 230px;
+    height: 230px;
+  }
+}

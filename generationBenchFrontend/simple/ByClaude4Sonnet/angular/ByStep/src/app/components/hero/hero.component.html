@@ -1,0 +1,19 @@
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h2 class="hero-greeting">{{ heroData?.greeting }}</h2>
+        <h1 class="hero-title">{{ heroData?.title }}</h1>
+        <p class="hero-location">{{ heroData?.location }}</p>
+        <button class="resume-btn" (click)="onResumeClick()">Resume</button>
+      </div>
+      <div class="hero-image">
+        <img 
+          [src]="heroData?.profileImage" 
+          alt="John Doe Profile" 
+          class="profile-img"
+          *ngIf="heroData?.profileImage">
+      </div>
+    </div>
+  </div>
+</section>

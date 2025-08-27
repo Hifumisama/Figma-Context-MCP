@@ -1,0 +1,41 @@
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact__content">
+      <!-- Titre de section -->
+      <h2 class="contact__title heading-primary accent-text">{{ contactData.title }}</h2>
+      
+      <div class="contact__main">
+        <!-- Image à gauche -->
+        <div class="contact__image">
+          <img 
+            [src]="contactData.image" 
+            alt="John Doe contact"
+            class="contact-image"
+          />
+        </div>
+
+        <!-- Contenu à droite -->
+        <div class="contact__info">
+          <div class="contact__description">
+            <p class="text-body">{{ contactData.description }}</p>
+          </div>
+
+          <div class="contact__details">
+            @for (info of contactData.contactInfo; track info.type) {
+              <div class="contact-item">
+                <a 
+                  [href]="info.href" 
+                  class="contact-link text-body"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ info.label }}
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

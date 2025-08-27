@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <h1>John Doe</h1>
+      </div>
+      
+      <app-navigation 
+        [activeSection]="activeSection"
+        (sectionClick)="onNavigationClick($event)">
+      </app-navigation>
+      
+      <app-social-icons 
+        [socialLinks]="socialLinks">
+      </app-social-icons>
+      
+      <app-decorative-elements></app-decorative-elements>
+    </div>
+  </div>
+</header>

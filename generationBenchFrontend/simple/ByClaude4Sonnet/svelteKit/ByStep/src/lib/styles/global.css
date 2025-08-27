@@ -1,0 +1,259 @@
+/* Global styles basés sur la maquette Figma */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap');
+
+/* Reset et styles de base */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Variables CSS extraites de Figma */
+:root {
+	/* Couleurs de la palette Figma */
+	--color-primary: #03045E;     /* Bleu foncé */
+	--color-secondary: #474306;   /* Marron foncé */
+	--color-accent: #F7F197;      /* Jaune clair */
+	--color-background: #FBF8CC;  /* Crème */
+	--color-surface: #F5EE84;     /* Jaune */
+	--color-white: #FFFFFF;       /* Blanc */
+
+	/* Typographie - tailles extraites de Figma */
+	--font-size-xs: 15px;
+	--font-size-sm: 18px;
+	--font-size-md: 20px;
+	--font-size-lg: 24px;
+	--font-size-xl: 28px;
+	--font-size-2xl: 40px;
+	--font-size-3xl: 100px;
+
+	/* Poids de police */
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 800;
+
+	/* Line heights extraites de Figma */
+	--line-height-tight: 1.16;
+	--line-height-normal: 1.5;
+	--line-height-relaxed: 1.78;
+	--line-height-loose: 1.83;
+	--line-height-extra-loose: 2.93;
+
+	/* Espacements */
+	--spacing-xs: 8px;
+	--spacing-sm: 12px;
+	--spacing-md: 20px;
+	--spacing-lg: 40px;
+	--spacing-xl: 60px;
+	--spacing-2xl: 80px;
+	--spacing-3xl: 120px;
+
+	/* Border radius */
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 10px;
+	--radius-xl: 40px;
+
+	/* Breakpoints responsive */
+	--breakpoint-sm: 480px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1266px;
+
+	/* Durées d'animation */
+	--duration-fast: 0.15s;
+	--duration-normal: 0.3s;
+	--duration-slow: 0.5s;
+	--duration-slower: 0.8s;
+
+	/* Easing */
+	--ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+	--ease-in: cubic-bezier(0.4, 0.0, 1, 1);
+	--ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+/* Corps du document */
+body {
+	font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-regular);
+	line-height: var(--line-height-normal);
+	color: var(--color-primary);
+	background-color: var(--color-background);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Classes utilitaires pour la typographie */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-md { font-size: var(--font-size-md); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+.font-regular { font-weight: var(--font-weight-regular); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: var(--line-height-relaxed); }
+.leading-loose { line-height: var(--line-height-loose); }
+
+/* Classes utilitaires pour les couleurs */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-accent { color: var(--color-accent); }
+.text-white { color: var(--color-white); }
+
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-background { background-color: var(--color-background); }
+.bg-white { background-color: var(--color-white); }
+
+/* Classes utilitaires pour l'espacement */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+/* Conteneur principal */
+.container {
+	max-width: var(--breakpoint-xl);
+	margin: 0 auto;
+	padding: 0 var(--spacing-md);
+}
+
+/* Styles pour les liens */
+a {
+	color: var(--color-primary);
+	text-decoration: none;
+	transition: color var(--duration-normal) var(--ease);
+}
+
+a:hover {
+	color: var(--color-secondary);
+}
+
+a:focus {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+/* Styles pour les boutons */
+button {
+	font-family: inherit;
+	cursor: pointer;
+	border: none;
+	background: none;
+	transition: all var(--duration-normal) var(--ease);
+}
+
+button:focus {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Styles pour les images */
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Liste sans style par défaut */
+ul, ol {
+	list-style: none;
+}
+
+/* Focus visible pour l'accessibilité */
+:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+/* Smooth scrolling pour les ancres */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Media queries pour le responsive */
+@media (max-width: 768px) {
+	:root {
+		--font-size-3xl: 60px;
+		--font-size-2xl: 32px;
+		--spacing-2xl: 60px;
+		--spacing-3xl: 80px;
+	}
+
+	.container {
+		padding: 0 var(--spacing-sm);
+	}
+}
+
+@media (max-width: 480px) {
+	:root {
+		--font-size-3xl: 48px;
+		--font-size-2xl: 28px;
+		--spacing-xl: 40px;
+		--spacing-2xl: 40px;
+		--spacing-3xl: 60px;
+	}
+
+	.container {
+		padding: 0 var(--spacing-xs);
+	}
+}
+
+/* Préchargement des polices pour éviter le FOUT */
+@font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9Z1xlFd2JQEk.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 800;
+	font-display: swap;
+	src: url('https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLDD4Z1xlFd2JQEk.woff2') format('woff2');
+}
