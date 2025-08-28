@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio John Doe - NextJS
 
-## Getting Started
+Ce projet est une implémentation fidèle de la maquette Figma "Portfolio BadVersion" en utilisant NextJS 15, React 19 et Tailwind CSS.
 
-First, run the development server:
+## 🎨 Design
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Le portfolio présente un design moderne avec :
+- Une palette de couleurs cohérente (bleu foncé, brun foncé, jaunes)
+- Une typographie Poppins élégante
+- Des composants réutilisables et modulaires
+- Un design responsive adaptatif
+
+## 🏗️ Architecture
+
+### Structure des composants
+
+```
+components/
+├── ui/           # Composants UI réutilisables
+│   └── Button.tsx
+├── layout/       # Composants de mise en page
+│   ├── Header.tsx
+│   └── Navigation.tsx
+└── sections/     # Sections de la page
+    ├── Hero.tsx
+    ├── About.tsx
+    ├── Work.tsx
+    └── Contact.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Technologies utilisées
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **NextJS 15.5.0** - Framework React avec App Router
+- **React 19.1.0** - Bibliothèque UI
+- **TypeScript** - Typage statique
+- **Tailwind CSS 4** - Framework CSS utility-first
+- **Poppins Font** - Police Google Fonts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Installation et lancement
 
-## Learn More
+### Prérequis
+- Node.js 18+ 
+- npm ou yarn
 
-To learn more about Next.js, take a look at the following resources:
+### Installation
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Développement
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build de production
+```bash
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+## 📱 Sections
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Header
+- Logo/Nom "John Doe"
+- Navigation (Home, About, Work)
+- Icônes réseaux sociaux (Medium, Behance, Twitter)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Hero
+- Photo de profil stylisée
+- Titre principal "Hello, I'm John, Product Designer"
+- Localisation "based in Netherland."
+- Bouton CV avec style personnalisé
+
+### About
+- Description personnelle
+- Timeline des expériences professionnelles
+- 3 périodes : 2014-2018, 2018-2020, 2020-Present
+
+### Work  
+- Présentation de 2 projets/études de cas
+- Images de projet avec descriptions
+- Dates de publication
+
+### Contact
+- Description contact
+- Photo de contact
+- Liens vers email et réseaux sociaux
+
+## 🎨 Couleurs
+
+- **Bleu foncé** (#03045E) - Texte principal
+- **Brun foncé** (#474306) - Accents et bordures
+- **Jaune** (#F5EE84) - Boutons et éléments interactifs
+- **Jaune clair** (#FBF8CC) - Arrière-plan principal
+- **Jaune très clair** (#F7F197) - Titres de sections
+
+## 📂 Assets
+
+Les images sont stockées dans `/public/images/` :
+- `profile-image.png` - Photo de profil principale
+- `contact-image.png` - Photo de la section contact
+- `project1.png` & `project2.png` - Images des projets
+- `medium-icon.svg`, `behance-icon.svg`, `twitter-icon.svg` - Icônes sociales
+
+## 🔧 Configuration
+
+Le projet utilise :
+- **Tailwind CSS** avec couleurs personnalisées
+- **Police Poppins** avec poids multiples (400, 500, 600, 800)
+- **ESLint** pour la qualité du code
+- **TypeScript** pour le typage
+
+## 📝 Développement
+
+Le code suit les bonnes pratiques :
+- Composants fonctionnels React avec TypeScript
+- Hooks React pour la gestion d'état
+- Classes Tailwind CSS pour le styling
+- Structure modulaire et réutilisable
+- Navigation smooth scroll entre sections
+
+---
+
+*Implémentation réalisée d'après la maquette Figma avec une attention particulière aux détails et à la fidélité du design.*
