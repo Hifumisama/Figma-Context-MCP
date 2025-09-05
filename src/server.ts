@@ -7,6 +7,9 @@ import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { Server } from "http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Logger } from "./utils/logger.js";
+import { FigmaService } from "./services/figma.js";
+import { getFigmaContextTool } from "./mcp/tools/get-figma-context/get-figma-context-tool.js";
+import { auditFigmaDesignTool } from "./mcp/tools/audit-figma-design/audit-figma-design-tool.js";
 
 let httpServer: Server | null = null;
 const transports = {
@@ -19,6 +22,125 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
   app.use(cors());
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+  // API endpoint pour auditer un design Figma
+  app.post("/api/audit-figma", async (req: Request, res: Response) => {
+    try {
+      const { figmaUrl, figmaApiKey, outputFormat = "json" } = req.body;
+
+      // Validation des paramètres
+      if (!figmaUrl) {
+        return res.status(400).json({
+          error: "Le paramètre 'figmaUrl' est requis"
+        });
+      }
+
+      Logger.log(`Début de l'audit Figma pour l'URL: ${figmaUrl}`);
+      Logger.log(`Clé API fournie: ${figmaApiKey ? 'Oui' : 'Non (tentative d\'accès public)'}`);
+
+      // Initialiser le service Figma avec la clé API fournie (ou vide pour les fichiers publics)
+      const figmaService = new FigmaService({
+        figmaApiKey: figmaApiKey || "",
+        figmaOAuthToken: "",
+        useOAuth: false
+      });
+
+      // Étape 1: Récupérer le contexte Figma
+      Logger.log("Étape 1: Récupération du contexte Figma...");
+      const contextResult = await getFigmaContextTool.handler(
+        { url: figmaUrl, scope: "auto" },
+        figmaService
+      );
+
+      if (contextResult.isError) {
+        const errorMessage = contextResult.content[0].text;
+        Logger.error("Erreur lors de la récupération du contexte Figma:", errorMessage);
+        
+        // Vérifier si c'est un problème d'accès (401/403)
+        if (errorMessage.includes('401') || errorMessage.includes('403') || errorMessage.includes('Forbidden') || errorMessage.includes('Unauthorized')) {
+          return res.status(401).json({
+            error: "Accès refusé au fichier Figma",
+            details: figmaApiKey 
+              ? "La clé API fournie n'a pas accès à ce fichier, ou le fichier n'existe pas."
+              : "Ce fichier n'est pas public. Veuillez fournir une clé API Figma valide avec le paramètre 'figmaApiKey'.",
+            suggestion: figmaApiKey 
+              ? "Vérifiez que votre clé API est valide et que le fichier existe."
+              : "Obtenez une clé API sur https://www.figma.com/developers/api#access-tokens"
+          });
+        }
+        
+        return res.status(500).json({
+          error: "Erreur lors de la récupération du contexte Figma",
+          details: errorMessage
+        });
+      }
+
+      const figmaDataJson = contextResult.content[0].text;
+      Logger.log("Contexte Figma récupéré avec succès");
+
+      // Étape 2: Auditer le design
+      Logger.log("Étape 2: Audit du design en cours...");
+      const auditResult = await auditFigmaDesignTool.handler(
+        { figmaDataJson, outputFormat },
+        { enableAiRules: false } // Désactiver les règles AI pour l'instant
+      );
+
+      if (auditResult.isError) {
+        Logger.error("Erreur lors de l'audit du design:", auditResult.content[0].text);
+        return res.status(500).json({
+          error: "Erreur lors de l'audit du design",
+          details: auditResult.content[0].text
+        });
+      }
+
+      Logger.log("Audit terminé avec succès");
+
+      // Retourner le résultat
+      const auditContent = auditResult.content[0].text;
+      
+      if (outputFormat === "json") {
+        return res.json(JSON.parse(auditContent));
+      } else {
+        return res.json({
+          success: true,
+          audit: auditContent,
+          format: "markdown"
+        });
+      }
+
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      Logger.error("Erreur inattendue lors de l'audit Figma:", errorMessage);
+      
+      return res.status(500).json({
+        error: "Erreur inattendue lors de l'audit",
+        details: errorMessage
+      });
+    }
+  });
+
+  // === MIDDLEWARES GÉNÉRAUX POUR LES ROUTES MCP ===
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+  // Middleware global de gestion d'erreur pour les erreurs de parsing JSON
+  app.use((error: any, req: Request, res: Response, next: any) => {
+    if (error instanceof SyntaxError && 'body' in error) {
+      Logger.error('Erreur de parsing JSON détectée:', error.message);
+      Logger.error('URL:', req.url);
+      Logger.error('Method:', req.method);
+      Logger.error('Headers:', JSON.stringify(req.headers, null, 2));
+      
+      return res.status(400).json({
+        error: 'Format JSON invalide',
+        details: 'Vérifiez que votre requête contient un JSON valide',
+        message: error.message,
+        url: req.url,
+        method: req.method
+      });
+    }
+    next(error);
+  });
 
   // Modern Streamable HTTP endpoint
   app.post("/mcp", async (req, res) => {
@@ -150,6 +272,8 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     Logger.log(`SSE endpoint available at http://localhost:${port}/sse`);
     Logger.log(`Message endpoint available at http://localhost:${port}/messages`);
     Logger.log(`StreamableHTTP endpoint available at http://localhost:${port}/mcp`);
+    Logger.log(`Figma Audit API endpoint available at http://localhost:${port}/api/audit-figma`);
+    Logger.log(`Debug Test API endpoint available at http://localhost:${port}/api/test`);
   });
 
   process.on("SIGINT", async () => {
