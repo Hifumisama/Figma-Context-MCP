@@ -22,7 +22,7 @@ steps:
     args: ['push', 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}']
 
   # Étape 3: Déployer sur Cloud Run
-  # On déploie la nouvelle image sur Cloud Run.
+  # On déploie la nouvelle image sur Cloud Run avec les variables d'environnement
   - name: 'gcr.io/google-appengine/exec-wrapper'
     args:
       - '-i'
@@ -44,6 +44,9 @@ steps:
       - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
       - '--region'
       - 'europe-west9'
+      # Variables d'environnement depuis Secret Manager
+      - '--set-secrets'
+      - 'FIGMA_API_KEY=figma-api-key:latest'
       # --allow-unauthenticated permet de rendre le service accessible publiquement
       # Si votre API doit être privée, il faudra changer cette option
       - '--allow-unauthenticated'
@@ -57,6 +60,9 @@ images:
 substitutions:
   _SERVICE_NAME: figma-mcp-server
   _REPO_NAME: figma-mcp-repo
+  # Variables d'environnement (à définir dans le trigger Cloud Build)
+  # _FIGMA_API_KEY: "your-figma-api-key-here"
+  # _OUTPUT_FORMAT: "json"
 
 options:
   logging: CLOUD_LOGGING_ONLY

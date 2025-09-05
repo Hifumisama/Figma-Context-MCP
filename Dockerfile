@@ -37,9 +37,13 @@ RUN pnpm install --prod
 # On copie les fichiers compilés depuis la phase de build
 COPY --from=builder /app/dist ./dist
 
-# Le port sur lequel l'application écoutera. 
+# Variables d'environnement par défaut
 # Cloud Run injecte une variable d'environnement PORT, qui sera utilisée par l'application.
 ENV PORT=8080
+ENV OUTPUT_FORMAT=json
+ENV NODE_ENV=production
+
+# Exposition du port
 EXPOSE 8080
 
 # La commande pour démarrer le serveur
