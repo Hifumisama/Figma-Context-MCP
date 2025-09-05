@@ -32,14 +32,12 @@ steps:
       - 'europe-west9-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
       - '--region'
       - 'europe-west9'
-      - '--port'
-      - '8080'
       # Variables d'environnement depuis Secret Manager
       - '--set-secrets'
       - 'FIGMA_API_KEY=figma-api-key:latest'
       # Variables d'environnement classiques
       - '--set-env-vars'
-      - 'PORT=8080,NODE_ENV=production'
+      - 'NODE_ENV=production'
       # --allow-unauthenticated permet de rendre le service accessible publiquement
       # Si votre API doit être privée, il faudra changer cette option
       - '--allow-unauthenticated'
