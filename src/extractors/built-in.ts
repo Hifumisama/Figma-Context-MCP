@@ -57,7 +57,7 @@ function processStyle(
   result: any,
   context: { globalVars: GlobalVars },
 ) {
-  const styleKey = node.styles?.[styleType];
+  const styleKey = hasValue("styles", node) ? (node.styles as Record<string, string>)[styleType] : undefined;
 
   if (styleKey) {
     // It's a global style
