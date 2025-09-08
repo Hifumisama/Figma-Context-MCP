@@ -13,37 +13,37 @@ POST /api/audit-figma
 | Paramètre | Type | Requis | Description |
 |-----------|------|--------|-------------|
 | `figmaUrl` | string | ✅ | L'URL du fichier, page ou composant Figma à auditer |
-| `figmaApiKey` | string | ❌ | Votre clé API Figma personnelle (requis pour les fichiers privés) |
+| `figmaApiKey` | string | ❌ | Clé API Figma spécifique pour des fichiers avec autorisations particulières (une clé par défaut est configurée) |
 | `outputFormat` | string | ❌ | Format de sortie : `"json"` (défaut) ou `"markdown"` |
 
 ## Exemple d'utilisation
 
 ### Avec curl
 
-#### Fichier public (sans clé API)
+#### Fichier standard (clé API par défaut)
 ```bash
 curl -X POST http://localhost:3000/api/audit-figma \
   -H "Content-Type: application/json" \
   -d '{
-    "figmaUrl": "https://www.figma.com/file/abc123/Mon-Design-Public?node-id=1%3A2",
+    "figmaUrl": "https://www.figma.com/file/abc123/Mon-Design?node-id=1%3A2",
     "outputFormat": "json"
   }'
 ```
 
-#### Fichier privé (avec clé API)
+#### Fichier avec autorisations spécifiques (clé API personnalisée)
 ```bash
 curl -X POST http://localhost:3000/api/audit-figma \
   -H "Content-Type: application/json" \
   -d '{
-    "figmaUrl": "https://www.figma.com/file/abc123/Mon-Design-Prive?node-id=1%3A2",
-    "figmaApiKey": "votre-cle-api-figma",
+    "figmaUrl": "https://www.figma.com/file/abc123/Mon-Design-Specifique?node-id=1%3A2",
+    "figmaApiKey": "votre-cle-api-specifique",
     "outputFormat": "json"
   }'
 ```
 
 ### Avec JavaScript/fetch
 
-#### Fichier public
+#### Fichier standard (clé API par défaut)
 ```javascript
 const response = await fetch('http://localhost:3000/api/audit-figma', {
   method: 'POST',
@@ -51,7 +51,7 @@ const response = await fetch('http://localhost:3000/api/audit-figma', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    figmaUrl: 'https://www.figma.com/file/abc123/Mon-Design-Public?node-id=1%3A2',
+    figmaUrl: 'https://www.figma.com/file/abc123/Mon-Design?node-id=1%3A2',
     outputFormat: 'json'
   })
 });
@@ -60,7 +60,7 @@ const result = await response.json();
 console.log(result);
 ```
 
-#### Fichier privé
+#### Fichier avec autorisations spécifiques
 ```javascript
 const response = await fetch('http://localhost:3000/api/audit-figma', {
   method: 'POST',
@@ -68,8 +68,8 @@ const response = await fetch('http://localhost:3000/api/audit-figma', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    figmaUrl: 'https://www.figma.com/file/abc123/Mon-Design-Prive?node-id=1%3A2',
-    figmaApiKey: 'votre-cle-api-figma',
+    figmaUrl: 'https://www.figma.com/file/abc123/Mon-Design-Specifique?node-id=1%3A2',
+    figmaApiKey: 'votre-cle-api-specifique',
     outputFormat: 'json'
   })
 });
@@ -122,21 +122,12 @@ console.log(result);
 }
 ```
 
-#### Accès refusé - Fichier privé sans clé API (401)
+#### Accès refusé - Autorisations insuffisantes (401)
 ```json
 {
   "error": "Accès refusé au fichier Figma",
-  "details": "Ce fichier n'est pas public. Veuillez fournir une clé API Figma valide avec le paramètre 'figmaApiKey'.",
-  "suggestion": "Obtenez une clé API sur https://www.figma.com/developers/api#access-tokens"
-}
-```
-
-#### Accès refusé - Clé API invalide (401)
-```json
-{
-  "error": "Accès refusé au fichier Figma",
-  "details": "La clé API fournie n'a pas accès à ce fichier, ou le fichier n'existe pas.",
-  "suggestion": "Vérifiez que votre clé API est valide et que le fichier existe."
+  "details": "Les autorisations par défaut ne permettent pas d'accéder à ce fichier.",
+  "suggestion": "Essayez de fournir une clé API spécifique avec le paramètre 'figmaApiKey'."
 }
 ```
 
@@ -148,21 +139,21 @@ console.log(result);
 }
 ```
 
-## Fichiers publics vs privés
+## Gestion des clés API
 
-### 🌐 Fichiers publics
-- **Aucune clé API requise** : Les fichiers Figma rendus publics par leur propriétaire peuvent être auditées sans authentification
-- **Partage public** : Le fichier doit avoir été explicitement rendu public via les paramètres de partage Figma
-- **Limitation** : Seuls les fichiers avec un lien de partage public fonctionnent sans clé API
+### 🔑 Clé API par défaut
+- **Clé configurée** : Une clé API Figma par défaut est déjà configurée dans le système
+- **Accès standard** : Permet d'accéder à la plupart des fichiers Figma sans spécifier de clé
+- **Simplicité** : Vous pouvez utiliser l'API sans fournir de `figmaApiKey` dans la plupart des cas
 
-### 🔒 Fichiers privés
-- **Clé API requise** : Tous les autres fichiers nécessitent une clé API valide
-- **Accès personnel** : Vous devez avoir accès au fichier avec votre compte Figma
-- **Équipes/organisations** : Les fichiers d'équipe nécessitent une clé API du membre de l'équipe
+### 🎯 Clés API spécifiques
+- **Autorisations particulières** : Utilisez le paramètre `figmaApiKey` pour des fichiers nécessitant des permissions spéciales
+- **Fichiers d'équipe** : Certains fichiers d'organisation peuvent nécessiter une clé API spécifique
+- **Accès restreint** : Pour des fichiers avec des restrictions d'accès particulières
 
-## Comment obtenir votre clé API Figma
+## Comment obtenir une clé API Figma personnalisée
 
-> **Note** : La clé API n'est nécessaire que pour les fichiers privés. Essayez d'abord sans clé API si le fichier pourrait être public.
+> **Note** : Une clé API par défaut est déjà configurée. Vous n'avez besoin d'une clé personnalisée que pour des fichiers avec des autorisations spécifiques.
 
 1. Allez sur [Figma](https://www.figma.com)
 2. Cliquez sur votre avatar en haut à droite
