@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { Chart, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
-  import { chartData, totalRulesDetected, rulesCategoriesStats } from '../../stores/audit.svelte.js';
+  import { chartData, totalRulesDetected, rulesCategoriesStats, allRulesWithStatus } from '../../stores/audit.svelte.js';
 
   // Enregistrer les composants Chart.js nécessaires
   Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
@@ -59,7 +59,7 @@
             }
           }
         },
-        cutout: '60%', // Pour un doughnut plus moderne
+        cutout: '70%', // Pour laisser plus d'espace au centre pour le texte
         animation: {
           animateRotate: true,
           animateScale: true,
@@ -84,42 +84,58 @@
       createChart();
     }
   }
+
+  function getRuleColor(index) {
+    const colors = [
+      'bg-purple-500',  // CB3CFF
+      'bg-purple-600',  // 8A38F5
+      'bg-indigo-500',  // 6366F1
+      'bg-blue-500',    // 3B82F6
+      'bg-emerald-500', // 10B981
+      'bg-amber-500',   // F59E0B
+      'bg-red-500',     // EF4444
+      'bg-pink-500',    // EC4899
+      'bg-violet-500'   // 8B5CF6
+    ];
+    return colors[index % colors.length];
+  }
 </script>
 
 <!-- Chart selon la nouvelle maquette -->
 <div class="card-figma">
   <div class="space-y-4">
     <!-- Titre principal -->
-    <h3 class="text-white font-semibold text-lg">
-      Total de règles détectées
+    <h3 class="text-white font-semibold text-lg text-center">
+      Règles détectées
     </h3>
-    
-    <!-- Nombre total centré -->
-    <div class="text-center">
-      <div class="text-4xl font-bold text-figma-button mb-2">
-        {totalRulesDetected()}
-      </div>
-      <div class="text-sm text-figma-textMuted">Détections</div>
-    </div>
 
     <!-- Chart et légende -->
     {#if chartData() && totalRulesDetected() > 0}
-      <div class="flex items-center justify-center space-x-6">
-        <!-- Graphique Chart.js -->
-        <div class="w-32 h-32 flex-shrink-0">
+      <div class="flex items-center justify-center space-x-8">
+        <!-- Graphique Chart.js agrandi avec texte centré -->
+        <div class="relative w-44 h-44 flex-shrink-0">
           <canvas bind:this={canvasElement}></canvas>
+          <!-- Texte au centre du doughnut -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <div class="text-2xl font-bold text-figma-button">
+              {totalRulesDetected()}
+            </div>
+            <div class="text-xs text-figma-textMuted">
+              détections
+            </div>
+          </div>
         </div>
         
-        <!-- Légende personnalisée -->
-        <div class="space-y-2">
-          {#each Object.entries(rulesCategoriesStats()) as [category, stats]}
+        <!-- Légende personnalisée pour chaque règle avec détections -->
+        <div class="space-y-2 max-w-xs">
+          {#each allRulesWithStatus().filter(rule => rule.detectedCount > 0) as rule, index}
             <div class="flex items-center space-x-3 text-sm">
-              <div class="w-3 h-3 rounded-full {getCategoryColor(category)}"></div>
-              <span class="text-white">
-                {getCategoryLabel(category)}
+              <div class="w-3 h-3 rounded-full {getRuleColor(index)}"></div>
+              <span class="text-white text-xs">
+                {rule.nameFr || rule.name}
               </span>
-              <span class="text-figma-textMuted">
-                {stats.count}/{stats.total}
+              <span class="text-figma-textMuted text-xs">
+                {rule.detectedCount}
               </span>
             </div>
           {/each}
@@ -135,30 +151,3 @@
   </div>
 </div>
 
-<script module>
-  function getCategoryColor(category) {
-    switch (category) {
-      case 'standard':
-        return 'bg-blue-500';
-      case 'ai-ready':
-        return 'bg-purple-500';
-      case 'ai-active':
-        return 'bg-pink-500';
-      default:
-        return 'bg-gray-500';
-    }
-  }
-
-  function getCategoryLabel(category) {
-    switch (category) {
-      case 'standard':
-        return 'Standard';
-      case 'ai-ready':
-        return 'AI Ready';
-      case 'ai-active':
-        return 'AI Active';
-      default:
-        return category;
-    }
-  }
-</script>

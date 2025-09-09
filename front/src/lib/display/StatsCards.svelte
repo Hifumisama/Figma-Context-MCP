@@ -1,8 +1,12 @@
 <script>
   import { auditState, rulesList, allRulesWithStatus } from '../../stores/audit.svelte.js';
 
+  // État pour afficher/masquer les règles conformes
+  let showCompliantRules = false;
+
   // Afficher toutes les 9 règles avec leurs données réelles
   $: statsCards = getStatsCards();
+  $: filteredCards = showCompliantRules ? statsCards : statsCards.filter(card => !card.isCompliant);
 
   function getStatsCards() {
     // Récupérer toutes les règles avec leur statut
@@ -17,6 +21,10 @@
       color: getCardColor(rule.id),
       isCompliant: rule.isCompliant
     }));
+  }
+
+  function toggleCompliantRules() {
+    showCompliantRules = !showCompliantRules;
   }
 
   function getCardColor(ruleId) {
@@ -51,29 +59,54 @@
   }
 </script>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
-  {#each statsCards as card}
-    <div class="rounded-lg border-l-4 p-4 {getColorClasses(card.color)}">
-      <div class="space-y-3">
-        <div class="flex items-center space-x-2">
-          <span class="text-xl">{card.icon}</span>
-          <span class="text-sm font-semibold opacity-90">{card.name}</span>
+<div class="space-y-4">
+  <!-- Bouton pour afficher/masquer les règles conformes -->
+  <div class="flex justify-between items-center">
+    <h2 class="text-xl font-semibold text-white">
+      Règles d'audit
+    </h2>
+    <button 
+      onclick={toggleCompliantRules}
+      class="flex items-center space-x-2 px-3 py-1 rounded-lg bg-figma-card text-figma-textMuted hover:text-white transition-colors text-sm"
+    >
+      <span class="text-xs">
+        {showCompliantRules ? '👁️' : '👁️‍🗨️'}
+      </span>
+      <span>
+        {showCompliantRules ? 'Masquer conformes' : 'Voir conformes'}
+      </span>
+      <span class="text-xs opacity-75">
+        ({statsCards.filter(card => card.isCompliant).length})
+      </span>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    {#each filteredCards as card}
+      <div class="rounded-lg border-l-4 p-4 {getColorClasses(card.color)} relative">
+        <!-- Badge en haut à droite -->
+        <div class="absolute top-3 right-3">
+          {#if card.isCompliant}
+            <span class="text-lg">✅</span>
+          {:else}
+            <div class="flex items-center space-x-1 bg-red-500/20 border border-red-500/50 text-red-400 px-2 py-1 rounded-full text-xs font-medium">
+              <span>⚠️</span>
+              <span>{card.count}</span>
+            </div>
+          {/if}
         </div>
-        
-        <p class="text-xs text-white/70 leading-relaxed">
-          {card.description}
-        </p>
-        
-        <div class="text-2xl font-bold text-white">
-          Détections : {card.count}
-        </div>
-        
-        {#if card.isCompliant}
-          <div class="text-xs text-green-400 font-medium">
-            ✓ Conforme
+
+        <div class="space-y-3 pr-8">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">{card.icon}</span>
+            <span class="text-sm font-semibold opacity-90">{card.name}</span>
           </div>
-        {/if}
+          
+          <p class="text-xs text-white/70 leading-relaxed">
+            {card.description}
+          </p>
+        </div>
       </div>
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>

@@ -209,6 +209,56 @@ export function resetAudit() {
   auditState.isLoading = false;
 }
 
+// Fonction temporaire pour tester l'interface avec des données d'exemple
+export function setTestData() {
+  const testResults = {
+    summary: {
+      totalIssues: 45,
+      issuesByRule: {
+        'detached-styles': 15,
+        'layer-naming': 12,
+        'auto-layout-usage': 8,
+        'group-vs-frame': 6,
+        'hidden-layers': 4
+      }
+    },
+    resultsByRule: {
+      'detached-styles': Array.from({length: 15}, (_, i) => ({
+        nodeId: `node-${i}`,
+        nodeName: `Component ${i+1}`,
+        message: 'Style détaché détecté'
+      })),
+      'layer-naming': Array.from({length: 12}, (_, i) => ({
+        nodeId: `node-naming-${i}`,
+        nodeName: `Frame ${i+1}`,
+        message: 'Nom par défaut détecté'
+      })),
+      'auto-layout-usage': Array.from({length: 8}, (_, i) => ({
+        nodeId: `node-layout-${i}`,
+        nodeName: `Container ${i+1}`,
+        message: 'Auto Layout manquant'
+      })),
+      'group-vs-frame': Array.from({length: 6}, (_, i) => ({
+        nodeId: `node-group-${i}`,
+        nodeName: `Group ${i+1}`,
+        message: 'Groupe au lieu de Frame'
+      })),
+      'hidden-layers': Array.from({length: 4}, (_, i) => ({
+        nodeId: `node-hidden-${i}`,
+        nodeName: `Hidden Layer ${i+1}`,
+        message: 'Calque masqué'
+      }))
+    }
+  };
+
+  auditState.results = testResults;
+  auditState.currentView = 'report';
+  auditState.isLoading = false;
+  auditState.error = null;
+  
+  processAuditResults(testResults);
+}
+
 function processAuditResults(results) {
   // Traitement des résultats réels de l'API /api/audit-figma
   const { summary, resultsByRule } = results;
