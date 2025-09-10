@@ -1,36 +1,14 @@
 <script>
-  import { auditState, rulesList, allRulesWithStatus } from '../../stores/audit.svelte.js';
+  import { auditState, rulesList, allRulesWithStatus, getFilteredReportData } from '../../stores/audit.svelte.js';
   import RuleBadge from '../components/RuleBadge.svelte';
   import RuleDetails from '../components/RuleDetails.svelte';
 
   // État local pour gérer les accordéons
   let activeDetails = $state({}); // { nodeId: ruleId } pour traquer quel accordéon est ouvert
 
-  // Préparer les données groupées par node
-  let groupedData = $derived(prepareGroupedData());
+  // Utiliser les données filtrées du store
+  let groupedData = $derived(getFilteredReportData());
 
-  function prepareGroupedData() {
-    const grouped = new Map();
-    
-    // Grouper par nodeId avec toutes les règles associées
-    auditState.rulesByComponent.forEach(component => {
-      if (!grouped.has(component.id)) {
-        grouped.set(component.id, {
-          id: component.id,
-          name: component.name,
-          type: component.type,
-          ruleIds: []
-        });
-      }
-      
-      // Ajouter toutes les règles pour ce composant
-      component.issues.forEach(issue => {
-        grouped.get(component.id).ruleIds.push(issue.ruleId);
-      });
-    });
-
-    return Array.from(grouped.values());
-  }
 
   function toggleDetails(nodeId, ruleId) {
     if (activeDetails[nodeId] === ruleId) {

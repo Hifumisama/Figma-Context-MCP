@@ -228,5 +228,3 @@ Uses **pnpm** as the package manager. Key dependencies:
 - `express` - HTTP server framework
 - `zod` - Schema validation
 - `sharp` - Image processing
-- After each actions taken on frontend code run a visual test with PlayWright to check if the component is visually here and have the correct modifications.\
-If interaction is needed, ask inputs to the user
