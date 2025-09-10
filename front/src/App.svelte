@@ -1,5 +1,5 @@
 <script>
-  import { auditState, hasResults, showReport } from './stores/audit.svelte.js';
+  import { auditState, showReport } from './stores/audit.svelte.js';
   import InputForm from './lib/forms/InputForm.svelte';
   import LoadingSpinner from './lib/common/LoadingSpinner.svelte';
   import ErrorDisplay from './lib/common/ErrorDisplay.svelte';
@@ -38,13 +38,13 @@
     {:else if showReport()}
       <!-- Mode rapport -->
       <div class="space-y-8">
-        <!-- 4 cartes statistiques en haut -->
-        <StatsCards />
-        
         <!-- Règles détectées sur sa propre ligne -->
         <div class="flex justify-center">
           <TotalDetectedRules />
         </div>
+        
+        <!-- cartes statistiques en haut -->
+        <StatsCards />
         
         <!-- Rapport d'analyse prend toute la largeur -->
         <div class="w-full">

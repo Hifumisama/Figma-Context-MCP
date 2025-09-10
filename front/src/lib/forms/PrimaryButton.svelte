@@ -3,13 +3,16 @@
   export let isLoading = false;
   export let text = '🔍 Lancer l\'audit';
   export let loadingText = '⏳ Audit en cours...';
+  export let type = 'submit';
+  export let onclick = null;
 </script>
 
 <button
-  type="submit"
+  {type}
   disabled={!canSubmit || isLoading}
   class="btn-primary w-full sm:w-auto min-w-48 relative overflow-hidden group"
   class:loading={isLoading}
+  onclick={onclick}
 >
   <!-- Contenu du bouton -->
   <span class="relative z-10 flex items-center justify-center space-x-2">

@@ -9,6 +9,10 @@ export const auditState = $state({
   currentView: 'home', // 'home' | 'report'
   isLoading: false,
   
+  // Filtering state
+  selectedRulesFilter: [], // Array des IDs de règles sélectionnées pour filtrage
+  showCompliantRules: false,
+  
   // Results state
   results: null,
   rulesDetected: [], // Array des 9 règles avec leurs statuts
@@ -207,6 +211,50 @@ export function resetAudit() {
   auditState.rulesByType = [];
   auditState.error = null;
   auditState.isLoading = false;
+  auditState.selectedRulesFilter = [];
+  auditState.showCompliantRules = false;
+}
+
+// Actions pour le filtrage
+export function toggleRuleFilter(ruleId) {
+  if (auditState.selectedRulesFilter.includes(ruleId)) {
+    auditState.selectedRulesFilter = auditState.selectedRulesFilter.filter(id => id !== ruleId);
+  } else {
+    auditState.selectedRulesFilter = [...auditState.selectedRulesFilter, ruleId];
+  }
+}
+
+export function clearAllFilters() {
+  auditState.selectedRulesFilter = [];
+}
+
+export function selectAllRules() {
+  auditState.selectedRulesFilter = rulesList.map(rule => rule.id);
+}
+
+export function toggleCompliantRules() {
+  auditState.showCompliantRules = !auditState.showCompliantRules;
+}
+
+// Fonction pour obtenir les données filtrées du rapport
+export function getFilteredReportData() {
+  if (auditState.selectedRulesFilter.length === 0) {
+    // Aucun filtre sélectionné, montrer tout
+    return auditState.rulesByComponent;
+  }
+  
+  // Filtrer les composants qui ont au moins une règle sélectionnée
+  return auditState.rulesByComponent.filter(component => {
+    return component.issues.some(issue => 
+      auditState.selectedRulesFilter.includes(issue.ruleId)
+    );
+  }).map(component => ({
+    ...component,
+    // Filtrer aussi les issues du composant
+    ruleIds: component.ruleIds.filter(ruleId => 
+      auditState.selectedRulesFilter.includes(ruleId)
+    )
+  }));
 }
 
 // Fonction temporaire pour tester l'interface avec des données d'exemple
@@ -279,7 +327,7 @@ function processAuditResults(results) {
   // Créer l'array des règles détectées avec les vraies données
   auditState.rulesDetected = rulesList.map(rule => {
     const ruleKey = Object.keys(ruleIdMap).find(key => ruleIdMap[key] === rule.id);
-    const detectedCount = ruleKey && summary.issuesByRule[ruleKey] ? summary.issuesByRule[ruleKey] : 0;
+    const detectedCount = ruleKey && summary.issuesByRule && summary.issuesByRule[ruleKey] ? summary.issuesByRule[ruleKey] : 0;
     
     return {
       id: rule.id,
@@ -293,12 +341,19 @@ function processAuditResults(results) {
   const byComponent = [];
   const byRule = [];
   
+  // Vérifier que resultsByRule existe
+  if (!resultsByRule) {
+    auditState.rulesByComponent = byComponent;
+    auditState.rulesByType = byRule;
+    return;
+  }
+  
   // Convertir resultsByRule en format pour nos composants
   for (const [ruleKey, issues] of Object.entries(resultsByRule)) {
     const ruleId = ruleIdMap[ruleKey];
     const rule = rulesList.find(r => r.id === ruleId);
     
-    if (rule && issues.length > 0) {
+    if (rule && Array.isArray(issues) && issues.length > 0) {
       byRule.push({
         ruleId: rule.id,
         ruleName: rule.name,
@@ -314,7 +369,8 @@ function processAuditResults(results) {
             id: issue.nodeId,
             name: issue.nodeName,
             type: 'FRAME', // Type par défaut, pourrait être amélioré
-            issues: []
+            issues: [],
+            ruleIds: []
           };
           byComponent.push(component);
         }
@@ -324,6 +380,11 @@ function processAuditResults(results) {
           message: issue.message,
           severity: getSeverityFromRule(rule.id)
         });
+        
+        // Ajouter l'ID de la règle si pas déjà présent
+        if (!component.ruleIds.includes(rule.id)) {
+          component.ruleIds.push(rule.id);
+        }
       });
     }
   }
