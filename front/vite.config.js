@@ -27,6 +27,6 @@ export default defineConfig({
       }
     }
   },
-  // Base path pour les déploiements dans des sous-dossiers si nécessaire
-  base: '/'
+  // Base path pour les déploiements Cloud Storage
+  base: '/figma-mcp-frontend/'
 })
