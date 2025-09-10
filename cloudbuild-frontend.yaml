@@ -22,7 +22,7 @@ steps:
       - '-c'  # Checksum (ne copie que si différent)
       - '-d'  # Supprime les fichiers qui n'existent plus dans la source
       - 'front/dist/'
-      - 'gs://${_FRONTEND_BUCKET_NAME}'
+      - 'gs://${_FRONTEND_BUCKET_NAME}/'
 
   # Étape 3: Configurer les métadonnées des fichiers pour le caching
   # HTML files - cache court (1h) car ils peuvent changer souvent
