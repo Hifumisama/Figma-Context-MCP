@@ -63,8 +63,4 @@
 </div>
 
 <style>
-  /* Styles spécifiques au composant */
-  .container {
-    max-width: 1475px; /* Selon la maquette Figma */
-  }
 </style>
