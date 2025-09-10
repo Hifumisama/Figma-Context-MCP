@@ -10,7 +10,9 @@
  */
 export async function auditFigmaDesign({ figmaUrl, figmaApiKey, outputFormat = 'json' }) {
   try {
-    const response = await fetch('https://figma-mcp-server-1045310654832.europe-west9.run.app/api/audit-figma', {
+    // Utilise la variable d'environnement ou fallback sur l'URL de production
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://figma-mcp-server-1045310654832.europe-west9.run.app';
+    const response = await fetch(`${apiBaseUrl}/api/audit-figma`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -13,6 +13,20 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist'
-  }
+    outDir: 'dist',
+    // Optimisations pour déploiement statique
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        // Nommage des chunks pour un meilleur caching
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    }
+  },
+  // Base path pour les déploiements dans des sous-dossiers si nécessaire
+  base: '/'
 })
