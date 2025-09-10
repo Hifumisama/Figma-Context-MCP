@@ -41,15 +41,14 @@
         <!-- 4 cartes statistiques en haut -->
         <StatsCards />
         
-        <!-- Chart et rapports selon la nouvelle maquette -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div class="lg:col-span-1">
-            <TotalDetectedRules />
-          </div>
-          <div class="lg:col-span-2">
-            <!-- Tableaux détaillés selon la nouvelle maquette -->
-            <DetailedTables />
-          </div>
+        <!-- Règles détectées sur sa propre ligne -->
+        <div class="flex justify-center">
+          <TotalDetectedRules />
+        </div>
+        
+        <!-- Rapport d'analyse prend toute la largeur -->
+        <div class="w-full">
+          <DetailedTables />
         </div>
       </div>
     {:else}

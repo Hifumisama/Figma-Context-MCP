@@ -268,7 +268,7 @@ function processAuditResults(results) {
     'detached-styles': 3,
     'layer-naming': 2, 
     'auto-layout-usage': 1,
-    'export-settings': 4,
+    'missing-export-settings': 4,
     'group-vs-frame': 6,
     'hidden-layers': 5,
     'find-component-candidates': 7,
@@ -308,7 +308,7 @@ function processAuditResults(results) {
       
       // Grouper par composant pour la vue par composant
       issues.forEach(issue => {
-        let component = byComponent.find(c => c.name === issue.nodeName);
+        let component = byComponent.find(c => c.id === issue.nodeId);
         if (!component) {
           component = {
             id: issue.nodeId,
