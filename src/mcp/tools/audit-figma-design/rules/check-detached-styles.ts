@@ -10,7 +10,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "detached-styles";
+const RULE_ID = 3;
 
 // Helper function to recursively check a node and its children
 function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
@@ -21,15 +21,14 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
 
   // Check for detached styles by looking for local variable references
   if (node.localVariableRefs) {
+    const detachedProperties: string[] = [];
+    
     for (const [prop, refId] of Object.entries(node.localVariableRefs)) {
       // Skip properties that are handled by other rules
       if (excludedProperties.includes(prop)) {
         continue;
       }
 
-      
-
-      
       const localStyle = globalVars.localVariables[refId];
       
       // Skip 'fills' property if it contains an image, as this is handled by export-settings rule
@@ -38,13 +37,30 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
       }
 
       if (localStyle) {
-        results.push({
-          ruleId: RULE_ID,
-          message: `The property "${prop}" uses a detached style. (${JSON.stringify(localStyle)}) It should be linked to a shared style.`,
-          nodeId: node.id,
-          nodeName: node.name,
-        });
+        // Collect detailed information about the detached property
+        const styleValue = Array.isArray(localStyle) ? localStyle[0] : localStyle;
+        let propertyDetail = "";
+        
+        if (styleValue.type === 'SOLID' && styleValue.color) {
+          const { r, g, b } = styleValue.color;
+          const hex = `#${Math.round(r * 255).toString(16).padStart(2, '0')}${Math.round(g * 255).toString(16).padStart(2, '0')}${Math.round(b * 255).toString(16).padStart(2, '0')}`;
+          propertyDetail = hex;
+        } else {
+          propertyDetail = JSON.stringify(styleValue);
+        }
+        
+        detachedProperties.push(`Propriété ${prop}: ${propertyDetail}`);
       }
+    }
+    
+    // If we found detached properties, create a single result for this node
+    if (detachedProperties.length > 0) {
+      results.push({
+        ruleIds: [RULE_ID],
+        nodeId: node.id,
+        nodeName: node.name,
+        moreInfos: detachedProperties.join(", ")
+      });
     }
   }
 

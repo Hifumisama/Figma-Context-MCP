@@ -1,5 +1,5 @@
 <script>
-  import { auditState, rulesList, allRulesWithStatus, getFilteredReportData } from '../../stores/audit.svelte.js';
+  import { getFilteredReportData } from '../../stores/audit.svelte.js';
   import RuleBadge from '../components/RuleBadge.svelte';
   import RuleDetails from '../components/RuleDetails.svelte';
 
@@ -49,12 +49,12 @@
             <tr class="text-white hover:bg-figma-cardLight transition-colors">
               <!-- ID Node -->
               <td class="px-4 py-3 font-mono text-xs text-figma-button align-top">
-                {node.id}
+                {node.nodeId}
               </td>
               
               <!-- Nom Node -->
               <td class="px-4 py-3 font-medium align-top">
-                {node.name}
+                {node.nodeName}
               </td>
               
               <!-- Badges des règles -->
@@ -63,8 +63,8 @@
                   {#each node.ruleIds as ruleId}
                     <RuleBadge 
                       {ruleId} 
-                      isActive={isDetailOpen(node.id, ruleId)}
-                      onClick={() => toggleDetails(node.id, ruleId)} 
+                      isActive={isDetailOpen(node.nodeId, ruleId)}
+                      onClick={() => toggleDetails(node.nodeId, ruleId)} 
                     />
                   {/each}
                 </div>
@@ -73,12 +73,13 @@
             
             <!-- Ligne de l'accordéon qui s'étend sur toute la largeur -->
             {#each node.ruleIds as ruleId}
-              {#if isDetailOpen(node.id, ruleId)}
+              {#if isDetailOpen(node.nodeId, ruleId)}
                 <tr>
                   <td colspan="3" class="p-0">
                     <RuleDetails 
                       {ruleId} 
-                      isOpen={true} 
+                      isOpen={true}
+                      moreInfos={node.moreInfos}
                     />
                   </td>
                 </tr>

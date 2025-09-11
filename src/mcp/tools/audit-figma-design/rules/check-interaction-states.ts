@@ -10,7 +10,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "missing-interaction-states";
+const RULE_ID = 8;
 
 const INTERACTIVE_KEYWORDS = ['button', 'input', 'select', 'toggle', 'checkbox', 'radio', 'switch', 'slider', 'tab'];
 const INTERACTION_STATES = ['hover', 'focus', 'active', 'disabled'];
@@ -67,10 +67,10 @@ export const checkInteractionStates: AuditRule = (context) => {
       // Report the issue on the first component of the group
       const firstComponent = group[0];
       results.push({
-        ruleId: RULE_ID,
-        message: `The interactive component "${baseName}" seems to be missing variants for the following states: ${missingStates.join(', ')}.`,
+        ruleIds: [RULE_ID],
         nodeId: firstComponent.id,
         nodeName: firstComponent.name,
+        moreInfos: `États manquants: ${missingStates.join(', ')}`
       });
     }
   }

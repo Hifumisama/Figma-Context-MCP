@@ -9,17 +9,17 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "hidden-layers";
+const RULE_ID = 5;
 
 function checkNode(node: SimplifiedNode): AuditResult[] {
   let results: AuditResult[] = [];
 
   if (node.visible === false) {
     results.push({
-      ruleId: RULE_ID,
-      message: `The layer "${node.name}" is hidden. It may be obsolete and could be removed to clean up the file.`,
+      ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
+      moreInfos: ""
     });
   }
 

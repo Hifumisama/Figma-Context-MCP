@@ -10,6 +10,7 @@
 import { z } from "zod";
 import type { FigmaContext } from "../get-figma-context/types.js";
 import type { AuditReport, AuditResult } from "./types.js";
+import { getAllRuleDefinitions } from "./rules-registry.js";
 import { checkDetachedStyles } from "./rules/check-detached-styles.js";
 import { checkLayerNaming } from "./rules/check-layer-naming.js";
 import { checkAutoLayoutUsage } from "./rules/check-auto-layout-usage.js";
@@ -56,110 +57,46 @@ function runAudit(context: FigmaContext, options: AuditOptions): AuditReport {
         const aiResults = aiBasedRules.flatMap(rule => rule(context));
         allResults = [...allResults, ...aiResults];
     }
-    
-    const issuesByRule = allResults.reduce((acc, result) => {
-        acc[result.ruleId] = (acc[result.ruleId] || 0) + 1;
-        return acc;
-    }, {} as Record<string, number>);
 
     return {
+        rulesDefinitions: getAllRuleDefinitions(),
         results: allResults,
-        summary: {
-            totalIssues: allResults.length,
-            issuesByRule,
-        },
     };
 }
 
 // --- Report Formatting ---
 
-function groupResultsByRule(results: AuditResult[]): Record<string, {nodeName: string, nodeId: string, message: string}[]> {
-    return results.reduce((acc, result) => {
-        if (!acc[result.ruleId]) {
-            acc[result.ruleId] = [];
-        }
-        acc[result.ruleId].push({
-            nodeName: result.nodeName,
-            nodeId: result.nodeId,
-            message: result.message
-        });
-        return acc;
-    }, {} as Record<string, {nodeName: string, nodeId: string, message: string}[]>);
-}
+// Cette fonction n'est plus nécessaire avec la nouvelle structure
 
 function formatReportAsMarkdown(report: AuditReport): string {
-    if (report.summary.totalIssues === 0) {
+    if (report.results.length === 0) {
         return "✅ **Rapport d'Audit Figma:** Aucun problème détecté. Excellent travail !";
     }
 
     let markdown = `# 📊 Rapport d'Audit Figma\n\n## 📋 Résumé\n\n`;
-    markdown += `**${report.summary.totalIssues}** problèmes détectés répartis sur **${Object.keys(report.summary.issuesByRule).length}** types de règles.\n\n`;
+    markdown += `**${report.results.length}** problèmes détectés.\n\n`;
 
-    // Regrouper les résultats par règle
-    const resultsByRule = groupResultsByRule(report.results);
+    markdown += `---\n\n## 🔍 Détails par composant\n\n`;
 
-    markdown += `---\n\n## 🔍 Checklist par règle\n\n`;
-
-    // Pour chaque règle, créer une section avec les composants concernés
-    for (const ruleId in resultsByRule) {
-        const nodes = resultsByRule[ruleId];
-        const actionSuggestion = getActionSuggestion(ruleId);
-        const impact = getImpactLevel(ruleId);
+    // Pour chaque résultat, créer une section
+    for (const result of report.results) {
+        const ruleNames = result.ruleIds.map(ruleId => {
+            const ruleDef = report.rulesDefinitions.find(r => r.id === ruleId);
+            return ruleDef ? `${ruleDef.icon} ${ruleDef.name}` : `Règle ${ruleId}`;
+        }).join(', ');
         
-        markdown += `### 🚨 **${ruleId}** (${nodes.length} composant${nodes.length > 1 ? 's' : ''})\n`;
-        markdown += `*Impact:* ${impact} | *Action:* ${actionSuggestion}\n\n`;
-        
-        markdown += `| 🔧 Composant | 📝 Problème |\n`;
-        markdown += `|--------------|-------------|\n`;
-        
-        for (const node of nodes) {
-            markdown += `| **${node.nodeName}** (ID: \`${node.nodeId}\`) | ${node.message} |\n`;
+        markdown += `### 🚨 **${result.nodeName}** (ID: \`${result.nodeId}\`)\n`;
+        markdown += `**Règles violées:** ${ruleNames}\n`;
+        if (result.moreInfos) {
+            markdown += `**Détails:** ${result.moreInfos}\n`;
         }
-        
         markdown += `\n---\n\n`;
-    }
-
-    // Ajouter un résumé par type de règle
-    markdown += `## 📊 Répartition par type de règle\n\n`;
-    markdown += `| 🔍 Type de règle | 🔢 Nombre d'occurrences | 📈 Impact |\n`;
-    markdown += `|------------------|-------------------------|----------|\n`;
-    
-    for (const ruleId in report.summary.issuesByRule) {
-        const count = report.summary.issuesByRule[ruleId];
-        const impact = getImpactLevel(ruleId);
-        markdown += `| **${ruleId}** | ${count} | ${impact} |\n`;
     }
 
     return markdown;
 }
 
-// Fonction helper pour suggérer des actions correctives
-function getActionSuggestion(ruleId: string): string {
-    const suggestions: Record<string, string> = {
-        'detached-styles': 'Reconnecter aux styles du Design System',
-        'layer-naming': 'Renommer avec une convention claire (ex: btn-primary)',
-        'auto-layout-usage': 'Activer Auto Layout dans les propriétés',
-        'find-component-candidates': 'Créer un composant réutilisable pour ce pattern',
-        'export-settings': 'Configurer les paramètres d\'export',
-        'group-vs-frame': 'Convertir le groupe en Frame',
-        'variant-candidates': 'Créer des variants du composant',
-        'interaction-states': 'Ajouter les états hover/focus/disabled',
-        'color-names': 'Utiliser des noms sémantiques (primary, secondary)',
-        'hidden-layers': 'Supprimer ou rendre visible le calque'
-    };
-    
-    return suggestions[ruleId] || 'Consulter la documentation Figma';
-}
-
-// Fonction helper pour évaluer l'impact
-function getImpactLevel(ruleId: string): string {
-    const highImpact = ['detached-styles', 'auto-layout-usage', 'interaction-states'];
-    const mediumImpact = ['layer-naming', 'find-component-candidates', 'variant-candidates'];
-    
-    if (highImpact.includes(ruleId)) return '🔴 Élevé';
-    if (mediumImpact.includes(ruleId)) return '🟡 Moyen';
-    return '🟢 Faible';
-}
+// Ces fonctions ne sont plus nécessaires avec la nouvelle structure
 
 
 // --- Handler ---
@@ -170,12 +107,7 @@ async function auditFigmaDesignHandler(params: AuditParams, options: AuditOption
         
         let outputText: string;
         if (params.outputFormat === 'json') {
-            const groupedResults = groupResultsByRule(report.results);
-            const structuredReport = {
-                summary: report.summary,
-                resultsByRule: groupedResults
-            };
-            outputText = JSON.stringify(structuredReport, null, 2);
+            outputText = JSON.stringify(report, null, 2);
         } else {
             outputText = formatReportAsMarkdown(report);
         }

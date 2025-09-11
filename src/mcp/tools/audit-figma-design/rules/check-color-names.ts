@@ -9,7 +9,7 @@
  */
 import type { AuditRule, AuditResult } from "../types.js";
 
-const RULE_ID = "non-semantic-color-names";
+const RULE_ID = 9;
 
 function generateColorNamePrompt(colorNames: string[]): string {
     return `
@@ -40,12 +40,9 @@ export const checkColorNames: AuditRule = (context) => {
   const prompt = generateColorNamePrompt(allStyleNames);
 
   return [{
-    ruleId: RULE_ID,
-    message: "The following prompt would be sent to an AI for semantic color name analysis. (This is a placeholder for the actual AI integration).",
+    ruleIds: [RULE_ID],
     nodeId: "DOCUMENT",
     nodeName: "Color Styles",
-    // We can add the prompt in a custom data field if the type supports it,
-    // for now, we'll just log it for demonstration.
-    // data: { prompt } 
+    moreInfos: `Styles à analyser: ${allStyleNames.join(', ')}`
   }];
 };

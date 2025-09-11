@@ -9,7 +9,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode, StyleTypes } from "../../../../extractors/types.js";
 
-const RULE_ID = "auto-layout-usage";
+const RULE_ID = 1;
 
 // Helper function to recursively check a node and its children
 function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
@@ -24,10 +24,10 @@ function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
 
   if (isCandidate) {
     results.push({
-      ruleId: RULE_ID,
-      message: `The layer "${node.name}" contains multiple children but does not use Auto Layout. Consider converting it to an Auto Layout frame for better responsive behavior.`,
+      ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
+      moreInfos: ""
     });
   }
 

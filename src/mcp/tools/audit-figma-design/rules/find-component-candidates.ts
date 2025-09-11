@@ -11,7 +11,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "find-component-candidates";
+const RULE_ID = 7;
 
 interface NodeProfile {
   id: string;
@@ -158,10 +158,10 @@ export const findComponentCandidates: AuditRule = (context) => {
     const componentNames = group.map(p => `"${p.name}" (ID: ${p.id})`).join(', ');
     const firstNode = group[0];
     return {
-      ruleId: RULE_ID,
-      message: `Found a group of ${group.length} similar nodes that could be a component: ${componentNames}. They share the same structure, styles, and similar dimensions.`,
+      ruleIds: [RULE_ID],
       nodeId: firstNode.id,
       nodeName: firstNode.name,
+      moreInfos: `${group.length} éléments similaires: ${componentNames}`
     };
   });
 

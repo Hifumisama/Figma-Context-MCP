@@ -10,7 +10,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode, GlobalVars } from "../../../../extractors/types.js";
 
-const RULE_ID = "missing-export-settings";
+const RULE_ID = 4;
 
 // These node types are often assets that should be exportable.
 const ASSET_TYPES = ['VECTOR', 'IMAGE-SVG'];
@@ -29,10 +29,10 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   // We then check if it's missing export settings.
   if ((isPotentialAsset || hasImage) && !node.exportSettings) {
     results.push({
-      ruleId: RULE_ID,  
-      message: `The layer "${node.name}" is likely an asset but is missing export settings.`,
+      ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
+      moreInfos: ""
     });
   }
 

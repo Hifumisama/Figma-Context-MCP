@@ -1,27 +1,31 @@
 <script>
-  import { rulesList } from '../../stores/audit.svelte.js';
+  import { getRuleById } from '../../stores/audit.svelte.js';
 
   let { ruleId, isActive = false, onClick } = $props();
 
-  // Récupérer les informations de la règle
-  let rule = $derived(rulesList.find(r => r.id === ruleId));
+  // Récupérer les informations de la règle depuis le store dynamique
+  let rule = $derived(getRuleById(ruleId));
 
-  // Couleurs des règles (même système que StatsCards)
-  function getRuleColor(ruleId) {
-    const colors = {
-      1: 'blue',
-      2: 'green', 
-      3: 'purple',
-      4: 'orange',
-      5: 'red',
-      6: 'yellow',
-      7: 'indigo',
-      8: 'pink',
-      9: 'teal'
+  // S'inspirer de la logique de StatsCards.svelte pour les couleurs
+  function getCardColor(rule) {
+    if (!rule?.color) return 'gray';
+    
+    // Mapping des couleurs hex vers les noms Tailwind
+    const colorMap = {
+      '#3B82F6': 'blue',    // règle 1
+      '#10B981': 'green',   // règle 2  
+      '#EF4444': 'red',     // règle 3
+      '#F59E0B': 'orange',  // règle 4
+      '#8B5CF6': 'purple',  // règle 5
+      '#EC4899': 'pink',    // règle 6
+      '#6366F1': 'indigo',  // règle 7
+      '#14B8A6': 'teal',    // règle 8
+      '#F97316': 'orange'   // règle 9
     };
-    return colors[ruleId] || 'gray';
+    
+    return colorMap[rule.color] || 'gray';
   }
-
+  
   function getBadgeColor(color) {
     const colorMap = {
       purple: 'bg-purple-500/20 text-purple-400 border border-purple-500/50 hover:bg-purple-500/30',
@@ -49,7 +53,7 @@
 
   let badgeClass = $derived(`
     inline-flex items-center px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-all duration-200
-    ${getBadgeColor(getRuleColor(ruleId))}
+    ${getBadgeColor(getCardColor(rule))}
     ${isActive ? 'ring-2 ring-figma-button ring-opacity-50' : ''}
   `.trim());
 </script>
@@ -60,5 +64,5 @@
   title={rule?.description || `Règle #${ruleId}`}
 >
   <span class="mr-1">{rule?.icon || getSeverityIcon(ruleId)}</span>
-  <span>{rule?.nameFr || rule?.name || `Règle #${ruleId}`}</span>
+  <span>{rule?.name || `Règle #${ruleId}`}</span>
 </button>

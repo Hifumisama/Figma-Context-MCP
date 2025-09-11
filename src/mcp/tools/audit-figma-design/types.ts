@@ -9,17 +9,24 @@ import type { FigmaContext } from "../get-figma-context/types.js";
 
 export type AuditRule = (context: FigmaContext) => AuditResult[];
 
+export interface RuleDefinition {
+  id: number;
+  name: string;
+  description: string;
+  resolutionAdvice: string;
+  icon: string;
+  color: string;
+  category: 'standard' | 'ai-based';
+}
+
 export interface AuditResult {
-  ruleId: string;
-  message: string;
+  ruleIds: number[];
   nodeId: string;
   nodeName: string;
+  moreInfos: string;
 }
 
 export interface AuditReport {
+  rulesDefinitions: RuleDefinition[];
   results: AuditResult[];
-  summary: {
-    totalIssues: number;
-    issuesByRule: Record<string, number>;
-  };
 }

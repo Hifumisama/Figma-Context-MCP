@@ -10,7 +10,7 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "layer-naming";
+const RULE_ID = 2;
 
 // Regex to detect default Figma layer names
 const defaultNameRegex = /^(Frame|Group|Rectangle|Ellipse|Vector|Line|Slice|Component) \d+$/;
@@ -21,10 +21,10 @@ function checkNode(node: SimplifiedNode): AuditResult[] {
 
   if (defaultNameRegex.test(node.name)) {
     results.push({
-      ruleId: RULE_ID,
-      message: `The layer "${node.name}" uses a default name. It should be renamed to something descriptive.`,
+      ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
+      moreInfos: ""
     });
   }
 

@@ -1,40 +1,31 @@
 <script>
-  import { rulesList } from '../../stores/audit.svelte.js';
+  import { getRuleById } from '../../stores/audit.svelte.js';
 
-  let { ruleId, isOpen = false } = $props();
+  let { ruleId, isOpen = false, moreInfos = "" } = $props();
 
-  // Récupérer les informations de la règle
-  let rule = $derived(rulesList.find(r => r.id === ruleId));
+  // Récupérer les informations de la règle depuis le store dynamique
+  let rule = $derived(getRuleById(ruleId));
 
-  // Mappage des conseils de résolution
-  const ruleAdvice = {
-    1: "Utiliser Auto Layout pour une meilleure flexibilité",
-    2: "Renommer avec une convention claire (ex: btn-primary)",
-    3: "Reconnecter aux styles du Design System",
-    4: "Configurer les paramètres d'export",
-    5: "Supprimer ou rendre visible le calque",
-    6: "Convertir le groupe en Frame",
-    7: "Créer un composant réutilisable pour ce pattern",
-    8: "Ajouter les états hover/focus/disabled",
-    9: "Utiliser des noms sémantiques (primary, secondary)"
-  };
-
-  // Couleurs des règles (même système que StatsCards)
-  function getRuleColor(ruleId) {
-    const colors = {
-      1: 'blue',
-      2: 'green', 
-      3: 'purple',
-      4: 'orange',
-      5: 'red',
-      6: 'yellow',
-      7: 'indigo',
-      8: 'pink',
-      9: 'teal'
+  // S'inspirer de la logique de StatsCards.svelte pour les couleurs
+  function getCardColor(rule) {
+    if (!rule?.color) return 'gray';
+    
+    // Mapping des couleurs hex vers les noms Tailwind
+    const colorMap = {
+      '#3B82F6': 'blue',    // règle 1
+      '#10B981': 'green',   // règle 2  
+      '#EF4444': 'red',     // règle 3
+      '#F59E0B': 'orange',  // règle 4
+      '#8B5CF6': 'purple',  // règle 5
+      '#EC4899': 'pink',    // règle 6
+      '#6366F1': 'indigo',  // règle 7
+      '#14B8A6': 'teal',    // règle 8
+      '#F97316': 'orange'   // règle 9
     };
-    return colors[ruleId] || 'gray';
+    
+    return colorMap[rule.color] || 'gray';
   }
-
+  
   function getColorClasses(color) {
     const colorMap = {
       purple: 'bg-purple-500/10 border-purple-500/50 text-purple-400',
@@ -53,21 +44,32 @@
 </script>
 
 {#if isOpen && rule}
-  <div class="p-4 rounded-lg border {getColorClasses(getRuleColor(ruleId))} animate-in slide-in-from-top-2 duration-200">
+  <div class="p-4 rounded-lg border animate-in slide-in-from-top-2 duration-200 {getColorClasses(getCardColor(rule))}">
     <!-- Titre avec icône -->
     <div class="flex items-center space-x-2 mb-3">
       <span class="text-xl">{rule.icon}</span>
-      <h4 class="text-white font-semibold">{rule.nameFr || rule.name}</h4>
+      <h4 class="text-white font-semibold">{rule.name}</h4>
     </div>
 
     <!-- Description et conseil sur la même ligne sur grands écrans -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm text-white/80">
-      <div class="leading-relaxed">
-        <span class="font-medium">📋</span> {rule.descriptionFr || rule.description}
+    <div class="space-y-3 text-sm text-white/80">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="leading-relaxed">
+          <span class="font-medium">📋</span> {rule.description}
+        </div>
+        <div class="leading-relaxed">
+          <span class="font-medium">💡</span> {rule.resolutionAdvice || "Consulter la documentation Figma"}
+        </div>
       </div>
-      <div class="leading-relaxed">
-        <span class="font-medium">💡</span> {ruleAdvice[ruleId] || "Consulter la documentation Figma"}
-      </div>
+      
+      <!-- Affichage des moreInfos si présentes -->
+      {#if moreInfos && moreInfos.trim()}
+        <div class="bg-black/20 rounded-lg p-3 border-l-2" style="border-left-color: {rule?.color || '#6B7280'}">
+          <div class="leading-relaxed">
+            <span class="font-medium">🔍</span> <strong>Détails :</strong> {moreInfos}
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}

@@ -9,17 +9,17 @@
 import type { AuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
-const RULE_ID = "group-vs-frame";
+const RULE_ID = 6;
 
 function checkNode(node: SimplifiedNode): AuditResult[] {
   let results: AuditResult[] = [];
 
   if (node.type === 'GROUP' && node.children && node.children.length > 1) {
     results.push({
-      ruleId: RULE_ID,
-      message: `The layer "${node.name}" is a 'GROUP' with multiple children. Consider converting it to a 'FRAME' to enable Auto Layout and other container properties.`,
+      ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
+      moreInfos: ""
     });
   }
 

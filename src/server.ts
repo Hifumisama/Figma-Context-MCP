@@ -21,9 +21,11 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
   const app = express();
   
   // Configuration CORS pour autoriser le frontend
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
   const corsOptions = {
     origin: [
-      'http://localhost:5173', // Développement local Vite
+      frontendUrl, // URL frontend depuis l'environnement
+      'http://localhost:5173', // Développement local Vite (fallback)
       'http://localhost:3000', // Alternative de développement
       'https://storage.googleapis.com', // Cloud Storage principal
       'https://figma-mcp-frontend.storage.googleapis.com', // Bucket-specific domain
