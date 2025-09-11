@@ -70,7 +70,7 @@ export const checkInteractionStates: AuditRule = (context) => {
         ruleIds: [RULE_ID],
         nodeId: firstComponent.id,
         nodeName: firstComponent.name,
-        moreInfos: `États manquants: ${missingStates.join(', ')}`
+        moreInfos: { [RULE_ID.toString()]: `États manquants: ${missingStates.join(', ')}` }
       });
     }
   }

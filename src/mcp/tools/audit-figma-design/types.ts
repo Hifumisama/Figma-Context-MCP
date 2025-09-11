@@ -23,7 +23,7 @@ export interface AuditResult {
   ruleIds: number[];
   nodeId: string;
   nodeName: string;
-  moreInfos: string;
+  moreInfos: Record<string, string>; // Objet JSON avec ruleId comme clé et détail comme valeur
 }
 
 export interface AuditReport {

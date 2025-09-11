@@ -43,6 +43,6 @@ export const checkColorNames: AuditRule = (context) => {
     ruleIds: [RULE_ID],
     nodeId: "DOCUMENT",
     nodeName: "Color Styles",
-    moreInfos: `Styles à analyser: ${allStyleNames.join(', ')}`
+    moreInfos: { [RULE_ID.toString()]: `Styles à analyser: ${allStyleNames.join(', ')}` }
   }];
 };

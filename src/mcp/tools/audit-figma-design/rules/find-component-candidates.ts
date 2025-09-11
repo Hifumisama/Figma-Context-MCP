@@ -161,7 +161,7 @@ export const findComponentCandidates: AuditRule = (context) => {
       ruleIds: [RULE_ID],
       nodeId: firstNode.id,
       nodeName: firstNode.name,
-      moreInfos: `${group.length} éléments similaires: ${componentNames}`
+      moreInfos: { [RULE_ID.toString()]: `${group.length} éléments similaires: ${componentNames}` }
     };
   });
 

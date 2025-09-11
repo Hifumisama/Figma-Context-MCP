@@ -58,10 +58,43 @@ function runAudit(context: FigmaContext, options: AuditOptions): AuditReport {
         allResults = [...allResults, ...aiResults];
     }
 
+    // Grouper les résultats par nodeId pour consolider les règles
+    const groupedResults = groupResultsByNodeId(allResults);
+
     return {
         rulesDefinitions: getAllRuleDefinitions(),
-        results: allResults,
+        results: groupedResults,
     };
+}
+
+/**
+ * Groupe les résultats d'audit par nodeId pour consolider les règles multiples
+ * sur le même node en un seul AuditResult avec un tableau ruleIds
+ */
+function groupResultsByNodeId(results: AuditResult[]): AuditResult[] {
+    const grouped = new Map<string, AuditResult>();
+    
+    for (const result of results) {
+        const existing = grouped.get(result.nodeId);
+        
+        if (existing) {
+            // Node déjà présent : ajouter les nouvelles règles
+            existing.ruleIds.push(...result.ruleIds);
+            
+            // Fusionner les objets moreInfos
+            existing.moreInfos = { ...existing.moreInfos, ...result.moreInfos };
+        } else {
+            // Nouveau node : créer une nouvelle entrée
+            grouped.set(result.nodeId, {
+                ruleIds: [...result.ruleIds], // Copier le tableau
+                nodeId: result.nodeId,
+                nodeName: result.nodeName,
+                moreInfos: { ...result.moreInfos } // Copier l'objet
+            });
+        }
+    }
+    
+    return Array.from(grouped.values());
 }
 
 // --- Report Formatting ---
@@ -87,8 +120,18 @@ function formatReportAsMarkdown(report: AuditReport): string {
         
         markdown += `### 🚨 **${result.nodeName}** (ID: \`${result.nodeId}\`)\n`;
         markdown += `**Règles violées:** ${ruleNames}\n`;
-        if (result.moreInfos) {
-            markdown += `**Détails:** ${result.moreInfos}\n`;
+        
+        // Afficher les détails par règle si présents
+        const moreInfosEntries = Object.entries(result.moreInfos);
+        if (moreInfosEntries.length > 0) {
+            markdown += `**Détails par règle:**\n`;
+            for (const [ruleId, info] of moreInfosEntries) {
+                if (info && info.trim()) {
+                    const ruleDef = report.rulesDefinitions.find(r => r.id === parseInt(ruleId));
+                    const ruleName = ruleDef ? `${ruleDef.icon} ${ruleDef.name}` : `Règle ${ruleId}`;
+                    markdown += `- **${ruleName}:** ${info}\n`;
+                }
+            }
         }
         markdown += `\n---\n\n`;
     }

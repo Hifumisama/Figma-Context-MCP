@@ -1,7 +1,7 @@
 <script>
   import { getRuleById } from '../../stores/audit.svelte.js';
 
-  let { ruleId, isOpen = false, moreInfos = "" } = $props();
+  let { ruleId, isOpen = false, moreInfos = {} } = $props();
 
   // Récupérer les informations de la règle depuis le store dynamique
   let rule = $derived(getRuleById(ruleId));
@@ -46,13 +46,13 @@
       </div>
       
       <!-- Affichage des moreInfos si présentes -->
-      {#if moreInfos && moreInfos.trim()}
+      {#if moreInfos && moreInfos[ruleId.toString()] && moreInfos[ruleId.toString()].trim()}
         <div 
           class="bg-black/20 rounded-lg p-3 border-l-2"
           style="{getMoreInfosBorderStyle(rule?.color)}"
         >
           <div class="leading-relaxed">
-            <span class="font-medium">🔍</span> <strong>Détails :</strong> {moreInfos}
+            <span class="font-medium">🔍</span> <strong>Détails :</strong> {moreInfos[ruleId.toString()]}
           </div>
         </div>
       {/if}

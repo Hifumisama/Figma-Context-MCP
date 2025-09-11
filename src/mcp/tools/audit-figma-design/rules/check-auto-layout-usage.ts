@@ -27,7 +27,7 @@ function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
       ruleIds: [RULE_ID],
       nodeId: node.id,
       nodeName: node.name,
-      moreInfos: ""
+      moreInfos: {}
     });
   }
 

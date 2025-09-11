@@ -41,7 +41,6 @@
 
   // Génère les styles CSS inline pour les cartes avec couleurs dynamiques
   function getDynamicCardStyle(hexColor, isActive) {
-    console.log('hexColor', hexColor);
     const defaultColor = '#6B7280'; // Gris par défaut
     const color = hexColor || defaultColor;
     

@@ -59,7 +59,7 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
         ruleIds: [RULE_ID],
         nodeId: node.id,
         nodeName: node.name,
-        moreInfos: detachedProperties.join(", ")
+        moreInfos: { [RULE_ID.toString()]: detachedProperties.join(", ") }
       });
     }
   }
