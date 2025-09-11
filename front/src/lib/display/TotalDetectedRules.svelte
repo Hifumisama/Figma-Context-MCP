@@ -85,19 +85,12 @@
     }
   }
 
-  function getRuleColor(index) {
-    const colors = [
-      'bg-purple-500',  // CB3CFF
-      'bg-purple-600',  // 8A38F5
-      'bg-indigo-500',  // 6366F1
-      'bg-blue-500',    // 3B82F6
-      'bg-emerald-500', // 10B981
-      'bg-amber-500',   // F59E0B
-      'bg-red-500',     // EF4444
-      'bg-pink-500',    // EC4899
-      'bg-violet-500'   // 8B5CF6
-    ];
-    return colors[index % colors.length];
+  // Fonction pour générer un indicateur de couleur avec la hex color de la règle
+  function getRuleColorStyle(hexColor) {
+    if (!hexColor || hexColor === 'gray') {
+      return 'background-color: #6B7280'; // Couleur grise par défaut
+    }
+    return `background-color: ${hexColor}`;
   }
 </script>
 
@@ -128,9 +121,9 @@
         
         <!-- Légende personnalisée pour chaque règle avec détections -->
         <div class="space-y-2 max-w-xs">
-          {#each allRulesWithStatus().filter(rule => rule.detectedCount > 0) as rule, index}
+          {#each allRulesWithStatus().filter(rule => rule.detectedCount > 0) as rule}
             <div class="flex items-center space-x-3 text-sm">
-              <div class="w-3 h-3 rounded-full {getRuleColor(index)}"></div>
+              <div class="w-3 h-3 rounded-full" style="{getRuleColorStyle(rule.color)}"></div>
               <span class="text-white text-xs">
                 {rule.nameFr || rule.name}
               </span>

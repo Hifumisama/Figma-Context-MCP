@@ -21,7 +21,7 @@
       description: rule.descriptionFr || rule.description,
       count: rule.detectedCount,
       icon: rule.icon,
-      color: getCardColor(rule.id),
+      color: rule.color,
       isCompliant: rule.isCompliant,
       ruleId: rule.id
     }));
@@ -39,35 +39,17 @@
     return selectedFilters.includes(ruleId);
   }
 
-  function getCardColor(ruleId) {
-    const colors = {
-      1: 'blue',
-      2: 'green', 
-      3: 'purple',
-      4: 'orange',
-      5: 'red',
-      6: 'yellow',
-      7: 'indigo',
-      8: 'pink',
-      9: 'teal'
-    };
-    return colors[ruleId] || 'gray';
-  }
-
-  function getColorClasses(color, isActive) {
-    const colorMap = {
-      purple: isActive ? 'bg-purple-500 border-purple-500 text-white' : 'bg-purple-500/10 border-purple-500 text-purple-400',
-      blue: isActive ? 'bg-blue-500 border-blue-500 text-white' : 'bg-blue-500/10 border-blue-500 text-blue-400',
-      green: isActive ? 'bg-green-500 border-green-500 text-white' : 'bg-green-500/10 border-green-500 text-green-400',
-      orange: isActive ? 'bg-orange-500 border-orange-500 text-white' : 'bg-orange-500/10 border-orange-500 text-orange-400',
-      red: isActive ? 'bg-red-500 border-red-500 text-white' : 'bg-red-500/10 border-red-500 text-red-400',
-      yellow: isActive ? 'bg-yellow-500 border-yellow-500 text-black' : 'bg-yellow-500/10 border-yellow-500 text-yellow-400',
-      indigo: isActive ? 'bg-indigo-500 border-indigo-500 text-white' : 'bg-indigo-500/10 border-indigo-500 text-indigo-400',
-      pink: isActive ? 'bg-pink-500 border-pink-500 text-white' : 'bg-pink-500/10 border-pink-500 text-pink-400',
-      teal: isActive ? 'bg-teal-500 border-teal-500 text-white' : 'bg-teal-500/10 border-teal-500 text-teal-400',
-      gray: isActive ? 'bg-gray-500 border-gray-500 text-white' : 'bg-gray-500/10 border-gray-500 text-gray-400'
-    };
-    return colorMap[color] || colorMap.gray;
+  // Génère les styles CSS inline pour les cartes avec couleurs dynamiques
+  function getDynamicCardStyle(hexColor, isActive) {
+    console.log('hexColor', hexColor);
+    const defaultColor = '#6B7280'; // Gris par défaut
+    const color = hexColor || defaultColor;
+    
+    if (isActive) {
+      return `background-color: ${color}; border-color: ${color}; color: white;`;
+    } else {
+      return `background-color: ${color}20; border-color: ${color}; color: ${color};`;
+    }
   }
 </script>
 
@@ -115,7 +97,8 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     {#each filteredCards as card (card.ruleId)}
       <button 
-        class="rounded-lg border-l-4 p-4 relative transition-all duration-200 hover:scale-105 cursor-pointer text-left {getColorClasses(card.color, isCardActive(card.ruleId))}"
+        class="rounded-lg border-l-4 p-4 relative transition-all duration-200 hover:scale-105 cursor-pointer text-left"
+        style="{getDynamicCardStyle(card.color, isCardActive(card.ruleId))}"
         onclick={() => handleCardClick(card.ruleId)}
       >
         <!-- Badge en haut à droite -->
