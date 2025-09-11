@@ -27,8 +27,8 @@ ${colorNames.map(name => `- ${name}`).join('\n')}
 }
 
 export const checkColorNames: AuditRule = (context) => {
-  const allStyleNames = Object.values(context.globalVars.styles)
-    .map(styleDef => styleDef.name)
+  const allStyleNames = Object.values(context.globalVars.designSystem.fills)
+    .map((styleDef: any) => styleDef.name)
     .filter(name => !!name && name.toLowerCase().includes('color')); // Focus on color styles
 
   if (allStyleNames.length === 0) {

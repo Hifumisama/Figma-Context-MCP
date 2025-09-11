@@ -21,7 +21,24 @@ export function simplifyRawFigmaObject(
   const { metadata, rawNodes, components, componentSets } = parseAPIResponse(apiResponse);
 
   // Process nodes using the flexible extractor system
-  const globalVars: GlobalVars = { styles: {}, localVariables: {} };
+  const globalVars: GlobalVars = { 
+    designSystem: {
+      fills: {},
+      text: {},
+      strokes: {},
+      effects: {},
+      layout: {},
+      appearance: {}
+    },
+    localStyles: {
+      fills: {},
+      text: {},
+      strokes: {},
+      effects: {},
+      layout: {},
+      appearance: {}
+    }
+  };
   const { nodes: extractedNodes, globalVars: finalGlobalVars } = extractFromDesign(
     rawNodes,
     nodeExtractors,
@@ -29,13 +46,21 @@ export function simplifyRawFigmaObject(
     globalVars,
   );
 
-  // Add style names to the globalVars
+  // Add style names to the design system styles
   if ("styles" in apiResponse && apiResponse.styles) {
-    for (const styleId in finalGlobalVars.styles) {
-      if (apiResponse.styles[styleId]) {
-        (finalGlobalVars.styles as any)[styleId].name = apiResponse.styles[styleId].name;
+    // Iterate through all categories in design system
+    Object.values(finalGlobalVars.designSystem).forEach(categoryStyles => {
+      for (const styleId in categoryStyles) {
+        if (apiResponse.styles[styleId]) {
+          // Create a wrapper with name and value for design system styles
+          const styleValue = categoryStyles[styleId];
+          categoryStyles[styleId] = {
+            name: apiResponse.styles[styleId].name,
+            value: styleValue
+          } as any;
+        }
       }
-    }
+    });
   }
 
   // Return complete design

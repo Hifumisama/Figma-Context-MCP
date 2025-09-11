@@ -19,6 +19,7 @@ export {
   textExtractor,
   visualsExtractor,
   componentExtractor,
+  cleanupExtractor,
   // Convenience combinations
   allExtractors,
   layoutAndText,

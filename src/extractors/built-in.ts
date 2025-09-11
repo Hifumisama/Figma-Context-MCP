@@ -10,36 +10,72 @@ import {
   isTextNode,
 } from "~/transformers/text.js";
 import { hasValue, isRectangleCornerRadii } from "~/utils/identity.js";
-import type { GlobalVars, StyleTypes } from "./types.js";
+import type { GlobalVars, StyleTypes, CategorizedStyles } from "./types.js";
 import { generateVarId } from "~/utils/common.js";
 
-type StyleType = "fill" | "stroke" | "effect" | "text" | "layout";
+type StyleType = "fill" | "stroke" | "effect" | "text" | "layout" | "appearance";
+
+/**
+ * Removes empty/default properties from a node to optimize JSON size
+ */
+function cleanupNode(node: any): void {
+  // Remove properties with default values (but keep visible as requested)
+  if (node.opacity === 1) delete node.opacity;
+  
+  // Remove empty arrays
+  if (Array.isArray(node.children) && node.children.length === 0) delete node.children;
+  
+  // Remove empty strings
+  if (node.exportSettings === "") delete node.exportSettings;
+  
+  // Remove null/undefined values
+  Object.keys(node).forEach(key => {
+    if (node[key] === null || node[key] === undefined) {
+      delete node[key];
+    }
+  });
+}
 
 /**
  * Finds an existing local variable or creates a new one.
- * @param localVariables - The dictionary of local variables.
+ * @param localStyles - The categorized local styles.
  * @param value - The style value to find or create.
- * @param prefix - The prefix for the new variable ID.
+ * @param category - The style category (fills, text, strokes, effects, layout).
  * @returns The ID of the existing or new local variable.
  */
 function findOrCreateLocalVar(
-  localVariables: Record<string, StyleTypes>,
+  localStyles: Record<string, StyleTypes>,
   value: StyleTypes,
-  prefix: string,
+  category: string,
 ): string {
   const jsonValue = JSON.stringify(value);
-  const existingVarId = Object.keys(localVariables).find(
-    (key) => JSON.stringify(localVariables[key]) === jsonValue,
+  const existingVarId = Object.keys(localStyles).find(
+    (key) => JSON.stringify(localStyles[key]) === jsonValue,
   );
 
   if (existingVarId) {
     return existingVarId;
   }
 
-  const newVarId = generateVarId(prefix);
-  localVariables[newVarId] = value;
+  // Generate simple ID based on category
+  const existingIds = Object.keys(localStyles).filter(id => id.startsWith(category.charAt(0)));
+  const nextNumber = existingIds.length + 1;
+  const newVarId = `${category.charAt(0)}${nextNumber}`;
+  localStyles[newVarId] = value;
   return newVarId;
 }
+
+/**
+ * Maps style types to their corresponding categories in the new structure
+ */
+const STYLE_CATEGORY_MAP: Record<StyleType, keyof CategorizedStyles> = {
+  'fill': 'fills',
+  'stroke': 'strokes', 
+  'effect': 'effects',
+  'text': 'text',
+  'layout': 'layout',
+  'appearance': 'appearance'
+};
 
 /**
  * Determines if a style is global or local and updates the context accordingly.
@@ -56,46 +92,47 @@ function processStyle(
   value: StyleTypes,
   result: any,
   context: { globalVars: GlobalVars },
+  propertyName?: string, // Optional custom property name
 ) {
+  const category = STYLE_CATEGORY_MAP[styleType];
   const styleKey = hasValue("styles", node) ? (node.styles as Record<string, string>)[styleType] : undefined;
 
   if (styleKey) {
-    // It's a global style
-    if (!context.globalVars.styles[styleKey]) {
-      // Assuming the style name can be retrieved from a design document object
-      // This part might need adjustment based on where style names are stored
-      context.globalVars.styles[styleKey] = {
-        name: `style_${styleType}`, // Placeholder name
-        value: value,
-      };
+    // It's a design system style - store just the value for now
+    // Names will be added later in design-extractor.ts
+    if (!context.globalVars.designSystem[category][styleKey]) {
+      context.globalVars.designSystem[category][styleKey] = value;
     }
-    const propName = styleType === 'text' ? 'textStyle' : `${styleType}s`;
+    const propName = propertyName || (styleType === 'text' ? 'textStyle' : `${styleType}s`);
     result[propName] = styleKey;
   } else {
     // It's a local style, find or create it
     const localVarId = findOrCreateLocalVar(
-      context.globalVars.localVariables,
+      context.globalVars.localStyles[category],
       value,
-      styleType,
+      category,
     );
-    if (!result.localVariableRefs) {
-      result.localVariableRefs = {};
-    }
-    result.localVariableRefs[styleType] = localVarId;
+    const propName = propertyName || (styleType === 'text' ? 'textStyle' : `${styleType}s`);
+    result[propName] = localVarId;
   }
 }
 
 /**
- * Extracts layout-related properties from a node.
+ * Extracts layout-related properties from a node, including position and dimensions.
  */
 export const layoutExtractor: ExtractorFn = (node, result, context) => {
   const layout = buildSimplifiedLayout(node, context.parent);
-  if (Object.keys(layout).length > 1) {
-    processStyle(node, "layout", layout, result, context);
+  
+  // Add position and dimensions to layout if available
+  if (hasValue("absoluteBoundingBox", node) && node.absoluteBoundingBox) {
+    const bbox = node.absoluteBoundingBox;
+    (layout as any).position = { x: bbox.x, y: bbox.y };
+    (layout as any).dimensions = { width: bbox.width, height: bbox.height };
   }
 
-  if (hasValue("absoluteBoundingBox", node)) {
-    result.absoluteBoundingBox = node.absoluteBoundingBox;
+  // Only process if we have meaningful layout data
+  if (Object.keys(layout).length > 1) {
+    processStyle(node, "layout", layout, result, context, "layout");
   }
 };
 
@@ -147,21 +184,23 @@ export const visualsExtractor: ExtractorFn = (node, result, context) => {
     processStyle(node, "effect", effects, result, context);
   }
 
-  // opacity
+  // opacity - deduplicate if not default value
   if (
     hasValue("opacity", node) &&
     typeof node.opacity === "number" &&
     node.opacity !== 1
   ) {
-    result.opacity = node.opacity;
+    processStyle(node, "appearance", node.opacity.toString(), result, context, "opacity");
   }
 
-  // border radius
+  // border radius - deduplicate
   if (hasValue("cornerRadius", node) && typeof node.cornerRadius === "number") {
-    result.borderRadius = `${node.cornerRadius}px`;
+    const borderRadiusValue = `${node.cornerRadius}px`;
+    processStyle(node, "appearance", borderRadiusValue, result, context, "borderRadius");
   }
   if (hasValue("rectangleCornerRadii", node, isRectangleCornerRadii)) {
-    result.borderRadius = `${node.rectangleCornerRadii[0]}px ${node.rectangleCornerRadii[1]}px ${node.rectangleCornerRadii[2]}px ${node.rectangleCornerRadii[3]}px`;
+    const borderRadiusValue = `${node.rectangleCornerRadii[0]}px ${node.rectangleCornerRadii[1]}px ${node.rectangleCornerRadii[2]}px ${node.rectangleCornerRadii[3]}px`;
+    processStyle(node, "appearance", borderRadiusValue, result, context, "borderRadius");
   }
 };
 
@@ -218,12 +257,20 @@ export const maskExtractor: ExtractorFn = (node, result, context) => {
   }
 };
 
+/**
+ * Cleans up empty/default properties to optimize JSON size.
+ * Should be the last extractor to run.
+ */
+export const cleanupExtractor: ExtractorFn = (node, result, context) => {
+  cleanupNode(result);
+};
+
 // -------------------- CONVENIENCE COMBINATIONS --------------------
 
 /**
- * All extractors - replicates the current parseNode behavior.
+ * All extractors - replicates the current parseNode behavior with optimization.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor, cleanupExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

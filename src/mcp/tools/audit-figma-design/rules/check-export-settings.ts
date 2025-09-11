@@ -21,9 +21,10 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
 
   const isPotentialAsset = ASSET_TYPES.includes(node.type);
 
-  const fillRef = node.localVariableRefs?.fill;
-
-  const hasImage = fillRef && globalVars.localVariables[fillRef] && globalVars.localVariables[fillRef].some((item: any) => item.type === 'IMAGE');
+  // Check if node has image fills by looking in local styles or design system
+  const hasImage = (node.fills && typeof node.fills === 'string' && 
+    ((globalVars.localStyles.fills[node.fills] && Array.isArray(globalVars.localStyles.fills[node.fills]) && globalVars.localStyles.fills[node.fills].some((item: any) => item.type === 'IMAGE')) ||
+     (globalVars.designSystem.fills[node.fills] && Array.isArray(globalVars.designSystem.fills[node.fills].value) && globalVars.designSystem.fills[node.fills].value.some((item: any) => item.type === 'IMAGE'))));
 
   // A node is an asset if it's of a certain type, or is named like an icon, or has an image fill.
   // We then check if it's missing export settings.

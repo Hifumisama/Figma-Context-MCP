@@ -31,16 +31,17 @@ interface NodeProfile {
  * @param localVariables The map of local style variables from the Figma data.
  * @returns A string representing the node's structure and text styles.
  */
-function generateSignature(node: SimplifiedNode, localVariables: any): string {
+function generateSignature(node: SimplifiedNode, globalVars: any): string {
   // 1. Get direct children types, sorted to ensure consistency
   const childTypes = (node.children ?? []).map(child => child.type).sort().join(',');
 
   // 2. Recursively find all unique text styles within the node and its descendants
   const textStyles = new Set<string>();
   function findTextStyles(currentNode: SimplifiedNode) {
-    if (currentNode.type === 'TEXT' && currentNode.localVariableRefs?.text) {
-      const textStyleRef = currentNode.localVariableRefs.text;
-      const style = localVariables[textStyleRef];
+    if (currentNode.type === 'TEXT' && currentNode.textStyle) {
+      // Check in local styles or design system
+      const style = globalVars.localStyles.text[currentNode.textStyle] || 
+                   (globalVars.designSystem.text[currentNode.textStyle] && globalVars.designSystem.text[currentNode.textStyle].value);
       if (style) {
         textStyles.add(`FONT(${style.fontFamily},${style.fontSize},${style.fontWeight})`);
       }
@@ -75,7 +76,7 @@ function areDimensionsSimilar(dim1: number, dim2: number, tolerance = 0.2): bool
 
 export const findComponentCandidates: AuditRule = (context) => {
   const candidateNodes: SimplifiedNode[] = [];
-  const localVariables = context.globalVars?.localVariables ?? {};
+  const globalVars = context.globalVars;
 
   // 1. Traverse the tree to find all nodes that are NOT already components or instances.
   function findCandidates(nodes: SimplifiedNode[]) {
@@ -101,14 +102,29 @@ export const findComponentCandidates: AuditRule = (context) => {
   findCandidates(context.nodes);
 
   // 2. Create a profile for each candidate node, including the new signature.
-  const profiles: NodeProfile[] = candidateNodes.map(node => ({
-    id: node.id,
-    name: node.name,
-    node: node,
-    signature: generateSignature(node, localVariables),
-    width: node.absoluteBoundingBox?.width ?? 0,
-    height: node.absoluteBoundingBox?.height ?? 0,
-  }));
+  const profiles: NodeProfile[] = candidateNodes.map(node => {
+    let width = 0;
+    let height = 0;
+    
+    // Get dimensions from layout reference in globalVars
+    if (node.layout && typeof node.layout === 'string') {
+      const layoutData = globalVars.localStyles.layout[node.layout] || globalVars.designSystem.layout[node.layout];
+      if (layoutData && typeof layoutData === 'object' && layoutData !== null && 'dimensions' in layoutData) {
+        const dimensions = (layoutData as any).dimensions;
+        width = dimensions.width ?? 0;
+        height = dimensions.height ?? 0;
+      }
+    }
+    
+    return {
+      id: node.id,
+      name: node.name,
+      node: node,
+      signature: generateSignature(node, globalVars),
+      width,
+      height,
+    };
+  });
 
   // 3. Group profiles by the new, more detailed structural signature.
   const profilesBySignature = new Map<string, NodeProfile[]>();

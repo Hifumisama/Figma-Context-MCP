@@ -16,52 +16,45 @@ const RULE_ID = 3;
 function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   let results: AuditResult[] = [];
 
-  // The properties to exclude from this check as they are handled by other rules.
-  const excludedProperties = ['layout', 'text'];
-
-  // Check for detached styles by looking for local variable references
-  if (node.localVariableRefs) {
-    const detachedProperties: string[] = [];
-    
-    for (const [prop, refId] of Object.entries(node.localVariableRefs)) {
-      // Skip properties that are handled by other rules
-      if (excludedProperties.includes(prop)) {
-        continue;
-      }
-
-      const localStyle = globalVars.localVariables[refId];
-      
-      // Skip 'fills' property if it contains an image, as this is handled by export-settings rule
-      if (localStyle && localStyle[0] && localStyle[0].type === 'IMAGE') {
-        continue;
-      }
-
-      if (localStyle) {
-        // Collect detailed information about the detached property
-        const styleValue = Array.isArray(localStyle) ? localStyle[0] : localStyle;
-        let propertyDetail = "";
-        
-        if (styleValue.type === 'SOLID' && styleValue.color) {
-          const { r, g, b } = styleValue.color;
-          const hex = `#${Math.round(r * 255).toString(16).padStart(2, '0')}${Math.round(g * 255).toString(16).padStart(2, '0')}${Math.round(b * 255).toString(16).padStart(2, '0')}`;
-          propertyDetail = hex;
-        } else {
-          propertyDetail = JSON.stringify(styleValue);
-        }
-        
-        detachedProperties.push(`Propriété ${prop}: ${propertyDetail}`);
-      }
+  // Check for detached styles by looking for references to local styles instead of design system
+  const detachedProperties: string[] = [];
+  
+  // Check fills
+  if (node.fills && typeof node.fills === 'string') {
+    // If it references localStyles instead of designSystem, it's detached
+    if (globalVars.localStyles.fills[node.fills]) {
+      detachedProperties.push('fills');
     }
-    
-    // If we found detached properties, create a single result for this node
-    if (detachedProperties.length > 0) {
-      results.push({
-        ruleIds: [RULE_ID],
-        nodeId: node.id,
-        nodeName: node.name,
-        moreInfos: { [RULE_ID.toString()]: detachedProperties.join(", ") }
-      });
+  }
+  
+  // Check strokes  
+  if (node.strokes && typeof node.strokes === 'string') {
+    if (globalVars.localStyles.strokes[node.strokes]) {
+      detachedProperties.push('strokes');
     }
+  }
+  
+  // Check effects
+  if (node.effects && typeof node.effects === 'string') {
+    if (globalVars.localStyles.effects[node.effects]) {
+      detachedProperties.push('effects');
+    }
+  }
+  
+  // Check text styles
+  if (node.textStyle && typeof node.textStyle === 'string') {
+    if (globalVars.localStyles.text[node.textStyle]) {
+      detachedProperties.push('textStyle');
+    }
+  }
+
+  if (detachedProperties.length > 0) {
+    results.push({
+      ruleIds: [RULE_ID],
+      nodeId: node.id,
+      nodeName: node.name,
+      moreInfos: { [RULE_ID.toString()]: `Propriétés détachées: ${detachedProperties.join(", ")}` }
+    });
   }
 
   // Recursively check children

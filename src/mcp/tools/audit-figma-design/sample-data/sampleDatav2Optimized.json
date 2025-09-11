@@ -1,0 +1,2645 @@
+{
+    "name": "Portfolio Corrected",
+    "lastModified": "2025-09-11T13:57:51Z",
+    "thumbnailUrl": "https://s3-alpha.figma.com/thumbnails/81b4dfc4-4f6b-49ec-8f7a-ca09bed2cc5b?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ4GOSFWC7HSFKW4W%2F20250911%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20250911T000000Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7c8b59e930bb59c9b3d7e5f8e61ad031c561f02052efded60402d3e6e2073488",
+    "nodes": [
+      {
+        "id": "0:1",
+        "name": "Page 1",
+        "type": "CANVAS",
+        "children": [
+          {
+            "id": "0:3",
+            "name": "Home",
+            "type": "FRAME",
+            "layout": "l1",
+            "fills": "2:109",
+            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+            "children": [
+              {
+                "id": "119:66",
+                "name": "Header",
+                "type": "FRAME",
+                "layout": "l2",
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                "children": [
+                  {
+                    "id": "2:3",
+                    "name": "John Doe",
+                    "type": "TEXT",
+                    "layout": "l3",
+                    "text": "John Doe",
+                    "textStyle": "t1",
+                    "fills": "2:106"
+                  },
+                  {
+                    "id": "2:8",
+                    "name": "Menu",
+                    "type": "FRAME",
+                    "layout": "l4",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                    "children": [
+                      {
+                        "id": "0:11",
+                        "name": "Home",
+                        "type": "TEXT",
+                        "layout": "l5",
+                        "text": "Home",
+                        "textStyle": "t2",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "2:2",
+                        "name": "About",
+                        "type": "TEXT",
+                        "layout": "l6",
+                        "text": "About",
+                        "textStyle": "t2",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "0:12",
+                        "name": "Work",
+                        "type": "TEXT",
+                        "layout": "l7",
+                        "text": "Work",
+                        "textStyle": "t2",
+                        "fills": "2:106"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "119:65",
+                    "name": "Social Media Icons",
+                    "type": "FRAME",
+                    "layout": "l8",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                    "children": [
+                      {
+                        "id": "2:39",
+                        "name": "medium-4 1",
+                        "type": "INSTANCE",
+                        "layout": "l9",
+                        "componentId": "2:38",
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                        "children": [
+                          {
+                            "id": "I2:39;2:37",
+                            "name": "Vector",
+                            "type": "IMAGE-SVG",
+                            "layout": "l10",
+                            "fills": "2:106",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "2:24",
+                        "name": "behance-2 1",
+                        "type": "INSTANCE",
+                        "layout": "l11",
+                        "componentId": "2:21",
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                        "children": [
+                          {
+                            "id": "I2:24;2:10",
+                            "name": "Vector",
+                            "type": "IMAGE-SVG",
+                            "layout": "l12",
+                            "fills": "2:106",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "2:26",
+                        "name": "twitter-6 1",
+                        "type": "INSTANCE",
+                        "layout": "l13",
+                        "componentId": "2:23",
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                        "children": [
+                          {
+                            "id": "I2:26;2:14",
+                            "name": "Vector",
+                            "type": "IMAGE-SVG",
+                            "layout": "l14",
+                            "fills": "2:106",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "119:68",
+                "name": "Hero Frame",
+                "type": "FRAME",
+                "layout": "l15",
+                "children": [
+                  {
+                    "id": "119:67",
+                    "name": "Descriptive text",
+                    "type": "FRAME",
+                    "layout": "l16",
+                    "children": [
+                      {
+                        "id": "2:31",
+                        "name": "Hello, I’m John,",
+                        "type": "TEXT",
+                        "layout": "l17",
+                        "text": "Hello, I’m John,",
+                        "textStyle": "t3",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "2:32",
+                        "name": "Product Designer",
+                        "type": "TEXT",
+                        "layout": "l18",
+                        "text": "Product Designer",
+                        "textStyle": "t4",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "2:33",
+                        "name": "based in Netherland.",
+                        "type": "TEXT",
+                        "layout": "l19",
+                        "text": "based in Netherland.",
+                        "textStyle": "t3",
+                        "fills": "2:106"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "2:94",
+                    "name": "Profile image",
+                    "type": "INSTANCE",
+                    "layout": "l20",
+                    "componentId": "2:93",
+                    "children": [
+                      {
+                        "id": "I2:94;122:61",
+                        "name": "Mask Group",
+                        "type": "FRAME",
+                        "layout": "l21",
+                        "children": [
+                          {
+                            "id": "I2:94;2:89",
+                            "name": "unsplash:d1UPkiFd04A",
+                            "type": "MASK",
+                            "layout": "l22",
+                            "fills": "121:32",
+                            "maskType": "ALPHA"
+                          },
+                          {
+                            "id": "I2:94;2:91",
+                            "name": "unsplash:d1UPkiFd04A",
+                            "type": "RECTANGLE",
+                            "layout": "l23",
+                            "fills": "f1",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "I2:94;2:90",
+                        "name": "Vector",
+                        "type": "IMAGE-SVG",
+                        "layout": "l24",
+                        "strokes": "2:107",
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "119:41",
+                "name": "Button Component",
+                "type": "INSTANCE",
+                "layout": "l25",
+                "componentId": "11:40",
+                "componentProperties": [
+                  {
+                    "name": "State",
+                    "value": "active",
+                    "type": "VARIANT"
+                  }
+                ],
+                "children": [
+                  {
+                    "id": "I119:41;11:37",
+                    "name": "Background",
+                    "type": "RECTANGLE",
+                    "layout": "l26",
+                    "fills": "2:108",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "I119:41;11:38",
+                    "name": "Outline",
+                    "type": "RECTANGLE",
+                    "layout": "l27",
+                    "strokes": "2:107",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "I119:41;11:39",
+                    "name": "Button Text",
+                    "type": "TEXT",
+                    "layout": "l28",
+                    "text": "Resume",
+                    "textStyle": "t5",
+                    "fills": "2:107"
+                  }
+                ]
+              },
+              {
+                "id": "2:34",
+                "name": "about.",
+                "type": "TEXT",
+                "layout": "l29",
+                "text": "about.",
+                "textStyle": "t4",
+                "fills": "2:110"
+              },
+              {
+                "id": "2:35",
+                "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "type": "TEXT",
+                "layout": "l30",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "textStyle": "t6",
+                "fills": "2:106"
+              },
+              {
+                "id": "120:29",
+                "name": "About container",
+                "type": "FRAME",
+                "layout": "l31",
+                "children": [
+                  {
+                    "id": "119:99",
+                    "name": "About list",
+                    "type": "FRAME",
+                    "layout": "l32",
+                    "children": [
+                      {
+                        "id": "119:47",
+                        "name": "About",
+                        "type": "INSTANCE",
+                        "layout": "l33",
+                        "componentId": "119:46",
+                        "children": [
+                          {
+                            "id": "I119:47;2:49",
+                            "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "type": "TEXT",
+                            "layout": "l34",
+                            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "textStyle": "t6",
+                            "fills": "2:106"
+                          },
+                          {
+                            "id": "I119:47;2:50",
+                            "name": "2014-2018",
+                            "type": "TEXT",
+                            "layout": "l35",
+                            "text": "2014-2018",
+                            "textStyle": "t7",
+                            "fills": "2:106"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "119:51",
+                        "name": "About",
+                        "type": "INSTANCE",
+                        "layout": "l36",
+                        "componentId": "119:46",
+                        "children": [
+                          {
+                            "id": "I119:51;2:49",
+                            "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "type": "TEXT",
+                            "layout": "l37",
+                            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "textStyle": "t6",
+                            "fills": "2:106"
+                          },
+                          {
+                            "id": "I119:51;2:50",
+                            "name": "2014-2018",
+                            "type": "TEXT",
+                            "layout": "l38",
+                            "text": "2018-2020",
+                            "textStyle": "t7",
+                            "fills": "2:106"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "119:55",
+                        "name": "About",
+                        "type": "INSTANCE",
+                        "layout": "l39",
+                        "componentId": "119:46",
+                        "children": [
+                          {
+                            "id": "I119:55;2:49",
+                            "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "type": "TEXT",
+                            "layout": "l40",
+                            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                            "textStyle": "t6",
+                            "fills": "2:106"
+                          },
+                          {
+                            "id": "I119:55;2:50",
+                            "name": "2014-2018",
+                            "type": "TEXT",
+                            "layout": "l41",
+                            "text": "2020 - Present",
+                            "textStyle": "t7",
+                            "fills": "2:106"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "2:59",
+                "name": "work.",
+                "type": "TEXT",
+                "layout": "l42",
+                "text": "work.",
+                "textStyle": "t4",
+                "fills": "2:110"
+              },
+              {
+                "id": "2:58",
+                "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "type": "TEXT",
+                "layout": "l43",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "textStyle": "t6",
+                "fills": "2:106"
+              },
+              {
+                "id": "119:98",
+                "name": "Studycase container",
+                "type": "FRAME",
+                "layout": "l44",
+                "children": [
+                  {
+                    "id": "119:84",
+                    "name": "StudyCase",
+                    "type": "INSTANCE",
+                    "layout": "l45",
+                    "componentId": "119:70",
+                    "children": [
+                      {
+                        "id": "I119:84;119:27",
+                        "name": "Image Variants",
+                        "type": "INSTANCE",
+                        "layout": "l46",
+                        "componentId": "11:78",
+                        "componentProperties": [
+                          {
+                            "name": "Property 1",
+                            "value": "Default",
+                            "type": "VARIANT"
+                          }
+                        ],
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                        "children": [
+                          {
+                            "id": "I119:84;119:27;11:77",
+                            "name": "Image",
+                            "type": "RECTANGLE",
+                            "layout": "l46",
+                            "fills": "f2",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "I119:84;2:69",
+                        "name": "November 24, 2019",
+                        "type": "TEXT",
+                        "layout": "l47",
+                        "text": "November 24, 2019",
+                        "textStyle": "t8",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "I119:84;2:67",
+                        "name": "Some Case Study",
+                        "type": "TEXT",
+                        "layout": "l48",
+                        "text": "Some Case Study",
+                        "textStyle": "t9",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "I119:84;2:68",
+                        "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                        "type": "TEXT",
+                        "layout": "l49",
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                        "textStyle": "t10",
+                        "fills": "2:106"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "119:91",
+                    "name": "StudyCase",
+                    "type": "INSTANCE",
+                    "layout": "l50",
+                    "componentId": "119:70",
+                    "children": [
+                      {
+                        "id": "I119:91;119:27",
+                        "name": "Image Variants",
+                        "type": "INSTANCE",
+                        "layout": "l51",
+                        "componentId": "119:14",
+                        "componentProperties": [
+                          {
+                            "name": "Property 1",
+                            "value": "Variant 2",
+                            "type": "VARIANT"
+                          }
+                        ],
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                        "children": [
+                          {
+                            "id": "I119:91;119:27;119:15",
+                            "name": "Image",
+                            "type": "RECTANGLE",
+                            "layout": "l51",
+                            "fills": "f3",
+                            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "I119:91;2:69",
+                        "name": "November 24, 2019",
+                        "type": "TEXT",
+                        "layout": "l52",
+                        "text": "November 24, 2019",
+                        "textStyle": "t8",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "I119:91;2:67",
+                        "name": "Some Case Study",
+                        "type": "TEXT",
+                        "layout": "l53",
+                        "text": "Some Case Study",
+                        "textStyle": "t9",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "I119:91;2:68",
+                        "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                        "type": "TEXT",
+                        "layout": "l54",
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                        "textStyle": "t10",
+                        "fills": "2:106"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "2:71",
+                "name": "contact.",
+                "type": "TEXT",
+                "layout": "l55",
+                "text": "contact.",
+                "textStyle": "t4",
+                "fills": "2:110"
+              },
+              {
+                "id": "120:31",
+                "name": "Contact Container",
+                "type": "FRAME",
+                "layout": "l56",
+                "children": [
+                  {
+                    "id": "120:41",
+                    "name": "Image Variants",
+                    "type": "INSTANCE",
+                    "layout": "l57",
+                    "componentId": "120:32",
+                    "componentProperties": [
+                      {
+                        "name": "Property 1",
+                        "value": "Variant3",
+                        "type": "VARIANT"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "id": "I120:41;120:33",
+                        "name": "Image",
+                        "type": "RECTANGLE",
+                        "layout": "l58",
+                        "fills": "f4",
+                        "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "120:30",
+                    "name": "Text Contact Container",
+                    "type": "FRAME",
+                    "layout": "l59",
+                    "children": [
+                      {
+                        "id": "2:77",
+                        "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                        "type": "TEXT",
+                        "layout": "l60",
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                        "textStyle": "t6",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "16:17",
+                        "name": "johndoe@mail.com",
+                        "type": "TEXT",
+                        "layout": "l61",
+                        "text": "johndoe@mail.com",
+                        "textStyle": "t6",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "16:18",
+                        "name": "twitter.com/johndoe",
+                        "type": "TEXT",
+                        "layout": "l62",
+                        "text": "twitter.com/johndoe",
+                        "textStyle": "t6",
+                        "fills": "2:106"
+                      },
+                      {
+                        "id": "16:19",
+                        "name": "behance.com/johndoe",
+                        "type": "TEXT",
+                        "layout": "l63",
+                        "text": "behance.com/johndoe",
+                        "textStyle": "t6",
+                        "fills": "2:106"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "119:46",
+            "name": "About",
+            "type": "COMPONENT",
+            "layout": "l64",
+            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+            "children": [
+              {
+                "id": "2:49",
+                "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "type": "TEXT",
+                "layout": "l65",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                "textStyle": "t6",
+                "fills": "2:106"
+              },
+              {
+                "id": "2:50",
+                "name": "2014-2018",
+                "type": "TEXT",
+                "layout": "l66",
+                "text": "2014-2018",
+                "textStyle": "t7",
+                "fills": "2:106"
+              }
+            ]
+          },
+          {
+            "id": "2:102",
+            "name": "Secondary",
+            "type": "RECTANGLE",
+            "layout": "l67",
+            "fills": "2:106",
+            "borderRadius": "a2"
+          },
+          {
+            "id": "2:103",
+            "name": "Primary darker",
+            "type": "RECTANGLE",
+            "layout": "l68",
+            "fills": "2:108",
+            "borderRadius": "a2"
+          },
+          {
+            "id": "2:104",
+            "name": "Primary",
+            "type": "RECTANGLE",
+            "layout": "l69",
+            "fills": "2:109",
+            "borderRadius": "a2"
+          },
+          {
+            "id": "2:105",
+            "name": "Secondary darker",
+            "type": "RECTANGLE",
+            "layout": "l70",
+            "fills": "2:107",
+            "borderRadius": "a2"
+          },
+          {
+            "id": "11:41",
+            "name": "Button Component",
+            "type": "COMPONENT_SET",
+            "layout": "l71",
+            "borderRadius": "a3",
+            "children": [
+              {
+                "id": "11:40",
+                "name": "State=active",
+                "type": "COMPONENT",
+                "layout": "l72",
+                "children": [
+                  {
+                    "id": "11:37",
+                    "name": "Background",
+                    "type": "RECTANGLE",
+                    "layout": "l73",
+                    "fills": "2:108",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "11:38",
+                    "name": "Outline",
+                    "type": "RECTANGLE",
+                    "layout": "l74",
+                    "strokes": "2:107",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "11:39",
+                    "name": "Button Text",
+                    "type": "TEXT",
+                    "layout": "l75",
+                    "text": "Resume",
+                    "textStyle": "t5",
+                    "fills": "2:107"
+                  }
+                ]
+              },
+              {
+                "id": "11:42",
+                "name": "State=Clicked",
+                "type": "COMPONENT",
+                "layout": "l76",
+                "children": [
+                  {
+                    "id": "11:43",
+                    "name": "Outline",
+                    "type": "RECTANGLE",
+                    "layout": "l77",
+                    "fills": "2:108",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "11:44",
+                    "name": "Background",
+                    "type": "RECTANGLE",
+                    "layout": "l77",
+                    "strokes": "2:107",
+                    "borderRadius": "a1"
+                  },
+                  {
+                    "id": "11:45",
+                    "name": "Button Text",
+                    "type": "TEXT",
+                    "layout": "l78",
+                    "text": "Resume",
+                    "textStyle": "t5",
+                    "fills": "2:107"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "11:79",
+            "name": "Image Variants",
+            "type": "COMPONENT_SET",
+            "layout": "l79",
+            "borderRadius": "a3",
+            "children": [
+              {
+                "id": "11:78",
+                "name": "Property 1=Default",
+                "type": "COMPONENT",
+                "layout": "l80",
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                "children": [
+                  {
+                    "id": "11:77",
+                    "name": "Image",
+                    "type": "RECTANGLE",
+                    "layout": "l81",
+                    "fills": "f2",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                  }
+                ]
+              },
+              {
+                "id": "120:32",
+                "name": "Property 1=Variant3",
+                "type": "COMPONENT",
+                "layout": "l82",
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                "children": [
+                  {
+                    "id": "120:33",
+                    "name": "Image",
+                    "type": "RECTANGLE",
+                    "layout": "l83",
+                    "fills": "f4",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                  }
+                ]
+              },
+              {
+                "id": "119:14",
+                "name": "Property 1=Variant 2",
+                "type": "COMPONENT",
+                "layout": "l84",
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                "children": [
+                  {
+                    "id": "119:15",
+                    "name": "Image",
+                    "type": "RECTANGLE",
+                    "layout": "l85",
+                    "fills": "f3",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "119:70",
+            "name": "StudyCase",
+            "type": "COMPONENT",
+            "layout": "l86",
+            "children": [
+              {
+                "id": "119:27",
+                "name": "Image Variants",
+                "type": "INSTANCE",
+                "layout": "l87",
+                "componentId": "119:14",
+                "componentProperties": [
+                  {
+                    "name": "Property 1",
+                    "value": "Variant 2",
+                    "type": "VARIANT"
+                  }
+                ],
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+                "children": [
+                  {
+                    "id": "I119:27;119:15",
+                    "name": "Image",
+                    "type": "RECTANGLE",
+                    "layout": "l87",
+                    "fills": "f3",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                  }
+                ]
+              },
+              {
+                "id": "2:69",
+                "name": "November 24, 2019",
+                "type": "TEXT",
+                "layout": "l88",
+                "text": "November 24, 2019",
+                "textStyle": "t8",
+                "fills": "2:106"
+              },
+              {
+                "id": "2:67",
+                "name": "Some Case Study",
+                "type": "TEXT",
+                "layout": "l89",
+                "text": "Some Case Study",
+                "textStyle": "t9",
+                "fills": "2:106"
+              },
+              {
+                "id": "2:68",
+                "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                "type": "TEXT",
+                "layout": "l90",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+                "textStyle": "t10",
+                "fills": "2:106"
+              }
+            ]
+          },
+          {
+            "id": "2:93",
+            "name": "Profile image",
+            "type": "COMPONENT",
+            "layout": "l91",
+            "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]",
+            "children": [
+              {
+                "id": "122:61",
+                "name": "Mask Group",
+                "type": "FRAME",
+                "layout": "l92",
+                "children": [
+                  {
+                    "id": "2:89",
+                    "name": "unsplash:d1UPkiFd04A",
+                    "type": "MASK",
+                    "layout": "l93",
+                    "fills": "121:32",
+                    "maskType": "ALPHA"
+                  },
+                  {
+                    "id": "2:91",
+                    "name": "unsplash:d1UPkiFd04A",
+                    "type": "RECTANGLE",
+                    "layout": "l94",
+                    "fills": "f1",
+                    "exportSettings": "[{\"suffix\":\"\",\"format\":\"PNG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+                  }
+                ]
+              },
+              {
+                "id": "2:90",
+                "name": "Vector",
+                "type": "IMAGE-SVG",
+                "layout": "l95",
+                "strokes": "121:32",
+                "exportSettings": "[{\"suffix\":\"\",\"format\":\"SVG\",\"constraint\":{\"type\":\"SCALE\",\"value\":1}}]"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "components": {
+      "2:38": {
+        "id": "2:38",
+        "key": "1921c704ebbe79328e4b9d3a5b98423d28862fd6",
+        "name": "medium-4 1"
+      },
+      "2:21": {
+        "id": "2:21",
+        "key": "9fddf4b3ab8f984b977cd99321e57e81e427f104",
+        "name": "behance-2 1"
+      },
+      "2:23": {
+        "id": "2:23",
+        "key": "e17e939d5fd9e8ed55cf78e5e9632bbe0a04ae0e",
+        "name": "twitter-6 1"
+      },
+      "2:93": {
+        "id": "2:93",
+        "key": "7a8303ca8f4150b8c8f2c8f4b807daec280e64e2",
+        "name": "Profile image"
+      },
+      "11:40": {
+        "id": "11:40",
+        "key": "d9d112149d698a256f7960c6923436f2378482dc",
+        "name": "State=active",
+        "componentSetId": "11:41"
+      },
+      "119:46": {
+        "id": "119:46",
+        "key": "f0b071f37cccc724cd0d963b5cf9ad9369e9699c",
+        "name": "About"
+      },
+      "119:70": {
+        "id": "119:70",
+        "key": "3555e9325bf97d78c4ed3ea1d64350e121f59e54",
+        "name": "StudyCase"
+      },
+      "11:78": {
+        "id": "11:78",
+        "key": "b78bfc8e86339cd294ef5bf3850babd8c6cd9233",
+        "name": "Property 1=Default",
+        "componentSetId": "11:79"
+      },
+      "119:14": {
+        "id": "119:14",
+        "key": "fe71711fec7688386b6b177f5cc2a5f74684272b",
+        "name": "Property 1=Variant 2",
+        "componentSetId": "11:79"
+      },
+      "120:32": {
+        "id": "120:32",
+        "key": "dfe72bcdda208a686be7339f75a7ee3f67b3df24",
+        "name": "Property 1=Variant3",
+        "componentSetId": "11:79"
+      },
+      "11:42": {
+        "id": "11:42",
+        "key": "ac27abb02a0aadbcddcff5a54059a03781f799e6",
+        "name": "State=Clicked",
+        "componentSetId": "11:41"
+      }
+    },
+    "componentSets": {
+      "11:41": {
+        "id": "11:41",
+        "key": "578f48ee9799c2b2ac0421d637543a46dc3c3e93",
+        "name": "Button Component",
+        "description": ""
+      },
+      "11:79": {
+        "id": "11:79",
+        "key": "896c0312be3a4cda4696b02c75a13b3177b88e90",
+        "name": "Image Variants",
+        "description": ""
+      }
+    },
+    "globalVars": {
+      "designSystem": {
+        "fills": {
+          "2:109": [
+            "#FBF8CC"
+          ],
+          "2:106": [
+            "#03045E"
+          ],
+          "121:32": [
+            "#000000"
+          ],
+          "2:108": [
+            "#F5EE84"
+          ],
+          "2:107": [
+            "#474306"
+          ],
+          "2:110": [
+            "#F7F197"
+          ]
+        },
+        "text": {},
+        "strokes": {
+          "2:107": {
+            "colors": [
+              "#474306"
+            ],
+            "strokeWeight": "1px"
+          },
+          "121:32": {
+            "colors": [
+              "#000000"
+            ],
+            "strokeWeight": "1px"
+          }
+        },
+        "effects": {},
+        "layout": {},
+        "appearance": {}
+      },
+      "localStyles": {
+        "fills": {
+          "f1": [
+            {
+              "type": "IMAGE",
+              "imageRef": "2a01ae6116feae586714736be2b9de679c20ad7d",
+              "scaleMode": "FILL",
+              "objectFit": "cover",
+              "isBackground": false,
+              "imageDownloadArguments": {
+                "needsCropping": false,
+                "requiresImageDimensions": false
+              }
+            }
+          ],
+          "f2": [
+            {
+              "type": "IMAGE",
+              "imageRef": "b045e2b5e1bc87bc36e884076522da080b2989d8",
+              "scaleMode": "FILL",
+              "objectFit": "cover",
+              "isBackground": false,
+              "imageDownloadArguments": {
+                "needsCropping": false,
+                "requiresImageDimensions": false
+              }
+            }
+          ],
+          "f3": [
+            {
+              "type": "IMAGE",
+              "imageRef": "7c93a6e7106409894577da2e6431f298e822b3c7",
+              "scaleMode": "FILL",
+              "objectFit": "cover",
+              "isBackground": false,
+              "imageDownloadArguments": {
+                "needsCropping": false,
+                "requiresImageDimensions": false
+              }
+            }
+          ],
+          "f4": [
+            {
+              "type": "IMAGE",
+              "imageRef": "c6e676bf8ef856e67494e400cf18b4ec19eab724",
+              "scaleMode": "FILL",
+              "objectFit": "cover",
+              "isBackground": false,
+              "imageDownloadArguments": {
+                "needsCropping": false,
+                "requiresImageDimensions": false
+              }
+            }
+          ]
+        },
+        "text": {
+          "t1": {
+            "fontFamily": "Poppins",
+            "fontWeight": 600,
+            "fontSize": 24,
+            "lineHeight": "1.5em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t2": {
+            "fontFamily": "Poppins",
+            "fontWeight": 400,
+            "fontSize": 18,
+            "lineHeight": "1.5em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t3": {
+            "fontFamily": "Poppins",
+            "fontWeight": 500,
+            "fontSize": 28,
+            "lineHeight": "1.5em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t4": {
+            "fontFamily": "Poppins",
+            "fontWeight": 800,
+            "fontSize": 100,
+            "lineHeight": "1.16em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "BOTTOM"
+          },
+          "t5": {
+            "fontFamily": "Poppins",
+            "fontWeight": 400,
+            "fontSize": 20,
+            "lineHeight": "1.5em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t6": {
+            "fontFamily": "Poppins",
+            "fontWeight": 400,
+            "fontSize": 24,
+            "lineHeight": "1.8333333333333333em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t7": {
+            "fontFamily": "Poppins",
+            "fontWeight": 600,
+            "fontSize": 24,
+            "lineHeight": "1.6666666666666667em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t8": {
+            "fontFamily": "Poppins",
+            "fontWeight": 400,
+            "fontSize": 15,
+            "lineHeight": "2.933333333333333em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t9": {
+            "fontFamily": "Poppins",
+            "fontWeight": 600,
+            "fontSize": 24,
+            "lineHeight": "1.8333333333333333em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          },
+          "t10": {
+            "fontFamily": "Poppins",
+            "fontWeight": 400,
+            "fontSize": 18,
+            "lineHeight": "1.7777777777777777em",
+            "textAlignHorizontal": "LEFT",
+            "textAlignVertical": "TOP"
+          }
+        },
+        "strokes": {},
+        "effects": {},
+        "layout": {
+          "l1": {
+            "mode": "column",
+            "gap": "10px",
+            "padding": "34px 97px",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 1440,
+              "height": 2903
+            },
+            "position": {
+              "x": -720,
+              "y": -589
+            }
+          },
+          "l2": {
+            "mode": "row",
+            "justifyContent": "space-between",
+            "alignItems": "center",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 1246,
+              "height": 36
+            },
+            "position": {
+              "x": -623,
+              "y": -555
+            }
+          },
+          "l3": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": -555
+            },
+            "dimensions": {
+              "width": 114,
+              "height": 36
+            }
+          },
+          "l4": {
+            "mode": "row",
+            "justifyContent": "center",
+            "alignItems": "center",
+            "gap": "61px",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -130,
+              "y": -550.5
+            },
+            "dimensions": {
+              "width": 276,
+              "height": 27
+            }
+          },
+          "l5": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -130,
+              "y": -550.5
+            },
+            "dimensions": {
+              "width": 54,
+              "height": 27
+            }
+          },
+          "l6": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -15,
+              "y": -550.5
+            },
+            "dimensions": {
+              "width": 54,
+              "height": 27
+            }
+          },
+          "l7": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": 100,
+              "y": -550.5
+            },
+            "dimensions": {
+              "width": 46,
+              "height": 27
+            }
+          },
+          "l8": {
+            "mode": "row",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": 525,
+              "y": -545.8947143554688
+            },
+            "dimensions": {
+              "width": 98,
+              "height": 17.789474487304688
+            }
+          },
+          "l9": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 26,
+              "height": 15.052631378173828
+            },
+            "position": {
+              "x": 525,
+              "y": -545.8947143554688
+            }
+          },
+          "l10": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0.03
+            },
+            "dimensions": {
+              "width": 26,
+              "height": 14.987442016601562
+            },
+            "position": {
+              "x": 525,
+              "y": -545.8621215820312
+            }
+          },
+          "l11": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 26,
+              "height": 16.095245361328125
+            },
+            "position": {
+              "x": 561,
+              "y": -545.8947143554688
+            }
+          },
+          "l12": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 25.99347496032715,
+              "height": 16.095386505126953
+            },
+            "position": {
+              "x": 561.0034790039062,
+              "y": -545.8947143554688
+            }
+          },
+          "l13": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 26,
+              "height": 17.789474487304688
+            },
+            "position": {
+              "x": 597,
+              "y": -545.8947143554688
+            }
+          },
+          "l14": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 3.87,
+              "y": 1.87
+            },
+            "dimensions": {
+              "width": 19.281707763671875,
+              "height": 15.923120498657227
+            },
+            "position": {
+              "x": 600.8702392578125,
+              "y": -544.0283813476562
+            }
+          },
+          "l15": {
+            "mode": "row",
+            "justifyContent": "space-between",
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": -509
+            },
+            "dimensions": {
+              "width": 1246,
+              "height": 509
+            }
+          },
+          "l16": {
+            "mode": "column",
+            "justifyContent": "center",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 616,
+              "height": 336
+            },
+            "position": {
+              "x": -623,
+              "y": -422.5
+            }
+          },
+          "l17": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": -422.5
+            },
+            "dimensions": {
+              "width": 211,
+              "height": 42
+            }
+          },
+          "l18": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 616,
+              "height": 232
+            },
+            "position": {
+              "x": -623,
+              "y": -370.5
+            }
+          },
+          "l19": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": -128.5
+            },
+            "dimensions": {
+              "width": 294,
+              "height": 42
+            }
+          },
+          "l20": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 506,
+              "height": 509
+            },
+            "position": {
+              "x": 117,
+              "y": -509
+            }
+          },
+          "l21": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 13,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493.0000305175781
+            },
+            "position": {
+              "x": 130,
+              "y": -509
+            }
+          },
+          "l22": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493.0000305175781
+            },
+            "position": {
+              "x": 130,
+              "y": -509
+            }
+          },
+          "l23": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 532
+            },
+            "position": {
+              "x": 130,
+              "y": -509
+            }
+          },
+          "l24": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 16
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493
+            },
+            "position": {
+              "x": 117,
+              "y": -493
+            }
+          },
+          "l25": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 164,
+              "height": 68
+            },
+            "position": {
+              "x": -623,
+              "y": 10
+            }
+          },
+          "l26": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 6,
+              "y": 7
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 61
+            },
+            "position": {
+              "x": -617,
+              "y": 17
+            }
+          },
+          "l27": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 61
+            },
+            "position": {
+              "x": -623,
+              "y": 10
+            }
+          },
+          "l28": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 38,
+              "y": 16
+            },
+            "dimensions": {
+              "width": 81,
+              "height": 30
+            },
+            "position": {
+              "x": -585,
+              "y": 26
+            }
+          },
+          "l29": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": 88
+            },
+            "dimensions": {
+              "width": 341,
+              "height": 116
+            }
+          },
+          "l30": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 132
+            },
+            "position": {
+              "x": -623,
+              "y": 214
+            }
+          },
+          "l31": {
+            "mode": "column",
+            "alignItems": "flex-end",
+            "alignSelf": "stretch",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": 356
+            },
+            "dimensions": {
+              "width": 1246,
+              "height": 566
+            }
+          },
+          "l32": {
+            "mode": "column",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 566
+            },
+            "position": {
+              "x": -277,
+              "y": 356
+            }
+          },
+          "l33": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 182
+            },
+            "position": {
+              "x": -277,
+              "y": 356
+            }
+          },
+          "l34": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 17,
+              "y": 50
+            },
+            "dimensions": {
+              "width": 883,
+              "height": 132
+            },
+            "position": {
+              "x": -260,
+              "y": 406
+            }
+          },
+          "l35": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 40
+            },
+            "position": {
+              "x": -277,
+              "y": 356
+            }
+          },
+          "l36": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 182
+            },
+            "position": {
+              "x": -277,
+              "y": 548
+            }
+          },
+          "l37": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 17,
+              "y": 50
+            },
+            "dimensions": {
+              "width": 883,
+              "height": 132
+            },
+            "position": {
+              "x": -260,
+              "y": 598
+            }
+          },
+          "l38": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 162,
+              "height": 40
+            },
+            "position": {
+              "x": -277,
+              "y": 548
+            }
+          },
+          "l39": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 182
+            },
+            "position": {
+              "x": -277,
+              "y": 740
+            }
+          },
+          "l40": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 17,
+              "y": 50
+            },
+            "dimensions": {
+              "width": 883,
+              "height": 132
+            },
+            "position": {
+              "x": -260,
+              "y": 790
+            }
+          },
+          "l41": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 213,
+              "height": 40
+            },
+            "position": {
+              "x": -277,
+              "y": 740
+            }
+          },
+          "l42": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": 932
+            },
+            "dimensions": {
+              "width": 292,
+              "height": 116
+            }
+          },
+          "l43": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 900,
+              "height": 132
+            },
+            "position": {
+              "x": -623,
+              "y": 1058
+            }
+          },
+          "l44": {
+            "mode": "row",
+            "justifyContent": "space-between",
+            "alignSelf": "stretch",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": 1200
+            },
+            "dimensions": {
+              "width": 1246,
+              "height": 614
+            }
+          },
+          "l45": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 614
+            },
+            "position": {
+              "x": -623,
+              "y": 1200
+            }
+          },
+          "l46": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": -623,
+              "y": 1200
+            }
+          },
+          "l47": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 410
+            },
+            "dimensions": {
+              "width": 141,
+              "height": 44
+            },
+            "position": {
+              "x": -623,
+              "y": 1610
+            }
+          },
+          "l48": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 464
+            },
+            "dimensions": {
+              "width": 215,
+              "height": 44
+            },
+            "position": {
+              "x": -623,
+              "y": 1664
+            }
+          },
+          "l49": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 518
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 96
+            },
+            "position": {
+              "x": -623,
+              "y": 1718
+            }
+          },
+          "l50": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 614
+            },
+            "position": {
+              "x": 63,
+              "y": 1200
+            }
+          },
+          "l51": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 63,
+              "y": 1200
+            }
+          },
+          "l52": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 410
+            },
+            "dimensions": {
+              "width": 141,
+              "height": 44
+            },
+            "position": {
+              "x": 63,
+              "y": 1610
+            }
+          },
+          "l53": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 464
+            },
+            "dimensions": {
+              "width": 215,
+              "height": 44
+            },
+            "position": {
+              "x": 63,
+              "y": 1664
+            }
+          },
+          "l54": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 518
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 96
+            },
+            "position": {
+              "x": 63,
+              "y": 1718
+            }
+          },
+          "l55": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "hug",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -623,
+              "y": 1824
+            },
+            "dimensions": {
+              "width": 436,
+              "height": 116
+            }
+          },
+          "l56": {
+            "mode": "row",
+            "justifyContent": "space-between",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 1121,
+              "height": 338
+            },
+            "position": {
+              "x": -623,
+              "y": 1950
+            }
+          },
+          "l57": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "fixed"
+            },
+            "dimensions": {
+              "width": 456,
+              "height": 284
+            },
+            "position": {
+              "x": -623,
+              "y": 1950
+            }
+          },
+          "l58": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 456,
+              "height": 284
+            },
+            "position": {
+              "x": -623,
+              "y": 1950
+            }
+          },
+          "l59": {
+            "mode": "column",
+            "gap": "10px",
+            "sizing": {
+              "horizontal": "fixed",
+              "vertical": "hug"
+            },
+            "dimensions": {
+              "width": 640,
+              "height": 338
+            },
+            "position": {
+              "x": -142,
+              "y": 1950
+            }
+          },
+          "l60": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -142,
+              "y": 1950
+            },
+            "dimensions": {
+              "width": 640,
+              "height": 176
+            }
+          },
+          "l61": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -142,
+              "y": 2136
+            },
+            "dimensions": {
+              "width": 640,
+              "height": 44
+            }
+          },
+          "l62": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -142,
+              "y": 2190
+            },
+            "dimensions": {
+              "width": 640,
+              "height": 44
+            }
+          },
+          "l63": {
+            "mode": "none",
+            "sizing": {
+              "horizontal": "fill",
+              "vertical": "hug"
+            },
+            "position": {
+              "x": -142,
+              "y": 2244
+            },
+            "dimensions": {
+              "width": 640,
+              "height": 44
+            }
+          },
+          "l64": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 900,
+              "height": 182
+            },
+            "position": {
+              "x": 2015,
+              "y": -235
+            }
+          },
+          "l65": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 17,
+              "y": 50
+            },
+            "dimensions": {
+              "width": 883,
+              "height": 132
+            },
+            "position": {
+              "x": 2032,
+              "y": -185
+            }
+          },
+          "l66": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 40
+            },
+            "position": {
+              "x": 2015,
+              "y": -235
+            }
+          },
+          "l67": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 143,
+              "height": 143
+            },
+            "position": {
+              "x": -720,
+              "y": -951
+            }
+          },
+          "l68": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 143,
+              "height": 143
+            },
+            "position": {
+              "x": -354,
+              "y": -951
+            }
+          },
+          "l69": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 143,
+              "height": 143
+            },
+            "position": {
+              "x": -171,
+              "y": -951
+            }
+          },
+          "l70": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 143,
+              "height": 143
+            },
+            "position": {
+              "x": -537,
+              "y": -951
+            }
+          },
+          "l71": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 204,
+              "height": 196
+            },
+            "position": {
+              "x": 922,
+              "y": -235
+            }
+          },
+          "l72": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 20,
+              "y": 20
+            },
+            "dimensions": {
+              "width": 164,
+              "height": 68
+            },
+            "position": {
+              "x": 942,
+              "y": -215
+            }
+          },
+          "l73": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 6,
+              "y": 7
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 61
+            },
+            "position": {
+              "x": 948,
+              "y": -208
+            }
+          },
+          "l74": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 61
+            },
+            "position": {
+              "x": 942,
+              "y": -215
+            }
+          },
+          "l75": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 38,
+              "y": 16
+            },
+            "dimensions": {
+              "width": 81,
+              "height": 30
+            },
+            "position": {
+              "x": 980,
+              "y": -199
+            }
+          },
+          "l76": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 20,
+              "y": 108
+            },
+            "dimensions": {
+              "width": 164,
+              "height": 68
+            },
+            "position": {
+              "x": 942,
+              "y": -127
+            }
+          },
+          "l77": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 6,
+              "y": 7
+            },
+            "dimensions": {
+              "width": 158,
+              "height": 61
+            },
+            "position": {
+              "x": 948,
+              "y": -120
+            }
+          },
+          "l78": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 45,
+              "y": 22
+            },
+            "dimensions": {
+              "width": 81,
+              "height": 30
+            },
+            "position": {
+              "x": 987,
+              "y": -105
+            }
+          },
+          "l79": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 600,
+              "height": 1280
+            },
+            "position": {
+              "x": 1174,
+              "y": -235
+            }
+          },
+          "l80": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 20,
+              "y": 20
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": -215
+            }
+          },
+          "l81": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": -215
+            }
+          },
+          "l82": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 20,
+              "y": 860
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": 625
+            }
+          },
+          "l83": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": 625
+            }
+          },
+          "l84": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 20,
+              "y": 440
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": 205
+            }
+          },
+          "l85": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 1194,
+              "y": 205
+            }
+          },
+          "l86": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 560,
+              "height": 614
+            },
+            "position": {
+              "x": 2015,
+              "y": 125
+            }
+          },
+          "l87": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 400
+            },
+            "position": {
+              "x": 2015,
+              "y": 125
+            }
+          },
+          "l88": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 410
+            },
+            "dimensions": {
+              "width": 141,
+              "height": 44
+            },
+            "position": {
+              "x": 2015,
+              "y": 535
+            }
+          },
+          "l89": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 464
+            },
+            "dimensions": {
+              "width": 215,
+              "height": 44
+            },
+            "position": {
+              "x": 2015,
+              "y": 589
+            }
+          },
+          "l90": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 518
+            },
+            "dimensions": {
+              "width": 560,
+              "height": 96
+            },
+            "position": {
+              "x": 2015,
+              "y": 643
+            }
+          },
+          "l91": {
+            "mode": "none",
+            "sizing": {},
+            "dimensions": {
+              "width": 506,
+              "height": 509
+            },
+            "position": {
+              "x": 2042,
+              "y": 917
+            }
+          },
+          "l92": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 13,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493.0000305175781
+            },
+            "position": {
+              "x": 2055,
+              "y": 917
+            }
+          },
+          "l93": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493.0000305175781
+            },
+            "position": {
+              "x": 2055,
+              "y": 917
+            }
+          },
+          "l94": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 0
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 532
+            },
+            "position": {
+              "x": 2055,
+              "y": 917
+            }
+          },
+          "l95": {
+            "mode": "none",
+            "sizing": {},
+            "locationRelativeToParent": {
+              "x": 0,
+              "y": 16
+            },
+            "dimensions": {
+              "width": 493,
+              "height": 493
+            },
+            "position": {
+              "x": 2042,
+              "y": 933
+            }
+          }
+        },
+        "appearance": {
+          "a1": "6px",
+          "a2": "40px",
+          "a3": "5px"
+        }
+      }
+    }
+  }

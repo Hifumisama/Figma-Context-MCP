@@ -23,9 +23,29 @@ export interface StyleDefinition {
     value: StyleTypes;
 }
 
+export type DesignSystemStyleTypes = StyleTypes | StyleDefinition;
+
+export interface CategorizedStyles {
+  fills: Record<string, StyleTypes>;
+  text: Record<string, StyleTypes>;
+  strokes: Record<string, StyleTypes>;
+  effects: Record<string, StyleTypes>;
+  layout: Record<string, StyleTypes>;
+  appearance: Record<string, StyleTypes>;
+}
+
+export interface DesignSystemStyles {
+  fills: Record<string, DesignSystemStyleTypes>;
+  text: Record<string, DesignSystemStyleTypes>;
+  strokes: Record<string, DesignSystemStyleTypes>;
+  effects: Record<string, DesignSystemStyleTypes>;
+  layout: Record<string, DesignSystemStyleTypes>;
+  appearance: Record<string, DesignSystemStyleTypes>;
+}
+
 export type GlobalVars = {
-  styles: Record<StyleKey, StyleDefinition>;
-  localVariables: Record<string, StyleTypes>;
+  designSystem: DesignSystemStyles;
+  localStyles: CategorizedStyles;
 };
 
 export interface TraversalContext {
@@ -71,18 +91,19 @@ export interface SimplifiedNode {
   textStyle?: string;
   // appearance
   fills?: string;
-  styles?: string;
   strokes?: string;
   effects?: string;
-  opacity?: number;
+  opacity?: string;
   borderRadius?: string;
-  // for rect-specific strokes, etc.
+  // component
   componentId?: string;
   componentProperties?: ComponentProperties[];
+  // export
   exportSettings?: string; // JSON string of export settings
-  absoluteBoundingBox?: Rectangle | null;
+  // layout
+  layout?: string; // Reference to layout in globalVars
+  // visibility
   visible?: boolean;
-  localVariableRefs?: Record<string, string>;
   // masking
   maskType?: string; // "ALPHA" or "VECTOR"
   // children

@@ -12,11 +12,15 @@ import type { SimplifiedNode, StyleTypes } from "../../../../extractors/types.js
 const RULE_ID = 1;
 
 // Helper function to recursively check a node and its children
-function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
+function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   let results: AuditResult[] = [];
 
-  const layoutRef = node.localVariableRefs?.layout && localVariables[node.localVariableRefs.layout].mode;
-  const hasAutoLayoutMode = layoutRef && ['column', 'row'].includes(layoutRef as string);
+  // Check if the node has auto-layout by looking for layout references
+  const hasAutoLayoutMode = node.type === 'FRAME' && 
+    (Object.values(globalVars.localStyles.layout || {}).some((layout: any) => 
+      layout.mode && ['column', 'row'].includes(layout.mode)) ||
+     Object.values(globalVars.designSystem.layout || {}).some((layout: any) => 
+      layout.value && layout.value.mode && ['column', 'row'].includes(layout.value.mode)));
   
   const isCandidate = (node.type === 'FRAME' || node.type === 'GROUP') &&
                       (node.children && node.children.length > 1) &&
@@ -34,7 +38,7 @@ function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
   // Recursively check children
   if (node.children) {
     for (const child of node.children) {
-      results = results.concat(checkNode(child, localVariables));
+      results = results.concat(checkNode(child, globalVars));
     }
   }
 
@@ -44,7 +48,7 @@ function checkNode(node: SimplifiedNode, localVariables: any): AuditResult[] {
 export const checkAutoLayoutUsage: AuditRule = (context) => {
   const allResults: AuditResult[] = [];
   for (const node of context.nodes) {
-    allResults.push(...checkNode(node, context.globalVars.localVariables));
+    allResults.push(...checkNode(node, context.globalVars));
   }
   return allResults;
 };
