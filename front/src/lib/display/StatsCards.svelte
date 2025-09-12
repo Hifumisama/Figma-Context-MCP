@@ -1,8 +1,8 @@
 <script>
-  import { auditState, allRulesWithStatus, toggleRuleFilter, clearAllFilters } from '../../stores/audit.svelte.js';
+  import { auditState, allRulesWithStatus, toggleRuleFilter, clearAllFilters, toggleCompliantRules } from '../../stores/audit.svelte.js';
 
-  // États réactifs avec runes Svelte 5
-  let showCompliantRules = $state(false);
+  // Utiliser l'état global au lieu de l'état local
+  let showCompliantRules = $derived(auditState.showCompliantRules);
   
   // Données dérivées réactives
   let statsCards = $derived(getStatsCards());
@@ -10,6 +10,14 @@
   
   // Réactivité synchronisée avec le store global
   let selectedFilters = $derived(auditState.selectedRulesFilter);
+  
+  // Effet pour activer automatiquement "Voir conformes" quand aucune règle n'est détectée
+  $effect(() => {
+    const hasDetections = statsCards.some(card => !card.isCompliant);
+    if (!hasDetections && !auditState.showCompliantRules && statsCards.length > 0) {
+      toggleCompliantRules();
+    }
+  });
 
   function getStatsCards() {
     // Récupérer toutes les règles avec leur statut
@@ -27,8 +35,8 @@
     }));
   }
 
-  function toggleCompliantRules() {
-    showCompliantRules = !showCompliantRules;
+  function handleToggleCompliantRules() {
+    toggleCompliantRules();
   }
 
   function handleCardClick(ruleId) {
@@ -77,7 +85,7 @@
       
       <!-- Bouton pour afficher/masquer les règles conformes -->
       <button 
-        onclick={toggleCompliantRules}
+        onclick={handleToggleCompliantRules}
         class="flex items-center space-x-2 px-3 py-1 rounded-lg bg-figma-card text-figma-textMuted hover:text-white transition-colors text-sm"
       >
         <span class="text-xs">

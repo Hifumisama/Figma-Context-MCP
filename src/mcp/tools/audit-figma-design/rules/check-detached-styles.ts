@@ -16,6 +16,21 @@ const RULE_ID = 3;
 function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   let results: AuditResult[] = [];
 
+  // Skip nodes with images - they are handled by other rules
+  const hasImages = node.fills && typeof node.fills === 'string' && 
+    ((globalVars.localStyles.fills[node.fills] && Array.isArray(globalVars.localStyles.fills[node.fills]) && globalVars.localStyles.fills[node.fills].some((item: any) => item.type === 'IMAGE')) ||
+     (globalVars.designSystem.fills[node.fills] && Array.isArray(globalVars.designSystem.fills[node.fills].value) && globalVars.designSystem.fills[node.fills].value.some((item: any) => item.type === 'IMAGE')));
+
+  if (hasImages) {
+    // Recursively check children only
+    if (node.children) {
+      for (const child of node.children) {
+        results = results.concat(checkNode(child, globalVars));
+      }
+    }
+    return results;
+  }
+
   // Check for detached styles by looking for references to local styles instead of design system
   const detachedProperties: string[] = [];
   

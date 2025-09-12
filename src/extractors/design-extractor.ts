@@ -37,7 +37,8 @@ export function simplifyRawFigmaObject(
       effects: {},
       layout: {},
       appearance: {}
-    }
+    },
+    images: {}
   };
   const { nodes: extractedNodes, globalVars: finalGlobalVars } = extractFromDesign(
     rawNodes,

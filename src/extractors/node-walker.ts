@@ -24,7 +24,8 @@ export function extractFromDesign(
   options: TraversalOptions = {},
   globalVars: GlobalVars = { 
     designSystem: { fills: {}, text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
-    localStyles: { fills: {}, text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} }
+    localStyles: { fills: {}, text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
+    images: {}
   },
 ): { nodes: SimplifiedNode[]; globalVars: GlobalVars } {
   const context: TraversalContext = {

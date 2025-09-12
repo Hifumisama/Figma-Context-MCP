@@ -258,6 +258,42 @@ export const maskExtractor: ExtractorFn = (node, result, context) => {
 };
 
 /**
+ * Extracts image references and stores them in globalVars.images.
+ */
+export const imagesExtractor: ExtractorFn = (node, result, context) => {
+  // Check if node has fills with images
+  if (
+    hasValue("fills", node) &&
+    Array.isArray(node.fills) &&
+    node.fills.length
+  ) {
+    const hasChildren =
+      hasValue("children", node) &&
+      Array.isArray(node.children) &&
+      node.children.length > 0;
+
+    node.fills.forEach((fill, index) => {
+      if (fill.type === "IMAGE" && fill.imageRef) {
+        const imageData = parsePaint(fill, hasChildren);
+        if (imageData && typeof imageData === 'object' && 'imageRef' in imageData) {
+          // Store the image data with a unique key based on nodeId and fill index
+          const imageKey = `${node.id}-${index}`;
+          context.globalVars.images[imageKey] = {
+            nodeId: node.id,
+            nodeName: result.name,
+            nodeType: node.type,
+            fillIndex: index,
+            imageRef: (imageData as any).imageRef,
+            scaleMode: (imageData as any).scaleMode,
+            ...(imageData as any).imageDownloadArguments
+          };
+        }
+      }
+    });
+  }
+};
+
+/**
  * Cleans up empty/default properties to optimize JSON size.
  * Should be the last extractor to run.
  */
@@ -270,7 +306,7 @@ export const cleanupExtractor: ExtractorFn = (node, result, context) => {
 /**
  * All extractors - replicates the current parseNode behavior with optimization.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor, cleanupExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor, imagesExtractor, cleanupExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

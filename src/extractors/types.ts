@@ -46,6 +46,7 @@ export interface DesignSystemStyles {
 export type GlobalVars = {
   designSystem: DesignSystemStyles;
   localStyles: CategorizedStyles;
+  images: Record<string, any>;
 };
 
 export interface TraversalContext {
