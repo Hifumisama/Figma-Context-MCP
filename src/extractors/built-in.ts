@@ -13,7 +13,7 @@ import { hasValue, isRectangleCornerRadii } from "~/utils/identity.js";
 import type { GlobalVars, StyleTypes, CategorizedStyles } from "./types.js";
 import { generateVarId } from "~/utils/common.js";
 
-type StyleType = "fill" | "stroke" | "effect" | "text" | "layout" | "appearance";
+type StyleType = "stroke" | "effect" | "text" | "layout" | "appearance";
 
 /**
  * Removes empty/default properties from a node to optimize JSON size
@@ -69,7 +69,6 @@ function findOrCreateLocalVar(
  * Maps style types to their corresponding categories in the new structure
  */
 const STYLE_CATEGORY_MAP: Record<StyleType, keyof CategorizedStyles> = {
-  'fill': 'fills',
   'stroke': 'strokes', 
   'effect': 'effects',
   'text': 'text',
@@ -162,15 +161,8 @@ export const visualsExtractor: ExtractorFn = (node, result, context) => {
     Array.isArray(node.children) &&
     node.children.length > 0;
 
-  // fills
-  if (
-    hasValue("fills", node) &&
-    Array.isArray(node.fills) &&
-    node.fills.length
-  ) {
-    const fills = node.fills.map((fill) => parsePaint(fill, hasChildren));
-    processStyle(node, "fill", fills, result, context);
-  }
+  // NOTE: fills (colors and images) are now processed in design-extractor.ts
+  // This keeps the separation clean between visual properties and design system assets
 
   // strokes
   const strokes = buildSimplifiedStrokes(node, hasChildren);

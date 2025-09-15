@@ -83,6 +83,12 @@ PORT=3333                    # HTTP server port (default: 3333)
 OUTPUT_FORMAT=yaml           # Tool output format: "yaml" or "json" (default: yaml)
 SKIP_IMAGE_DOWNLOADS=false   # Disable image download tool (default: false)
 ENABLE_AI_RULES=false        # Enable AI-based audit rules (default: false)
+
+# LLM Configuration (for AI-based rules)
+GOOGLE_AI_API_KEY=your_google_ai_api_key  # Required for AI-based rules
+LLM_MODEL=gemini-2.0-flash-exp           # LLM model to use (default: gemini-2.0-flash-exp)
+LLM_MAX_TOKENS=1000                      # Maximum tokens for LLM responses (default: 1000)
+LLM_TEMPERATURE=0.1                      # LLM temperature for consistency (default: 0.1)
 ```
 
 ### CLI Arguments
@@ -94,6 +100,7 @@ All environment variables can be overridden with CLI arguments:
 - `--json` (sets OUTPUT_FORMAT to json)
 - `--skip-image-downloads`
 - `--enable-ai-rules`
+- `--google-ai-api-key` (for LLM functionality)
 - `--env path/to/custom/.env`
 
 ## Testing and Development
@@ -202,9 +209,10 @@ The audit tool analyzes Figma designs against these best practices:
    - Checks for states: `hover`, `focus`, `active`, `disabled`
 
 9. **Color Naming** (`check-color-names.ts`) 🤖 *AI-Active*
-   - Uses AI prompts to analyze color style naming conventions  
-   - Identifies literal names (e.g., "Blue") vs. semantic names (e.g., "primary-500")
-   - Requires `--enable-ai-rules` flag or `ENABLE_AI_RULES=true`
+   - Uses Google Gemini 2.0 Flash to analyze color style naming conventions  
+   - Identifies literal names (e.g., "Blue", "red-500") vs. semantic names (e.g., "primary-500", "text-danger")
+   - Provides semantic suggestions for literal color names
+   - Requires `--enable-ai-rules` flag or `ENABLE_AI_RULES=true` and `GOOGLE_AI_API_KEY`
 
 ### Rule Configuration
 

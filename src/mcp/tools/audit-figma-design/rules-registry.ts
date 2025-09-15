@@ -13,7 +13,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Activer Auto Layout dans les propriétés du frame pour permettre un redimensionnement automatique et une organisation flexible des éléments",
     icon: "📐",
     color: "#3B82F6",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Renommer les calques avec une convention claire et descriptive (ex: btn-primary, card-content, header-logo)",
     icon: "🏷️",
     color: "#10B981",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 3,
@@ -31,7 +33,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Reconnecter aux styles du Design System ou créer de nouveaux styles partagés pour remplacer les valeurs inline",
     icon: "🎨",
     color: "#EF4444",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 4,
@@ -40,7 +43,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Configurer les paramètres d'export (format, résolution, suffixe) pour les éléments destinés aux développeurs",
     icon: "📤",
     color: "#F59E0B",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 5,
@@ -49,7 +53,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Supprimer les calques masqués inutiles ou les rendre visibles s'ils sont nécessaires",
     icon: "👁️",
     color: "#8B5CF6",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 6,
@@ -58,7 +63,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Convertir les groupes en frames pour bénéficier des fonctionnalités avancées (Auto Layout, contraintes, etc.)",
     icon: "📦",
     color: "#EC4899",
-    category: "standard"
+    category: "standard",
+    state: "enabled"
   },
   {
     id: 7,
@@ -67,7 +73,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Créer un composant réutilisable pour ce pattern répété afin d'améliorer la maintenabilité",
     icon: "🧩",
     color: "#6366F1",
-    category: "ai-based"
+    category: "ai-based",
+    state: "enabled"
   },
   {
     id: 8,
@@ -76,7 +83,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Ajouter les états manquants (hover, focus, active, disabled) sous forme de variants du composant",
     icon: "🔄",
     color: "#14B8A6",
-    category: "ai-based"
+    category: "ai-based",
+    state: "enabled"
   },
   {
     id: 9,
@@ -85,7 +93,8 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     resolutionAdvice: "Renommer les couleurs avec des noms sémantiques qui reflètent leur usage plutôt que leur apparence",
     icon: "🌈",
     color: "#F97316",
-    category: "ai-based"
+    category: "ai-based",
+    state: "enabled"
   }
 ];
 
@@ -108,4 +117,28 @@ export function getAllRuleDefinitions(): RuleDefinition[] {
  */
 export function getRuleDefinitionsByCategory(category: 'standard' | 'ai-based'): RuleDefinition[] {
   return RULES_REGISTRY.filter(rule => rule.category === category);
+}
+
+/**
+ * Get enabled rule definitions only
+ */
+export function getEnabledRuleDefinitions(): RuleDefinition[] {
+  return RULES_REGISTRY.filter(rule => rule.state === 'enabled');
+}
+
+/**
+ * Update rule state dynamically
+ */
+export function updateRuleState(ruleId: number, state: RuleDefinition['state'], errorMessage?: string): boolean {
+  const rule = RULES_REGISTRY.find(rule => rule.id === ruleId);
+  if (!rule) return false;
+  
+  rule.state = state;
+  if (errorMessage) {
+    rule.errorMessage = errorMessage;
+  } else {
+    delete rule.errorMessage;
+  }
+  
+  return true;
 }

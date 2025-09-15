@@ -17,6 +17,8 @@ export interface RuleDefinition {
   icon: string;
   color: string;
   category: 'standard' | 'ai-based';
+  state: 'enabled' | 'disabled' | 'error' | 'pending';
+  errorMessage?: string;
 }
 
 export interface AuditResult {

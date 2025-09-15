@@ -45,9 +45,9 @@ const programmaticRules = [
 ];
 
 const aiBasedRules = [
+    checkColorNames,
     findComponentCandidates,
     checkInteractionStates,
-    checkColorNames,
 ];
 
 function runAudit(context: FigmaContext, options: AuditOptions): AuditReport {

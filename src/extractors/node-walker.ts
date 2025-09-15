@@ -23,8 +23,8 @@ export function extractFromDesign(
   extractors: ExtractorFn[],
   options: TraversalOptions = {},
   globalVars: GlobalVars = { 
-    designSystem: { fills: {}, text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
-    localStyles: { fills: {}, text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
+    designSystem: { text: {}, strokes: {}, effects: {}, layout: {}, appearance: {}, colors: {}, images: {} },
+    localStyles: { text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
     images: {}
   },
 ): { nodes: SimplifiedNode[]; globalVars: GlobalVars } {

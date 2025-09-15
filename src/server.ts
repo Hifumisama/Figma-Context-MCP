@@ -96,9 +96,12 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
 
       // Étape 2: Auditer le design
       Logger.log("Étape 2: Audit du design en cours...");
+      const enableAiRules = process.env.ENABLE_AI_RULES === 'true';
+      Logger.log(`AI rules ${enableAiRules ? 'enabled' : 'disabled'}`);
+      
       const auditResult = await auditFigmaDesignTool.handler(
         { figmaDataJson, outputFormat },
-        { enableAiRules: false } // Désactiver les règles AI pour l'instant
+        { enableAiRules }
       );
 
       if (auditResult.isError) {

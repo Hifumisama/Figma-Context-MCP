@@ -26,7 +26,6 @@ export interface StyleDefinition {
 export type DesignSystemStyleTypes = StyleTypes | StyleDefinition;
 
 export interface CategorizedStyles {
-  fills: Record<string, StyleTypes>;
   text: Record<string, StyleTypes>;
   strokes: Record<string, StyleTypes>;
   effects: Record<string, StyleTypes>;
@@ -35,12 +34,13 @@ export interface CategorizedStyles {
 }
 
 export interface DesignSystemStyles {
-  fills: Record<string, DesignSystemStyleTypes>;
   text: Record<string, DesignSystemStyleTypes>;
   strokes: Record<string, DesignSystemStyleTypes>;
   effects: Record<string, DesignSystemStyleTypes>;
   layout: Record<string, DesignSystemStyleTypes>;
   appearance: Record<string, DesignSystemStyleTypes>;
+  colors: Record<string, ColorStyleInfo>;
+  images: Record<string, ImageStyleInfo>;
 }
 
 export type GlobalVars = {
@@ -72,6 +72,23 @@ export type ExtractorFn = (
   result: SimplifiedNode,
   context: TraversalContext,
 ) => void;
+
+export interface ColorStyleInfo {
+  name: string;
+  hexValue: string;
+}
+
+export interface ImageStyleInfo {
+  name?: string;
+  imageRef: string;
+  scaleMode?: string;
+  objectFit?: string;
+  isBackground?: boolean;
+  imageDownloadArguments?: {
+    needsCropping: boolean;
+    requiresImageDimensions: boolean;
+  };
+}
 
 export interface SimplifiedDesign {
   name: string;
