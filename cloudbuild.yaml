@@ -37,7 +37,10 @@ steps:
       - 'FIGMA_API_KEY=figma-api-key:latest'
       # Variables d'environnement classiques
       - '--set-env-vars'
-      - 'NODE_ENV=production'
+      - 'NODE_ENV=production,GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=europe-west9,LLM_MODEL=gemini-2.0-flash-lite,LLM_TEMPERATURE=0.9'
+      # Secrets pour l'authentification LLM
+      - '--set-secrets'
+      - 'GOOGLE_CLIENT_EMAIL=llm-service-account-email:latest,GOOGLE_PRIVATE_KEY=llm-service-account-key:latest'
       # --allow-unauthenticated permet de rendre le service accessible publiquement
       # Si votre API doit être privée, il faudra changer cette option
       - '--allow-unauthenticated'

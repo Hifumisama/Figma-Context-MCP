@@ -17,6 +17,7 @@ interface ColorNameAnalysis {
 }
 
 function generateColorNamePrompt(colorNames: string[]): string {
+  Logger.log(colorNames.map(name => `- ${name}`).join('\n'), 'colorNames');
     return `As an expert in Design Systems, analyze the following list of color style names from a Figma file.
 
 Identify which names are "literal" (e.g., "Blue", "light-grey", "red-500", "#FF0000") and which are "semantic" (e.g., "primary-500", "text-color-danger", "surface-elevated").
@@ -34,8 +35,7 @@ ${colorNames.map(name => `- ${name}`).join('\n')}`;
 }
 
 export const checkColorNames: AuditRule = (context) => {
-  Logger.log('🎯 checkColorNames rule CALLED!');
-  
+
   const colorStyles = context.globalVars.designSystem.colors || {};
   const colorNames = Object.values(colorStyles).map(color => color.name).filter(name => name !== 'none');
 
@@ -45,8 +45,6 @@ export const checkColorNames: AuditRule = (context) => {
     Logger.log('⚠️ No color styles found, returning empty');
     return [];
   }
-
-  Logger.log('hello ? :D')
 
   // Check if LLM is available and enabled
   const enableAIRules = process.env.ENABLE_AI_RULES === 'true' || process.env.NODE_ENV === 'development';
@@ -60,12 +58,11 @@ export const checkColorNames: AuditRule = (context) => {
   try {
     const llmService = LLMService.fromEnvironment();
     const prompt = generateColorNamePrompt(colorNames);
-    Logger.log(`Analyzing ${colorNames.length} color names with LLM`);
-    
     // Make the LLM call (this is async but AuditRule is sync - we'll return a placeholder)
     // In a real implementation, you might want to make AuditRule async or handle this differently
     llmService.callLLM<ColorNameAnalysis[]>(prompt).then(response => {
       if (response.success && response.data) {
+        console.log(response.data);
         Logger.log(`LLM analysis completed: found ${response.data.length} literal color names`);
       } else {
         Logger.log(`LLM analysis failed: ${response.error}`);

@@ -5,6 +5,10 @@ export type { FigmaService } from "./services/figma.js";
 export { getServerConfig } from "./config.js";
 export { startServer } from "./cli.js";
 
+// Export LLM service
+export { LLMService } from "./services/llm-service.js";
+export type { LLMConfig, LLMResponse } from "./services/llm-service.js";
+
 // Flexible extractor system
 export type {
   ExtractorFn,

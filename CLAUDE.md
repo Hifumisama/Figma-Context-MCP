@@ -84,11 +84,29 @@ OUTPUT_FORMAT=yaml           # Tool output format: "yaml" or "json" (default: ya
 SKIP_IMAGE_DOWNLOADS=false   # Disable image download tool (default: false)
 ENABLE_AI_RULES=false        # Enable AI-based audit rules (default: false)
 
-# LLM Configuration (for AI-based rules)
-GOOGLE_AI_API_KEY=your_google_ai_api_key  # Required for AI-based rules
+# LLM Configuration (for AI-based rules) - Uses Google Cloud Vertex AI
+GOOGLE_CLOUD_PROJECT=your_project_id     # Required: Google Cloud Project ID
+GOOGLE_CLOUD_LOCATION=us-central1        # Optional: Vertex AI region (default: us-central1)
 LLM_MODEL=gemini-2.0-flash-exp           # LLM model to use (default: gemini-2.0-flash-exp)
 LLM_MAX_TOKENS=1000                      # Maximum tokens for LLM responses (default: 1000)
 LLM_TEMPERATURE=0.1                      # LLM temperature for consistency (default: 0.1)
+
+# Authentication Options (choose one method):
+
+# Method 1: Service Account JSON file (recommended for local development)
+GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
+
+# Method 2: Service Account credentials inline (for containerized environments)
+GOOGLE_CLIENT_EMAIL=service-account@project.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...your private key...\n-----END PRIVATE KEY-----\n"
+
+# Method 3: OAuth2 credentials (for user authentication)
+OAUTH_CLIENT_ID=your_oauth_client_id
+OAUTH_CLIENT_SECRET=your_oauth_client_secret
+OAUTH_REFRESH_TOKEN=your_refresh_token
+
+# Method 4: Application Default Credentials (ADC) - if no auth method specified above
+# Automatically uses gcloud auth application-default login or metadata service on GCP
 ```
 
 ### CLI Arguments
@@ -100,7 +118,9 @@ All environment variables can be overridden with CLI arguments:
 - `--json` (sets OUTPUT_FORMAT to json)
 - `--skip-image-downloads`
 - `--enable-ai-rules`
-- `--google-ai-api-key` (for LLM functionality)
+- `--google-cloud-project` (Google Cloud Project ID)
+- `--google-cloud-location` (Vertex AI region)
+- `--google-application-credentials` (path to service account JSON)
 - `--env path/to/custom/.env`
 
 ## Testing and Development
@@ -212,7 +232,7 @@ The audit tool analyzes Figma designs against these best practices:
    - Uses Google Gemini 2.0 Flash to analyze color style naming conventions  
    - Identifies literal names (e.g., "Blue", "red-500") vs. semantic names (e.g., "primary-500", "text-danger")
    - Provides semantic suggestions for literal color names
-   - Requires `--enable-ai-rules` flag or `ENABLE_AI_RULES=true` and `GOOGLE_AI_API_KEY`
+   - Requires `--enable-ai-rules` flag or `ENABLE_AI_RULES=true` and Vertex AI configuration
 
 ### Rule Configuration
 
@@ -233,6 +253,23 @@ Rules can be enabled/disabled and configured in the audit tool. AI-based rules a
 Uses **pnpm** as the package manager. Key dependencies:
 - `@modelcontextprotocol/sdk` - MCP protocol implementation
 - `@figma/rest-api-spec` - Figma API types
+- `@google-cloud/vertexai` - Google Cloud Vertex AI SDK for LLM functionality
+- `google-auth-library` - Google Cloud authentication (OAuth2, Service Account, ADC)
 - `express` - HTTP server framework
 - `zod` - Schema validation
 - `sharp` - Image processing
+
+## LLM Service Migration
+
+The project has been migrated from the deprecated `@google/generative-ai` package to Google Cloud Vertex AI:
+
+### What Changed
+- **Before**: Used Google AI Studio API with direct API key authentication
+- **After**: Uses Google Cloud Vertex AI with OAuth2/Service Account authentication
+- **Benefits**: Better security, enterprise-grade authentication, and long-term support
+
+### Authentication Methods
+1. **Service Account JSON** (Recommended for development)
+2. **Inline Service Account credentials** (For containers/CI)
+3. **OAuth2** (For user authentication)
+4. **Application Default Credentials** (Automatic on GCP)
