@@ -8,7 +8,7 @@
  * similar dimensions. If a group contains multiple similar nodes, it's flagged as a candidate
  * for componentization, helping to improve design system consistency and maintainability.
  */
-import type { AuditRule, AuditResult } from "../types.js";
+import type { AsyncAuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
 const RULE_ID = 7;
@@ -74,7 +74,7 @@ function areDimensionsSimilar(dim1: number, dim2: number, tolerance = 0.2): bool
     return ratio >= (1 - tolerance);
 }
 
-export const findComponentCandidates: AuditRule = (context) => {
+export const findComponentCandidates: AsyncAuditRule = async (context) => {
   const candidateNodes: SimplifiedNode[] = [];
   const globalVars = context.globalVars;
 

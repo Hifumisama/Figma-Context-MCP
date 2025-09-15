@@ -9,7 +9,7 @@
  */
 import { z } from "zod";
 import type { FigmaContext } from "../get-figma-context/types.js";
-import type { AuditReport, AuditResult } from "./types.js";
+import type { AuditReport, AuditResult, AsyncAuditRule } from "./types.js";
 import { getAllRuleDefinitions } from "./rules-registry.js";
 import { checkDetachedStyles } from "./rules/check-detached-styles.js";
 import { checkLayerNaming } from "./rules/check-layer-naming.js";
@@ -44,17 +44,20 @@ const programmaticRules = [
     checkHiddenLayers,
 ];
 
-const aiBasedRules = [
+const aiBasedRules: AsyncAuditRule[] = [
     checkColorNames,
     findComponentCandidates,
     checkInteractionStates,
 ];
 
-function runAudit(context: FigmaContext, options: AuditOptions): AuditReport {
+async function runAudit(context: FigmaContext, options: AuditOptions): Promise<AuditReport> {
     let allResults = programmaticRules.flatMap(rule => rule(context));
 
     if (options.enableAiRules) {
-        const aiResults = aiBasedRules.flatMap(rule => rule(context));
+        // Attendre que toutes les règles AI se terminent
+        const aiResultsPromises = aiBasedRules.map(rule => rule(context));
+        const aiResultsArrays = await Promise.all(aiResultsPromises);
+        const aiResults = aiResultsArrays.flat();
         allResults = [...allResults, ...aiResults];
     }
 
@@ -146,7 +149,7 @@ function formatReportAsMarkdown(report: AuditReport): string {
 async function auditFigmaDesignHandler(params: AuditParams, options: AuditOptions) {
     try {
         const figmaContext: FigmaContext = JSON.parse(params.figmaDataJson);
-        const report = runAudit(figmaContext, options);
+        const report = await runAudit(figmaContext, options);
         
         let outputText: string;
         if (params.outputFormat === 'json') {

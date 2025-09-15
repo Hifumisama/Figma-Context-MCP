@@ -8,6 +8,7 @@
 import type { FigmaContext } from "../get-figma-context/types.js";
 
 export type AuditRule = (context: FigmaContext) => AuditResult[];
+export type AsyncAuditRule = (context: FigmaContext) => Promise<AuditResult[]>;
 
 export interface RuleDefinition {
   id: number;

@@ -7,7 +7,7 @@
  * for standard states like "hover" or "focus" exist within that group. Missing states
  * are reported to ensure a complete and usable component set.
  */
-import type { AuditRule, AuditResult } from "../types.js";
+import type { AsyncAuditRule, AuditResult } from "../types.js";
 import type { SimplifiedNode } from "../../../../extractors/types.js";
 
 const RULE_ID = 8;
@@ -15,7 +15,7 @@ const RULE_ID = 8;
 const INTERACTIVE_KEYWORDS = ['button', 'input', 'select', 'toggle', 'checkbox', 'radio', 'switch', 'slider', 'tab'];
 const INTERACTION_STATES = ['hover', 'focus', 'active', 'disabled'];
 
-export const checkInteractionStates: AuditRule = (context) => {
+export const checkInteractionStates: AsyncAuditRule = async (context) => {
   const componentNodes: SimplifiedNode[] = [];
   const results: AuditResult[] = [];
 
