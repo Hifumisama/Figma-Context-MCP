@@ -95,6 +95,16 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     color: "#F97316",
     category: "ai-based",
     state: "enabled"
+  },
+  {
+    id: 10,
+    name: "Descriptions des composants",
+    description: "Les composants et composant sets doivent avoir une description pour faciliter la documentation",
+    resolutionAdvice: "Ajouter une description claire et utile pour chaque composant afin d'améliorer la collaboration équipe",
+    icon: "📝",
+    color: "#22D3EE",
+    category: "standard",
+    state: "enabled"
   }
 ];
 

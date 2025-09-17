@@ -20,6 +20,7 @@ import { findComponentCandidates } from "./rules/find-component-candidates.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkHiddenLayers } from "./rules/check-hidden-layers.js";
+import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
 import { Logger } from "../../../utils/logger.js";
 
 // --- Parameters ---
@@ -42,6 +43,7 @@ const programmaticRules = [
     checkExportSettings,
     checkGroupVsFrame,
     checkHiddenLayers,
+    checkComponentDescriptions,
 ];
 
 const aiBasedRules: AsyncAuditRule[] = [

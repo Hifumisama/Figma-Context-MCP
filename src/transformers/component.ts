@@ -10,6 +10,7 @@ export interface SimplifiedComponentDefinition {
   id: string;
   key: string;
   name: string;
+  description?: string;
   componentSetId?: string;
 }
 
@@ -33,6 +34,7 @@ export function simplifyComponents(
         id,
         key: comp.key,
         name: comp.name,
+        description: comp.description,
         componentSetId: comp.componentSetId,
       },
     ]),
