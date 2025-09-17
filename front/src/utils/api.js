@@ -110,3 +110,24 @@ export function extractFigmaFileId(url) {
   const match = url.match(/\/(?:file|design)\/([a-zA-Z0-9]+)/);
   return match ? match[1] : null;
 }
+
+/**
+ * Génère une URL Figma pour une node spécifique
+ * @param {string} baseUrl - URL Figma de base
+ * @param {string} nodeId - ID de la node (format "123:456" ou "I12:34;56:78;90:12" pour les instances)
+ * @returns {string|null} - URL vers la node ou null si invalide
+ */
+export function generateNodeUrl(baseUrl, nodeId) {
+  if (!isValidFigmaUrl(baseUrl) || !nodeId) return null;
+
+  // Pour les instances avec structure hiérarchique (ex: "I12:34;56:78;90:12")
+  // on prend le dernier segment après le dernier point-virgule
+  const lastSegment = nodeId.includes(';') ? nodeId.split(';').pop() : nodeId;
+
+  // Convertir le format "123:456" en "123-456" pour l'URL
+  const urlNodeId = lastSegment.replace(':', '-');
+
+  // Enlever les paramètres existants et ajouter node-id
+  const urlWithoutParams = baseUrl.split('?')[0];
+  return `${urlWithoutParams}?node-id=${urlNodeId}`;
+}

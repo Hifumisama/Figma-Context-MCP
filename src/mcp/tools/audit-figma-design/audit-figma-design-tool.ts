@@ -64,9 +64,12 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
     // Grouper les résultats par nodeId pour consolider les règles
     const groupedResults = groupResultsByNodeId(allResults);
 
+    // Déduplication des erreurs communes entre composants et instances
+    const deduplicatedResults = deduplicateComponentInstances(groupedResults);
+
     return {
         rulesDefinitions: getAllRuleDefinitions(),
-        results: groupedResults,
+        results: deduplicatedResults,
     };
 }
 
@@ -76,14 +79,14 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
  */
 function groupResultsByNodeId(results: AuditResult[]): AuditResult[] {
     const grouped = new Map<string, AuditResult>();
-    
+
     for (const result of results) {
         const existing = grouped.get(result.nodeId);
-        
+
         if (existing) {
             // Node déjà présent : ajouter les nouvelles règles
             existing.ruleIds.push(...result.ruleIds);
-            
+
             // Fusionner les objets moreInfos
             existing.moreInfos = { ...existing.moreInfos, ...result.moreInfos };
         } else {
@@ -96,8 +99,73 @@ function groupResultsByNodeId(results: AuditResult[]): AuditResult[] {
             });
         }
     }
-    
+
     return Array.from(grouped.values());
+}
+
+/**
+ * Élimine les duplications entre composants maîtres et leurs instances.
+ * Pour chaque instance, supprime les règles communes avec son composant maître,
+ * gardant seulement les erreurs spécifiques à l'instance.
+ */
+function deduplicateComponentInstances(results: AuditResult[]): AuditResult[] {
+    // Séparer les composants maîtres des instances
+    const masterComponents = new Map<string, AuditResult>();
+    const instances = new Map<string, AuditResult & { masterComponentId: string }>();
+    const otherNodes: AuditResult[] = [];
+
+    for (const result of results) {
+        if (result.nodeId.startsWith('I')) {
+            // Instance : extraire l'ID du composant maître (premier segment après "I")
+            const masterComponentId = result.nodeId.substring(1).split(';')[0];
+            instances.set(result.nodeId, { ...result, masterComponentId });
+        } else {
+            // Potentiel composant maître ou autre node
+            masterComponents.set(result.nodeId, result);
+            otherNodes.push(result);
+        }
+    }
+
+    // Déduplication des instances
+    const deduplicatedResults: AuditResult[] = [];
+
+    // Garder tous les composants maîtres et autres nodes
+    deduplicatedResults.push(...otherNodes);
+
+    // Traiter chaque instance
+    for (const [instanceId, instance] of instances.entries()) {
+        const masterComponent = masterComponents.get(instance.masterComponentId);
+
+        if (masterComponent) {
+            // Filtrer les règles communes entre l'instance et son composant maître
+            const uniqueRuleIds = instance.ruleIds.filter(
+                ruleId => !masterComponent.ruleIds.includes(ruleId)
+            );
+
+            // Garder l'instance seulement si elle a des erreurs spécifiques
+            if (uniqueRuleIds.length > 0) {
+                // Filtrer aussi les moreInfos pour ne garder que celles des règles spécifiques
+                const filteredMoreInfos: { [key: string]: string } = {};
+                for (const ruleId of uniqueRuleIds) {
+                    if (instance.moreInfos[ruleId]) {
+                        filteredMoreInfos[ruleId] = instance.moreInfos[ruleId];
+                    }
+                }
+
+                deduplicatedResults.push({
+                    ...instance,
+                    ruleIds: uniqueRuleIds,
+                    moreInfos: filteredMoreInfos
+                });
+            }
+            // Si pas d'erreurs spécifiques, l'instance est complètement filtrée
+        } else {
+            // Pas de composant maître trouvé, garder l'instance telle quelle
+            deduplicatedResults.push(instance);
+        }
+    }
+
+    return deduplicatedResults;
 }
 
 // --- Report Formatting ---

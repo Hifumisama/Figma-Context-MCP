@@ -1,7 +1,8 @@
 <script>
-  import { getFilteredReportData, allRulesWithStatus } from '../../stores/audit.svelte.js';
+  import { getFilteredReportData, allRulesWithStatus, auditState } from '../../stores/audit.svelte.js';
   import RuleBadge from '../components/RuleBadge.svelte';
   import RuleDetails from '../components/RuleDetails.svelte';
+  import { generateNodeUrl } from '../../utils/api.js';
 
   // État local pour gérer les accordéons
   let activeDetails = $state({}); // { nodeId: ruleId } pour traquer quel accordéon est ouvert
@@ -59,6 +60,7 @@
               <th class="px-4 py-3 text-left">👤 ID Node</th>
               <th class="px-4 py-3 text-left">📝 Nom node</th>
               <th class="px-4 py-3 text-left">📋 Règles détectées</th>
+              <th class="px-4 py-3 text-left">🔗 Vérifier dans la maquette</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-600">
@@ -79,13 +81,34 @@
                 <td class="px-4 py-3 align-top">
                   <div class="flex flex-wrap gap-2">
                     {#each node.ruleIds as ruleId}
-                      <RuleBadge 
-                        {ruleId} 
+                      <RuleBadge
+                        {ruleId}
                         isActive={isDetailOpen(node.nodeId, ruleId)}
-                        onClick={() => toggleDetails(node.nodeId, ruleId)} 
+                        onClick={() => toggleDetails(node.nodeId, ruleId)}
                       />
                     {/each}
                   </div>
+                </td>
+
+                <!-- Bouton Figma -->
+                <td class="px-4 py-3 align-top">
+                  {#if auditState.figmaUrl}
+                    <a
+                      href={generateNodeUrl(auditState.figmaUrl, node.nodeId)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium bg-figma-button hover:bg-figma-button/80 text-white rounded-lg transition-colors"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 7H20V12H15V7Z" fill="currentColor"/>
+                        <path d="M10 7H15V12H10V17H5V12H10V7Z" fill="currentColor"/>
+                        <path d="M10 17V22H15V17H10Z" fill="currentColor"/>
+                      </svg>
+                      Voir dans Figma
+                    </a>
+                  {:else}
+                    <span class="text-figma-textMuted text-xs">URL non disponible</span>
+                  {/if}
                 </td>
               </tr>
               
@@ -93,9 +116,9 @@
               {#each node.ruleIds as ruleId}
                 {#if isDetailOpen(node.nodeId, ruleId)}
                   <tr>
-                    <td colspan="3" class="p-0">
-                      <RuleDetails 
-                        {ruleId} 
+                    <td colspan="4" class="p-0">
+                      <RuleDetails
+                        {ruleId}
                         isOpen={true}
                         moreInfos={node.moreInfos}
                       />
