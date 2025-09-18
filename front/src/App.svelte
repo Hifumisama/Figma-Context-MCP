@@ -5,6 +5,7 @@
   import ErrorDisplay from './lib/common/ErrorDisplay.svelte';
   import StatsCards from './lib/display/StatsCards.svelte';
   import TotalDetectedRules from './lib/display/TotalDetectedRules.svelte';
+  import DesignSystemViewer from './lib/display/DesignSystemViewer.svelte';
   import DetailedTables from './lib/display/DetailedTables.svelte';
 
   // Titre intégré (pas de composant séparé selon les specs)
@@ -42,7 +43,10 @@
         <div class="flex justify-center">
           <TotalDetectedRules />
         </div>
-        
+
+        <!-- Design System Viewer -->
+        <DesignSystemViewer />
+
         <!-- cartes statistiques en haut -->
         <StatsCards />
         

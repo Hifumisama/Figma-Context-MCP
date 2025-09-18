@@ -6,6 +6,7 @@
  * structured and summarized format.
  */
 import type { FigmaContext } from "../get-figma-context/types.js";
+import type { DesignSystemStyles } from "../../../extractors/types.js";
 
 export type AuditRule = (context: FigmaContext) => AuditResult[];
 export type AsyncAuditRule = (context: FigmaContext) => Promise<AuditResult[]>;
@@ -32,4 +33,5 @@ export interface AuditResult {
 export interface AuditReport {
   rulesDefinitions: RuleDefinition[];
   results: AuditResult[];
+  designSystem?: DesignSystemStyles;
 }

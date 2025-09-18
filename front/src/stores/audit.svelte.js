@@ -14,9 +14,10 @@ export const auditState = $state({
   showCompliantRules: false,
   
   // Results state - nouvelle structure
-  results: null, // Contient { rulesDefinitions: [], results: [] }
+  results: null, // Contient { rulesDefinitions: [], results: [], designSystem?: {} }
   rulesDefinitions: [], // Définitions dynamiques des règles du backend
   auditResults: [], // Résultats d'audit au format AuditResult[]
+  designSystem: null, // Données du design system Figma
   error: null
 });
 
@@ -136,6 +137,7 @@ export function setResults(results) {
   auditState.results = results;
   auditState.rulesDefinitions = results.rulesDefinitions || [];
   auditState.auditResults = results.results || [];
+  auditState.designSystem = results.designSystem || null;
   auditState.currentView = 'report';
   auditState.isLoading = false;
   auditState.error = null;
@@ -146,6 +148,7 @@ export function resetAudit() {
   auditState.results = null;
   auditState.rulesDefinitions = [];
   auditState.auditResults = [];
+  auditState.designSystem = null;
   auditState.error = null;
   auditState.isLoading = false;
   auditState.selectedRulesFilter = [];
