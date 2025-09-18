@@ -19,7 +19,6 @@ import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
 import { findComponentCandidates } from "./rules/find-component-candidates.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
-import { checkHiddenLayers } from "./rules/check-hidden-layers.js";
 import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
 import { Logger } from "../../../utils/logger.js";
 
@@ -42,7 +41,6 @@ const programmaticRules = [
     checkAutoLayoutUsage,
     checkExportSettings,
     checkGroupVsFrame,
-    checkHiddenLayers,
     checkComponentDescriptions,
 ];
 

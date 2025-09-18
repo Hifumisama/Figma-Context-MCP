@@ -47,16 +47,6 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     state: "enabled"
   },
   {
-    id: 5,
-    name: "Calques masqués",
-    description: "Nettoyer les fichiers en supprimant les calques masqués ou en les rendant visibles",
-    resolutionAdvice: "Supprimer les calques masqués inutiles ou les rendre visibles s'ils sont nécessaires",
-    icon: "👁️",
-    color: "#8B5CF6",
-    category: "standard",
-    state: "enabled"
-  },
-  {
     id: 6,
     name: "Groupes vs Frames",
     description: "Utiliser des frames plutôt que des groupes pour un layout approprié et des fonctionnalités avancées",
