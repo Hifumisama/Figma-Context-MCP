@@ -15,6 +15,9 @@
   // State for accordions - track which sections are open for each suggestion
   let accordionStates = {};
 
+  // State for main accordion (collapsed by default)
+  let isMainAccordionOpen = false;
+
   // Helper function to generate Figma URLs for nodes
   function getFigmaNodeUrl(nodeId, baseUrl = '') {
     if (!baseUrl || !nodeId) return '#';
@@ -42,6 +45,10 @@
   function toggleAccordion(suggestionIndex, section) {
     accordionStates[suggestionIndex][section] = !accordionStates[suggestionIndex][section];
   }
+
+  function toggleMainAccordion() {
+    isMainAccordionOpen = !isMainAccordionOpen;
+  }
 </script>
 
 {#if componentSuggestions.length > 0}
@@ -55,7 +62,34 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Encart cliquable avec résumé -->
+    <button
+      class="w-full bg-figma-card border border-gray-600 rounded-lg p-4 hover:border-gray-500 transition-all duration-200 mb-4"
+      onclick={toggleMainAccordion}
+    >
+      <div class="flex items-center justify-between">
+        <div class="text-left">
+          <p class="text-white/60 text-sm">
+            {componentSuggestions.length} suggestion{componentSuggestions.length > 1 ? 's' : ''} de composant{componentSuggestions.length > 1 ? 's' : ''} détectée{componentSuggestions.length > 1 ? 's' : ''}
+            • {componentSuggestions.reduce((sum, s) => sum + s.possibleInstances.length, 0)} instances au total
+          </p>
+        </div>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="transition-transform duration-200 text-white/60 {isMainAccordionOpen ? 'rotate-180' : ''}"
+        >
+          <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
+        </svg>
+      </div>
+    </button>
+
+    <!-- Contenu de l'accordéon avec animation -->
+    <div class="overflow-hidden transition-all duration-300 ease-in-out {isMainAccordionOpen ? 'max-h-[9999px] opacity-100' : 'max-h-0 opacity-0'}">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each componentSuggestions as suggestion, suggestionIndex}
         <div class="bg-figma-card border border-gray-600 rounded-lg p-6 hover:border-gray-500 transition-colors">
           <!-- Header with component name -->
@@ -204,14 +238,7 @@
           </div>
         </div>
       {/each}
-    </div>
-
-    <!-- Summary footer -->
-    <div class="mt-6 text-center">
-      <p class="text-white/60 text-sm">
-        {componentSuggestions.length} suggestion{componentSuggestions.length > 1 ? 's' : ''} de composant{componentSuggestions.length > 1 ? 's' : ''} détectée{componentSuggestions.length > 1 ? 's' : ''}
-        • {componentSuggestions.reduce((sum, s) => sum + s.possibleInstances.length, 0)} instances au total
-      </p>
+      </div>
     </div>
   </section>
 {/if}

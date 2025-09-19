@@ -8,6 +8,9 @@
   let selectedStroke = $state({ color: '#000000', weight: '1px' });
   let selectedStrokeName = $state('');
 
+  // État pour l'accordéon principal (fermé par défaut)
+  let isDesignSystemOpen = $state(false);
+
   // Fonction pour convertir la lineHeight en pixels
   function lineHeightToPixels(lineHeight, fontSize) {
     if (typeof lineHeight === 'string') {
@@ -83,17 +86,55 @@
       selectedTextStyle = Object.values(textStyles)[0];
     }
   });
+
+  // Fonction pour basculer l'accordéon principal
+  function toggleDesignSystemAccordion() {
+    isDesignSystemOpen = !isDesignSystemOpen;
+  }
 </script>
 
 {#if designSystem}
-<div class="card-figma">
-  <div class="space-y-6">
-    <!-- Titre -->
-    <h3 class="text-white font-semibold text-lg text-center">
-      Design System
-    </h3>
+<section class="mb-8">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-white mb-2">
+      🎨 Design System
+    </h2>
+    <p class="text-white/70">
+      Couleurs, typographies et styles détectés dans la maquette
+    </p>
+  </div>
 
-    <!-- Contenu en 2 colonnes -->
+  <!-- Encart cliquable avec résumé -->
+  <button
+    class="w-full bg-figma-card border border-gray-600 rounded-lg p-4 hover:border-gray-500 transition-all duration-200 mb-4"
+    onclick={toggleDesignSystemAccordion}
+  >
+    <div class="flex items-center justify-between">
+      <div class="text-left">
+        <p class="text-white/60 text-sm">
+          {Object.keys(textStyles).length} style{Object.keys(textStyles).length > 1 ? 's' : ''} de texte
+          • {Object.keys(colorFills).length} couleur{Object.keys(colorFills).length > 1 ? 's' : ''}
+          • {Object.keys(strokeStyles).length} contour{Object.keys(strokeStyles).length > 1 ? 's' : ''}
+        </p>
+      </div>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="transition-transform duration-200 text-white/60 {isDesignSystemOpen ? 'rotate-180' : ''}"
+      >
+        <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
+      </svg>
+    </div>
+  </button>
+
+  <!-- Contenu de l'accordéon avec animation -->
+  <div class="overflow-hidden transition-all duration-300 ease-in-out {isDesignSystemOpen ? 'max-h-[9999px] opacity-100' : 'max-h-0 opacity-0'}">
+    <div class="card-figma">
+      <div class="space-y-6">
+        <!-- Contenu en 2 colonnes -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
       <!-- Colonne Typographie -->
@@ -238,13 +279,15 @@
       </div>
     </div>
 
-    {#if Object.keys(textStyles).length === 0 && Object.keys(colorFills).length === 0 && Object.keys(strokeStyles).length === 0}
-    <!-- État vide global -->
-    <div class="text-center text-figma-textMuted py-8">
-      <div class="text-3xl mb-2">🎨</div>
-      <p class="text-sm">Aucun style de design system détecté</p>
+        {#if Object.keys(textStyles).length === 0 && Object.keys(colorFills).length === 0 && Object.keys(strokeStyles).length === 0}
+        <!-- État vide global -->
+        <div class="text-center text-figma-textMuted py-8">
+          <div class="text-3xl mb-2">🎨</div>
+          <p class="text-sm">Aucun style de design system détecté</p>
+        </div>
+        {/if}
+      </div>
     </div>
-    {/if}
   </div>
-</div>
+</section>
 {/if}
