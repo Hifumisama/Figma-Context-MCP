@@ -16,10 +16,10 @@ import { checkLayerNaming } from "./rules/check-layer-naming.js";
 import { checkAutoLayoutUsage } from "./rules/check-auto-layout-usage.js";
 import { checkExportSettings } from "./rules/check-export-settings.js";
 import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
-import { findComponentCandidates } from "./rules/find-component-candidates.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
+import { detectComponentPatterns } from "./detectors/pattern-detector.js";
 import { Logger } from "../../../utils/logger.js";
 
 // --- Parameters ---
@@ -46,12 +46,14 @@ const programmaticRules = [
 
 const aiBasedRules: AsyncAuditRule[] = [
     checkColorNames,
-    findComponentCandidates,
     checkInteractionStates,
 ];
 
 async function runAudit(context: FigmaContext, options: AuditOptions): Promise<AuditReport> {
     let allResults = programmaticRules.flatMap(rule => rule(context));
+
+    // Detect component patterns using AI (independent of enableAiRules flag)
+    const componentSuggestions = await detectComponentPatterns(context);
 
     if (options.enableAiRules) {
         // Attendre que toutes les règles AI se terminent
@@ -71,6 +73,7 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
         rulesDefinitions: getAllRuleDefinitions(),
         results: deduplicatedResults,
         designSystem: context.globalVars?.designSystem,
+        componentSuggestions,
     };
 }
 

@@ -17,7 +17,6 @@ interface ColorNameAnalysis {
 }
 
 function generateColorNamePrompt(colorNames: string[]): string {
-  Logger.log(colorNames.map(name => `- ${name}`).join('\n'), 'colorNames');
     return `As an expert in Design Systems, analyze the following list of color style names from a Figma file.
 
 Identify which names are "literal" (e.g., "Blue", "light-grey", "red-500", "#FF0000") and which are "semantic" (e.g., "primary-500", "text-color-danger", "surface-elevated", "background-color").
@@ -42,8 +41,6 @@ ${colorNames.map(name => `- ${name}`).join('\n')}`;
 
 export const checkColorNames: AsyncAuditRule = async (context) => {
   const colorStyles = context.globalVars.designSystem.colors || {};
-  Logger.log(colorStyles, 'colorStyles');
-  
   // Créer un map pour associer les noms de couleurs à leurs IDs
   const colorNameToId = new Map<string, string>();
   for (const [colorId, colorData] of Object.entries(colorStyles)) {
@@ -53,8 +50,6 @@ export const checkColorNames: AsyncAuditRule = async (context) => {
   }
   
   const colorNames = Array.from(colorNameToId.keys());
-
-  Logger.log(`📊 Found ${colorNames.length} color styles:`, colorNames);
 
   if (colorNames.length === 0) {
     Logger.log('⚠️ No color styles found, returning empty');

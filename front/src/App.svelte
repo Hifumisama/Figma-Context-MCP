@@ -1,5 +1,5 @@
 <script>
-  import { auditState, showReport } from './stores/audit.svelte.js';
+  import { auditState, showReport, hasComponentSuggestions, getComponentSuggestions } from './stores/audit.svelte.js';
   import InputForm from './lib/forms/InputForm.svelte';
   import LoadingSpinner from './lib/common/LoadingSpinner.svelte';
   import ErrorDisplay from './lib/common/ErrorDisplay.svelte';
@@ -7,6 +7,7 @@
   import TotalDetectedRules from './lib/display/TotalDetectedRules.svelte';
   import DesignSystemViewer from './lib/display/DesignSystemViewer.svelte';
   import DetailedTables from './lib/display/DetailedTables.svelte';
+  import ComponentSuggestionsCards from './lib/display/ComponentSuggestionsCards.svelte';
 
   // Titre intégré (pas de composant séparé selon les specs)
   const title = 'FigmAnalyse de maquette';
@@ -46,6 +47,14 @@
 
         <!-- Design System Viewer -->
         <DesignSystemViewer />
+
+        <!-- Component Suggestions (si disponibles) -->
+        {#if hasComponentSuggestions()}
+          <ComponentSuggestionsCards
+            componentSuggestions={getComponentSuggestions()}
+            baseFigmaUrl={auditState.figmaUrl}
+          />
+        {/if}
 
         <!-- cartes statistiques en haut -->
         <StatsCards />

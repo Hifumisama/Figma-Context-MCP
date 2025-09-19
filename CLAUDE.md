@@ -152,6 +152,18 @@ The project includes a multi-stage Dockerfile optimized for production:
 - Default port is 8080 in production
 - Environment variables injected at runtime
 
+#### Automatic Deployment
+The project uses Cloud Build triggers for automatic deployment when pushing to the repository.
+
+#### Manual Deployment (if needed)
+For manual deployment to Google Cloud Run, use the following command:
+
+```bash
+gcloud builds submit --config cloudbuild.yaml --substitutions=COMMIT_SHA='latest' --region=europe-west9 .
+```
+
+**Note**: Manual deployment is typically not necessary as Cloud Build triggers handle automatic deployment on code changes.
+
 ## REST API Endpoints
 
 In addition to MCP tools, the server provides REST API endpoints when running in HTTP mode:

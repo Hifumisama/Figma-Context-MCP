@@ -30,8 +30,24 @@ export interface AuditResult {
   moreInfos: Record<string, string>; // Objet JSON avec ruleId comme clé et détail comme valeur
 }
 
+export interface ComponentSuggestion {
+  componentName: string;     // camelCase
+  description: string;       // courte mais cohérente en français
+  rootNodeId: string;        // ID de la node racine du pattern (première instance)
+  rootNodeName: string;      // Nom de la node racine (première instance)
+  possibleInstances: {       // Toutes les instances où ce composant peut être appliqué
+    name: string;
+    nodeId: string;
+  }[];
+  usableNodes: {             // arborescence complète de la première instance
+    name: string;
+    nodeId: string;
+  }[];
+}
+
 export interface AuditReport {
   rulesDefinitions: RuleDefinition[];
   results: AuditResult[];
   designSystem?: DesignSystemStyles;
+  componentSuggestions?: ComponentSuggestion[];
 }

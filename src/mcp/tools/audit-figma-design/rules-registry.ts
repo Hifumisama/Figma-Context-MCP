@@ -57,16 +57,6 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     state: "enabled"
   },
   {
-    id: 7,
-    name: "Candidats à la composantisation",
-    description: "Motifs répétés qui pourraient être convertis en composants réutilisables",
-    resolutionAdvice: "Créer un composant réutilisable pour ce pattern répété afin d'améliorer la maintenabilité",
-    icon: "🧩",
-    color: "#6366F1",
-    category: "ai-based",
-    state: "enabled"
-  },
-  {
     id: 8,
     name: "États d'interaction",
     description: "Les composants interactifs doivent avoir tous leurs états (hover, focus, disabled)",
