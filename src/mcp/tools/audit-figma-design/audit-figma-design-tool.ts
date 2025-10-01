@@ -20,6 +20,8 @@ import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
 import { detectComponentPatterns } from "./detectors/pattern-detector.js";
+import { FigmaDescriptionGenerator } from "./generators/figma-description-generator.js";
+import { LLMService } from "../../../services/llm-service.js";
 import { Logger } from "../../../utils/logger.js";
 
 // --- Parameters ---
@@ -55,12 +57,34 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
     // Detect component patterns using AI (independent of enableAiRules flag)
     const componentSuggestions = await detectComponentPatterns(context);
 
+    // Generate Figma description
+    let figmaAiDescription: string;
     if (options.enableAiRules) {
+        try {
+            const llmService = LLMService.fromEnvironment();
+            const descriptionGenerator = new FigmaDescriptionGenerator(llmService);
+            const descriptionResult = await descriptionGenerator.generateDescription(context);
+
+            if (descriptionResult.success && descriptionResult.description) {
+                figmaAiDescription = descriptionResult.description;
+            } else {
+                Logger.log(`Échec de la génération de description IA: ${descriptionResult.error}`);
+                figmaAiDescription = "⚠️ La description automatique n'a pas pu être générée correctement.\n\n" +
+                    FigmaDescriptionGenerator.generateFallbackDescription(context);
+            }
+        } catch (error) {
+            Logger.log(`Erreur lors de la génération de description: ${error}`);
+            figmaAiDescription = "⚠️ La description automatique n'a pas pu être générée correctement.\n\n" +
+                FigmaDescriptionGenerator.generateFallbackDescription(context);
+        }
+
         // Attendre que toutes les règles AI se terminent
         const aiResultsPromises = aiBasedRules.map(rule => rule(context));
         const aiResultsArrays = await Promise.all(aiResultsPromises);
         const aiResults = aiResultsArrays.flat();
         allResults = [...allResults, ...aiResults];
+    } else {
+        figmaAiDescription = FigmaDescriptionGenerator.generateFallbackDescription(context);
     }
 
     // Grouper les résultats par nodeId pour consolider les règles
@@ -74,6 +98,7 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
         results: deduplicatedResults,
         designSystem: context.globalVars?.designSystem,
         componentSuggestions,
+        figmaAiDescription,
     };
 }
 

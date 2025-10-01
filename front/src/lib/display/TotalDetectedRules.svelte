@@ -118,7 +118,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Légende personnalisée pour chaque règle avec détections -->
         <div class="space-y-2 max-w-xs">
           {#each allRulesWithStatus().filter(rule => rule.detectedCount > 0) as rule}

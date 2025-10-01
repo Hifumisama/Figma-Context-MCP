@@ -50,4 +50,5 @@ export interface AuditReport {
   results: AuditResult[];
   designSystem?: DesignSystemStyles;
   componentSuggestions?: ComponentSuggestion[];
+  figmaAiDescription?: string;
 }

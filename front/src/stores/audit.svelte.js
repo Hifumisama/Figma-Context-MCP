@@ -14,11 +14,12 @@ export const auditState = $state({
   showCompliantRules: false,
   
   // Results state - nouvelle structure
-  results: null, // Contient { rulesDefinitions: [], results: [], designSystem?: {}, componentSuggestions?: [] }
+  results: null, // Contient { rulesDefinitions: [], results: [], designSystem?: {}, componentSuggestions?: [], figmaAiDescription?: string }
   rulesDefinitions: [], // Définitions dynamiques des règles du backend
   auditResults: [], // Résultats d'audit au format AuditResult[]
   designSystem: null, // Données du design system Figma
   componentSuggestions: [], // Suggestions de composants détectées par IA
+  figmaAiDescription: '', // Description IA de la maquette Figma
   figmaUrl: '', // Store the original Figma URL for linking
   error: null
 });
@@ -48,6 +49,10 @@ export function hasComponentSuggestions() {
 
 export function getComponentSuggestions() {
   return auditState.componentSuggestions || [];
+}
+
+export function getFigmaAiDescription() {
+  return auditState.figmaAiDescription || '';
 }
 
 // Données dérivées pour Chart.js pie chart - function pour éviter derived_invalid_export
@@ -149,6 +154,7 @@ export function setResults(results) {
   auditState.auditResults = results.results || [];
   auditState.designSystem = results.designSystem || null;
   auditState.componentSuggestions = results.componentSuggestions || [];
+  auditState.figmaAiDescription = results.figmaAiDescription || '';
   auditState.currentView = 'report';
   auditState.isLoading = false;
   auditState.error = null;
@@ -161,6 +167,7 @@ export function resetAudit() {
   auditState.auditResults = [];
   auditState.designSystem = null;
   auditState.componentSuggestions = [];
+  auditState.figmaAiDescription = '';
   auditState.error = null;
   auditState.isLoading = false;
   auditState.selectedRulesFilter = [];

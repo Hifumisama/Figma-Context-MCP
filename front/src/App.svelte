@@ -1,10 +1,11 @@
 <script>
-  import { auditState, showReport, hasComponentSuggestions, getComponentSuggestions } from './stores/audit.svelte.js';
+  import { auditState, showReport, hasComponentSuggestions, getComponentSuggestions, getFigmaAiDescription } from './stores/audit.svelte.js';
   import InputForm from './lib/forms/InputForm.svelte';
   import LoadingSpinner from './lib/common/LoadingSpinner.svelte';
   import ErrorDisplay from './lib/common/ErrorDisplay.svelte';
   import StatsCards from './lib/display/StatsCards.svelte';
   import TotalDetectedRules from './lib/display/TotalDetectedRules.svelte';
+  import FigmaDescription from './lib/display/FigmaDescription.svelte';
   import DesignSystemViewer from './lib/display/DesignSystemViewer.svelte';
   import DetailedTables from './lib/display/DetailedTables.svelte';
   import ComponentSuggestionsCards from './lib/display/ComponentSuggestionsCards.svelte';
@@ -40,9 +41,14 @@
     {:else if showReport()}
       <!-- Mode rapport -->
       <div class="space-y-8">
-        <!-- Règles détectées sur sa propre ligne -->
-        <div class="flex justify-center">
-          <TotalDetectedRules />
+        <!-- Règles détectées et description côte à côte -->
+        <div class="flex flex-col lg:flex-row gap-6">
+          <div class="flex-1">
+            <TotalDetectedRules />
+          </div>
+          <div class="flex-1">
+            <FigmaDescription description={getFigmaAiDescription()} />
+          </div>
         </div>
 
         <!-- Design System Viewer -->
