@@ -17,9 +17,8 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   let results: AuditResult[] = [];
 
   // Skip nodes with images - they are handled by other rules
-  const hasImages = node.fills && typeof node.fills === 'string' && 
-    ((globalVars.localStyles.fills[node.fills] && Array.isArray(globalVars.localStyles.fills[node.fills]) && globalVars.localStyles.fills[node.fills].some((item: any) => item.type === 'IMAGE')) ||
-     (globalVars.designSystem.fills[node.fills] && Array.isArray(globalVars.designSystem.fills[node.fills].value) && globalVars.designSystem.fills[node.fills].value.some((item: any) => item.type === 'IMAGE')));
+  // Note: Images are stored in globalVars.images, not in fills/colors
+  const hasImages = false; // Images are now handled separately
 
   if (hasImages) {
     // Recursively check children only
@@ -34,28 +33,21 @@ function checkNode(node: SimplifiedNode, globalVars: any): AuditResult[] {
   // Check for detached styles by looking for references to local styles instead of design system
   const detachedProperties: string[] = [];
   
-  // Check fills
+  // Check fills (colors)
   if (node.fills && typeof node.fills === 'string') {
-    // If it references localStyles instead of designSystem, it's detached
-    if (globalVars.localStyles.fills[node.fills]) {
+    // If it references localStyles.colors instead of designSystem.colors, it's detached
+    if (globalVars.localStyles.colors && globalVars.localStyles.colors[node.fills]) {
       detachedProperties.push('fills');
     }
   }
   
-  // Check strokes  
+  // Check strokes
   if (node.strokes && typeof node.strokes === 'string') {
     if (globalVars.localStyles.strokes[node.strokes]) {
       detachedProperties.push('strokes');
     }
   }
-  
-  // Check effects
-  if (node.effects && typeof node.effects === 'string') {
-    if (globalVars.localStyles.effects[node.effects]) {
-      detachedProperties.push('effects');
-    }
-  }
-  
+
   // Check text styles
   if (node.textStyle && typeof node.textStyle === 'string') {
     if (globalVars.localStyles.text[node.textStyle]) {

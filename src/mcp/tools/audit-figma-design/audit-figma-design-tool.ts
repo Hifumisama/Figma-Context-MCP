@@ -97,6 +97,7 @@ async function runAudit(context: FigmaContext, options: AuditOptions): Promise<A
         rulesDefinitions: getAllRuleDefinitions(),
         results: deduplicatedResults,
         designSystem: context.globalVars?.designSystem,
+        localStyles: context.globalVars?.localStyles,
         componentSuggestions,
         figmaAiDescription,
     };

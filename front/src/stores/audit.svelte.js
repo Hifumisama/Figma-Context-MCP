@@ -14,10 +14,11 @@ export const auditState = $state({
   showCompliantRules: false,
   
   // Results state - nouvelle structure
-  results: null, // Contient { rulesDefinitions: [], results: [], designSystem?: {}, componentSuggestions?: [], figmaAiDescription?: string }
+  results: null, // Contient { rulesDefinitions: [], results: [], designSystem?: {}, localStyles?: {}, componentSuggestions?: [], figmaAiDescription?: string }
   rulesDefinitions: [], // Définitions dynamiques des règles du backend
   auditResults: [], // Résultats d'audit au format AuditResult[]
   designSystem: null, // Données du design system Figma
+  localStyles: null, // Styles locaux (non design system) utilisés dans la maquette
   componentSuggestions: [], // Suggestions de composants détectées par IA
   figmaAiDescription: '', // Description IA de la maquette Figma
   figmaUrl: '', // Store the original Figma URL for linking
@@ -153,6 +154,7 @@ export function setResults(results) {
   auditState.rulesDefinitions = results.rulesDefinitions || [];
   auditState.auditResults = results.results || [];
   auditState.designSystem = results.designSystem || null;
+  auditState.localStyles = results.localStyles || null;
   auditState.componentSuggestions = results.componentSuggestions || [];
   auditState.figmaAiDescription = results.figmaAiDescription || '';
   auditState.currentView = 'report';
@@ -166,6 +168,7 @@ export function resetAudit() {
   auditState.rulesDefinitions = [];
   auditState.auditResults = [];
   auditState.designSystem = null;
+  auditState.localStyles = null;
   auditState.componentSuggestions = [];
   auditState.figmaAiDescription = '';
   auditState.error = null;

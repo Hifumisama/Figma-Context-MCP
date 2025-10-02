@@ -20,6 +20,30 @@ function rgbToHex(r: number, g: number, b: number): string {
 }
 
 /**
+ * Convert a color string (hex or rgba) to ColorStyleInfo format
+ */
+function colorStringToInfo(colorString: string, styleName?: string): ColorStyleInfo {
+  // Extract hex value from rgba() format or use hex directly
+  let hexValue = colorString;
+
+  if (colorString.startsWith('rgba(')) {
+    // Parse rgba(r, g, b, a) to hex
+    const match = colorString.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*[\d.]+\)/);
+    if (match) {
+      const r = parseInt(match[1]);
+      const g = parseInt(match[2]);
+      const b = parseInt(match[3]);
+      hexValue = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
+    }
+  }
+
+  return {
+    name: styleName || hexValue,
+    hexValue
+  };
+}
+
+/**
  * Extract a complete SimplifiedDesign from raw Figma API response using extractors.
  */
 export function simplifyRawFigmaObject(
@@ -31,22 +55,18 @@ export function simplifyRawFigmaObject(
   const { metadata, rawNodes, components, componentSets } = parseAPIResponse(apiResponse);
 
   // Process nodes using the flexible extractor system
-  const globalVars: GlobalVars = { 
+  const globalVars: GlobalVars = {
     designSystem: {
       text: {},
       strokes: {},
-      effects: {},
       layout: {},
-      appearance: {},
-      colors: {},
-      images: {}
+      colors: {}
     },
     localStyles: {
       text: {},
       strokes: {},
-      effects: {},
       layout: {},
-      appearance: {}
+      colors: {}
     },
     images: {}
   };
@@ -75,70 +95,87 @@ export function simplifyRawFigmaObject(
   
   if (stylesObject) {
     Logger.log('📊 Extracting colors from Figma API response');
-    
-    // Extract color and image styles from the document
-    const extractAssetsFromNode = (node: any) => {
+
+    // Extract color styles from the document
+    const extractColorsFromNode = (node: any) => {
       // Check if this node has fills
       if (node.fills && Array.isArray(node.fills) && node.fills.length > 0) {
-        const paint = node.fills[0];
-        
-        // Handle SOLID colors with styles
-        if (paint && paint.type === 'SOLID' && paint.color && node.styles && node.styles.fill) {
-          const fillStyleId = node.styles.fill;
-          const style = stylesObject[fillStyleId];
-          
-          if (style && style.styleType === 'FILL') {
+        node.fills.forEach((paint: Paint) => {
+          // Handle SOLID colors with design system styles
+          if (paint && paint.type === 'SOLID' && paint.color && node.styles && node.styles.fill) {
+            const fillStyleId = node.styles.fill;
+            const style = stylesObject[fillStyleId];
+
+            if (style && style.styleType === 'FILL') {
+              const hexValue = rgbToHex(paint.color.r, paint.color.g, paint.color.b);
+
+              // Store in designSystem.colors with styleId as key
+              if (!finalGlobalVars.designSystem.colors[fillStyleId]) {
+                finalGlobalVars.designSystem.colors[fillStyleId] = {
+                  name: style.name || 'none',
+                  hexValue
+                };
+              }
+            }
+          }
+          // Handle SOLID colors without design system styles (local colors)
+          else if (paint && paint.type === 'SOLID' && paint.color && (!node.styles || !node.styles.fill)) {
             const hexValue = rgbToHex(paint.color.r, paint.color.g, paint.color.b);
-            
-            // Store in colors with styleId as key
-            if (!finalGlobalVars.designSystem.colors[fillStyleId]) {
-              finalGlobalVars.designSystem.colors[fillStyleId] = {
-                name: style.name || 'none',
+
+            // Store in localStyles.colors if not already present (all colors are objects now)
+            const existingEntry = Object.entries(finalGlobalVars.localStyles.colors).find(
+              ([_, c]) => typeof c === 'object' && c !== null && 'hexValue' in c && c.hexValue === hexValue
+            );
+
+            if (!existingEntry) {
+              const colorId = `c${Object.keys(finalGlobalVars.localStyles.colors).length + 1}`;
+              finalGlobalVars.localStyles.colors[colorId] = {
+                name: hexValue, // Use hex as name for local colors
                 hexValue
               };
             }
           }
-        }
-        
-        // Handle IMAGE fills
-        else if (paint && paint.type === 'IMAGE' && paint.imageRef) {
-          // Generate a unique key for the image (could be imageRef or a generated ID)
-          const imageKey = paint.imageRef;
-          
-          if (!finalGlobalVars.designSystem.images[imageKey]) {
-            finalGlobalVars.designSystem.images[imageKey] = {
-              name: node.name ? `Image from ${node.name}` : undefined,
-              imageRef: paint.imageRef,
-              scaleMode: paint.scaleMode,
-              objectFit: paint.objectFit,
-              isBackground: paint.isBackground || false,
-              imageDownloadArguments: {
-                needsCropping: false,
-                requiresImageDimensions: false
-              }
-            };
-          }
-        }
+        });
       }
-      
+
       // Recursively check children
       if (node.children && Array.isArray(node.children)) {
-        node.children.forEach(extractAssetsFromNode);
+        node.children.forEach(extractColorsFromNode);
       }
     };
-    
+
     // Start extraction from all nodes
-    rawNodes.forEach(extractAssetsFromNode);
-    
-    const colorCount = Object.keys(finalGlobalVars.designSystem.colors).length;
-    const imageCount = Object.keys(finalGlobalVars.designSystem.images).length;
-    Logger.log(`🎨 Extracted ${colorCount} color styles and ${imageCount} image assets`);
-    
-    // Iterate through all categories in design system (except colors and images which are already processed)
+    rawNodes.forEach(extractColorsFromNode);
+
+    const designColorCount = Object.keys(finalGlobalVars.designSystem.colors).length;
+    const localColorCount = Object.keys(finalGlobalVars.localStyles.colors).length;
+    Logger.log(`🎨 Extracted ${designColorCount} design system colors, ${localColorCount} local colors`);
+
+    // Convert all colors to { name, hexValue } format
+    // Design system colors
+    Object.entries(finalGlobalVars.designSystem.colors).forEach(([styleId, colorValue]) => {
+      const styleName = stylesObject[styleId]?.name || styleId;
+      if (typeof colorValue === 'string') {
+        finalGlobalVars.designSystem.colors[styleId] = colorStringToInfo(colorValue, styleName);
+      } else if (Array.isArray(colorValue)) {
+        // Multiple colors - convert each one
+        finalGlobalVars.designSystem.colors[styleId] = {
+          name: styleName,
+          hexValue: (colorValue as string[]).map(c => colorStringToInfo(c).hexValue).join(', ')
+        };
+      }
+    });
+
+    // Local colors are already in { name, hexValue } format - no conversion needed
+
+    const totalImageCount = Object.keys(finalGlobalVars.images).length;
+    Logger.log(`🖼️ Total ${totalImageCount} images in globalVars.images`);
+
+    // Iterate through all other categories in design system (text, strokes, layout)
     Object.entries(finalGlobalVars.designSystem).forEach(([categoryName, categoryStyles]) => {
-      // Skip colors and images as they have their own structure
-      if (categoryName === 'colors' || categoryName === 'images') return;
-      
+      // Skip colors as they have their own processing
+      if (categoryName === 'colors') return;
+
       for (const styleId in categoryStyles) {
         if (stylesObject[styleId]) {
           // Create a wrapper with name and value for design system styles

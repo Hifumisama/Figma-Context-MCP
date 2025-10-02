@@ -10,24 +10,21 @@ import {
   isTextNode,
 } from "~/transformers/text.js";
 import { hasValue, isRectangleCornerRadii } from "~/utils/identity.js";
-import type { GlobalVars, StyleTypes, CategorizedStyles } from "./types.js";
+import type { GlobalVars, StyleTypes, DesignSystemStyles } from "./types.js";
 import { generateVarId } from "~/utils/common.js";
 
-type StyleType = "stroke" | "effect" | "text" | "layout" | "appearance";
+type StyleType = "stroke" | "text" | "layout" | "color";
 
 /**
  * Removes empty/default properties from a node to optimize JSON size
  */
 function cleanupNode(node: any): void {
-  // Remove properties with default values (but keep visible as requested)
-  if (node.opacity === 1) delete node.opacity;
-  
   // Remove empty arrays
   if (Array.isArray(node.children) && node.children.length === 0) delete node.children;
-  
+
   // Remove empty strings
   if (node.exportSettings === "") delete node.exportSettings;
-  
+
   // Remove null/undefined values
   Object.keys(node).forEach(key => {
     if (node[key] === null || node[key] === undefined) {
@@ -68,12 +65,11 @@ function findOrCreateLocalVar(
 /**
  * Maps style types to their corresponding categories in the new structure
  */
-const STYLE_CATEGORY_MAP: Record<StyleType, keyof CategorizedStyles> = {
-  'stroke': 'strokes', 
-  'effect': 'effects',
+const STYLE_CATEGORY_MAP: Record<StyleType, keyof DesignSystemStyles> = {
+  'stroke': 'strokes',
   'text': 'text',
   'layout': 'layout',
-  'appearance': 'appearance'
+  'color': 'colors'
 };
 
 /**
@@ -99,15 +95,17 @@ function processStyle(
   if (styleKey) {
     // It's a design system style - store just the value for now
     // Names will be added later in design-extractor.ts
-    if (!context.globalVars.designSystem[category][styleKey]) {
-      context.globalVars.designSystem[category][styleKey] = value;
+    const categoryStyles = context.globalVars.designSystem[category] as Record<string, any>;
+    if (!categoryStyles[styleKey]) {
+      categoryStyles[styleKey] = value;
     }
     const propName = propertyName || (styleType === 'text' ? 'textStyle' : `${styleType}s`);
     result[propName] = styleKey;
   } else {
     // It's a local style, find or create it
+    const categoryStyles = context.globalVars.localStyles[category] as Record<string, any>;
     const localVarId = findOrCreateLocalVar(
-      context.globalVars.localStyles[category],
+      categoryStyles,
       value,
       category,
     );
@@ -152,7 +150,7 @@ export const textExtractor: ExtractorFn = (node, result, context) => {
 };
 
 /**
- * Extracts visual appearance properties (fills, strokes, effects, opacity, border radius).
+ * Extracts visual appearance properties (fills, strokes, opacity, border radius).
  */
 export const visualsExtractor: ExtractorFn = (node, result, context) => {
   // Check if node has children to determine CSS properties
@@ -161,8 +159,91 @@ export const visualsExtractor: ExtractorFn = (node, result, context) => {
     Array.isArray(node.children) &&
     node.children.length > 0;
 
-  // NOTE: fills (colors and images) are now processed in design-extractor.ts
-  // This keeps the separation clean between visual properties and design system assets
+  // fills (colors and images) - separate them into colors and images
+  if (hasValue("fills", node) && Array.isArray(node.fills) && node.fills.length) {
+    const parsedFills = node.fills.map((fill) => parsePaint(fill, hasChildren));
+
+    // Separate colors from images/gradients/patterns
+    const colors = parsedFills.filter((fill) =>
+      typeof fill === 'string' // hex or rgba strings
+    );
+    const images = parsedFills.filter((fill) =>
+      typeof fill === 'object' // IMAGE, GRADIENT, PATTERN objects
+    );
+
+    // Process colors separately - they go in the "colors" category
+    if (colors.length > 0) {
+      // For colors, we check if there's a fill style
+      const fillStyleKey = hasValue("styles", node) ? (node.styles as Record<string, string>)['fill'] : undefined;
+
+      if (fillStyleKey) {
+        // Design system color - just store the raw color value
+        // The name will be added later in design-extractor.ts
+        const categoryStyles = context.globalVars.designSystem.colors as Record<string, any>;
+        if (!categoryStyles[fillStyleKey]) {
+          categoryStyles[fillStyleKey] = colors.length === 1 ? colors[0] : colors;
+        }
+        result.fills = fillStyleKey;
+      } else {
+        // Local color - store as { name, hexValue } object
+        const categoryStyles = context.globalVars.localStyles.colors as Record<string, any>;
+
+        // Convert to object format immediately
+        let colorObject: any;
+        if (colors.length === 1) {
+          const hexValue = colors[0];
+          colorObject = { name: hexValue, hexValue };
+        } else {
+          // Multiple colors
+          const hexValues = colors.join(', ');
+          colorObject = { name: hexValues, hexValue: hexValues };
+        }
+
+        const localVarId = findOrCreateLocalVar(categoryStyles, colorObject, 'colors');
+        result.fills = localVarId;
+      }
+    }
+
+    // Process images/gradients/patterns - they go directly in globalVars.images
+    if (images.length > 0) {
+      // For each image, store it in globalVars.images with custom ID (i1, i2, ...)
+      const imageIds: string[] = [];
+
+      images.forEach((img) => {
+        if (typeof img === 'object' && img.type === 'IMAGE' && 'imageRef' in img) {
+          const imageRef = img.imageRef;
+
+          // Check if this imageRef already exists (deduplication)
+          const existingId = Object.keys(context.globalVars.images).find(
+            (id) => {
+              const existing = context.globalVars.images[id];
+              return typeof existing === 'object' &&
+                     'imageRef' in existing &&
+                     existing.imageRef === imageRef;
+            }
+          );
+
+          if (existingId) {
+            // Reuse existing image ID
+            imageIds.push(existingId);
+          } else {
+            // Create new image ID
+            const newId = `i${Object.keys(context.globalVars.images).length + 1}`;
+            context.globalVars.images[newId] = img;
+            imageIds.push(newId);
+          }
+        }
+      });
+
+      // Store reference(s) to image ID(s) in node
+      if (imageIds.length === 1) {
+        result.fills = imageIds[0];
+      } else if (imageIds.length > 1) {
+        // Multiple images - store as array reference (though this is rare)
+        result.fills = imageIds.join(',');
+      }
+    }
+  }
 
   // strokes
   const strokes = buildSimplifiedStrokes(node, hasChildren);
@@ -170,29 +251,21 @@ export const visualsExtractor: ExtractorFn = (node, result, context) => {
     processStyle(node, "stroke", strokes, result, context);
   }
 
-  // effects
-  const effects = buildSimplifiedEffects(node);
-  if (Object.keys(effects).length) {
-    processStyle(node, "effect", effects, result, context);
-  }
-
-  // opacity - deduplicate if not default value
+  // opacity - store directly in node (not deduplicated)
   if (
     hasValue("opacity", node) &&
     typeof node.opacity === "number" &&
     node.opacity !== 1
   ) {
-    processStyle(node, "appearance", node.opacity.toString(), result, context, "opacity");
+    result.opacity = node.opacity;
   }
 
-  // border radius - deduplicate
+  // border radius - store directly in node (not deduplicated)
   if (hasValue("cornerRadius", node) && typeof node.cornerRadius === "number") {
-    const borderRadiusValue = `${node.cornerRadius}px`;
-    processStyle(node, "appearance", borderRadiusValue, result, context, "borderRadius");
+    result.borderRadius = `${node.cornerRadius}px`;
   }
   if (hasValue("rectangleCornerRadii", node, isRectangleCornerRadii)) {
-    const borderRadiusValue = `${node.rectangleCornerRadii[0]}px ${node.rectangleCornerRadii[1]}px ${node.rectangleCornerRadii[2]}px ${node.rectangleCornerRadii[3]}px`;
-    processStyle(node, "appearance", borderRadiusValue, result, context, "borderRadius");
+    result.borderRadius = `${node.rectangleCornerRadii[0]}px ${node.rectangleCornerRadii[1]}px ${node.rectangleCornerRadii[2]}px ${node.rectangleCornerRadii[3]}px`;
   }
 };
 
@@ -250,42 +323,6 @@ export const maskExtractor: ExtractorFn = (node, result, context) => {
 };
 
 /**
- * Extracts image references and stores them in globalVars.images.
- */
-export const imagesExtractor: ExtractorFn = (node, result, context) => {
-  // Check if node has fills with images
-  if (
-    hasValue("fills", node) &&
-    Array.isArray(node.fills) &&
-    node.fills.length
-  ) {
-    const hasChildren =
-      hasValue("children", node) &&
-      Array.isArray(node.children) &&
-      node.children.length > 0;
-
-    node.fills.forEach((fill, index) => {
-      if (fill.type === "IMAGE" && fill.imageRef) {
-        const imageData = parsePaint(fill, hasChildren);
-        if (imageData && typeof imageData === 'object' && 'imageRef' in imageData) {
-          // Store the image data with a unique key based on nodeId and fill index
-          const imageKey = `${node.id}-${index}`;
-          context.globalVars.images[imageKey] = {
-            nodeId: node.id,
-            nodeName: result.name,
-            nodeType: node.type,
-            fillIndex: index,
-            imageRef: (imageData as any).imageRef,
-            scaleMode: (imageData as any).scaleMode,
-            ...(imageData as any).imageDownloadArguments
-          };
-        }
-      }
-    });
-  }
-};
-
-/**
  * Cleans up empty/default properties to optimize JSON size.
  * Should be the last extractor to run.
  */
@@ -298,7 +335,7 @@ export const cleanupExtractor: ExtractorFn = (node, result, context) => {
 /**
  * All extractors - replicates the current parseNode behavior with optimization.
  */
-export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor, imagesExtractor, cleanupExtractor];
+export const allExtractors = [layoutExtractor, textExtractor, visualsExtractor, componentExtractor, exportSettingsExtractor, visibilityExtractor, maskExtractor, cleanupExtractor];
 
 /**
  * Layout and text only - useful for content analysis and layout planning.

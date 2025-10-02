@@ -22,9 +22,9 @@ export function extractFromDesign(
   nodes: FigmaDocumentNode[],
   extractors: ExtractorFn[],
   options: TraversalOptions = {},
-  globalVars: GlobalVars = { 
-    designSystem: { text: {}, strokes: {}, effects: {}, layout: {}, appearance: {}, colors: {}, images: {} },
-    localStyles: { text: {}, strokes: {}, effects: {}, layout: {}, appearance: {} },
+  globalVars: GlobalVars = {
+    designSystem: { text: {}, strokes: {}, layout: {}, colors: {} },
+    localStyles: { text: {}, strokes: {}, layout: {}, colors: {} },
     images: {}
   },
 ): { nodes: SimplifiedNode[]; globalVars: GlobalVars } {

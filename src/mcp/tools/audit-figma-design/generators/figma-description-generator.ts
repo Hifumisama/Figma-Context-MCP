@@ -109,7 +109,7 @@ La description doit être en markdown et peut inclure des **gras** et *italiques
       mainTexts: [] as string[],
       colorCount: Object.keys(context.globalVars?.designSystem?.colors || {}).length,
       textStyleCount: Object.keys(context.globalVars?.designSystem?.text || {}).length,
-      imageCount: Object.keys(context.globalVars?.designSystem?.images || {}).length
+      imageCount: Object.keys(context.globalVars?.images || {}).length
     };
 
     const nodeTypeCounts: Record<string, number> = {};

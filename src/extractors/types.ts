@@ -25,27 +25,16 @@ export interface StyleDefinition {
 
 export type DesignSystemStyleTypes = StyleTypes | StyleDefinition;
 
-export interface CategorizedStyles {
-  text: Record<string, StyleTypes>;
-  strokes: Record<string, StyleTypes>;
-  effects: Record<string, StyleTypes>;
-  layout: Record<string, StyleTypes>;
-  appearance: Record<string, StyleTypes>;
-}
-
 export interface DesignSystemStyles {
   text: Record<string, DesignSystemStyleTypes>;
   strokes: Record<string, DesignSystemStyleTypes>;
-  effects: Record<string, DesignSystemStyleTypes>;
   layout: Record<string, DesignSystemStyleTypes>;
-  appearance: Record<string, DesignSystemStyleTypes>;
   colors: Record<string, ColorStyleInfo>;
-  images: Record<string, ImageStyleInfo>;
 }
 
 export type GlobalVars = {
   designSystem: DesignSystemStyles;
-  localStyles: CategorizedStyles;
+  localStyles: DesignSystemStyles;
   images: Record<string, any>;
 };
 
@@ -108,10 +97,9 @@ export interface SimplifiedNode {
   text?: string;
   textStyle?: string;
   // appearance
-  fills?: string;
+  fills?: string; // Reference to colors or images in globalVars
   strokes?: string;
-  effects?: string;
-  opacity?: string;
+  opacity?: number;
   borderRadius?: string;
   // component
   componentId?: string;

@@ -57,14 +57,18 @@
 
   // Récupération des données du design system avec runes Svelte 5
   const designSystem = $derived(auditState.designSystem);
+  const localStyles = $derived(auditState.localStyles);
 
   // Les styles de texte sont maintenant dans designSystem.text avec structure {name, value}
   const textStyles = $derived(designSystem?.text || {});
 
-  // Les couleurs sont dans designSystem.colors avec structure {name, hexValue}
+  // Les couleurs du design system avec structure {name, hexValue}
   const colorFills = $derived(designSystem?.colors || {});
 
-  // Transformation des strokes en format exploitable
+  // Les couleurs locales (non design system) avec structure {name, hexValue}
+  const localColorFills = $derived(localStyles?.colors || {});
+
+  // Transformation des strokes du design system en format exploitable
   const strokeStyles = $derived((() => {
     if (!designSystem?.strokes) return {};
     const strokes = {};
@@ -74,6 +78,23 @@
           name: strokeInfo.name || id,
           colors: strokeInfo.value.colors,
           strokeWeight: strokeInfo.value.strokeWeight
+        };
+      }
+    });
+    return strokes;
+  })());
+
+  // Transformation des strokes locaux en format exploitable
+  const localStrokeStyles = $derived((() => {
+    if (!localStyles?.strokes) return {};
+    const strokes = {};
+    Object.entries(localStyles.strokes).forEach(([id, strokeInfo]) => {
+      // Les strokes locaux peuvent être des objets directs sans wrapper .value
+      if (strokeInfo.colors && strokeInfo.strokeWeight) {
+        strokes[id] = {
+          name: id,
+          colors: strokeInfo.colors,
+          strokeWeight: strokeInfo.strokeWeight
         };
       }
     });
@@ -113,8 +134,8 @@
       <div class="text-left">
         <p class="text-white/60 text-sm">
           {Object.keys(textStyles).length} style{Object.keys(textStyles).length > 1 ? 's' : ''} de texte
-          • {Object.keys(colorFills).length} couleur{Object.keys(colorFills).length > 1 ? 's' : ''}
-          • {Object.keys(strokeStyles).length} contour{Object.keys(strokeStyles).length > 1 ? 's' : ''}
+          • {Object.keys(colorFills).length + Object.keys(localColorFills).length} couleur{(Object.keys(colorFills).length + Object.keys(localColorFills).length) > 1 ? 's' : ''}
+          • {Object.keys(strokeStyles).length + Object.keys(localStrokeStyles).length} contour{(Object.keys(strokeStyles).length + Object.keys(localStrokeStyles).length) > 1 ? 's' : ''}
         </p>
       </div>
       <svg
@@ -185,7 +206,7 @@
           Couleurs
         </h4>
 
-        {#if Object.keys(colorFills).length > 0 || Object.keys(strokeStyles).length > 0}
+        {#if Object.keys(colorFills).length > 0 || Object.keys(localColorFills).length > 0 || Object.keys(strokeStyles).length > 0 || Object.keys(localStrokeStyles).length > 0}
           <!-- Rectangle de prévisualisation -->
           <div
             class="w-full h-24 rounded-md flex flex-col items-center justify-center font-medium border-2 relative"
@@ -201,73 +222,156 @@
             {/if}
           </div>
 
-          <!-- Couleurs et Contours en 2 colonnes -->
-          {#if Object.keys(colorFills).length > 0 || Object.keys(strokeStyles).length > 0}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Couleurs et Contours en 2 colonnes (Design System | Locales) -->
+          {#if Object.keys(colorFills).length > 0 || Object.keys(localColorFills).length > 0 || Object.keys(strokeStyles).length > 0 || Object.keys(localStrokeStyles).length > 0}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-              <!-- Colonne Couleurs de fond (4 par ligne) -->
-              {#if Object.keys(colorFills).length > 0}
-                <div class="space-y-2">
-                  <h5 class="text-white text-sm font-medium">Couleurs de fond</h5>
-                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2">
-                    {#each Object.entries(colorFills) as [colorId, colorInfo]}
-                      <button
-                        class="flex flex-col items-center gap-1 group"
-                        onclick={() => {
-                          selectedColor = colorInfo.hexValue;
-                          selectedColorName = colorInfo.name;
-                        }}
-                      >
-                        <div
-                          class="w-16 h-16 rounded border-2 border-white/20 flex items-center justify-center font-mono transition-transform group-hover:scale-105"
-                          style="background-color: {colorInfo.hexValue}; font-size: 12px;"
-                        >
-                          <span style="mix-blend-mode: difference; color: white;">
-                            {colorInfo.hexValue}
-                          </span>
-                        </div>
-                        <span class="text-figma-textMuted text-center break-words hyphens-auto" style="font-size: 10px;" lang="fr">
-                          {colorInfo.name}
-                        </span>
-                      </button>
-                    {/each}
-                  </div>
-                </div>
-              {:else}
-                <div></div>
-              {/if}
+              <!-- Colonne Design System -->
+              <div class="space-y-4">
+                <h5 class="text-figma-button text-base font-semibold">Design System</h5>
 
-              <!-- Colonne Contours (3 par ligne) -->
-              {#if Object.keys(strokeStyles).length > 0}
-                <div class="space-y-2">
-                  <h5 class="text-white text-sm font-medium">Contours</h5>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    {#each Object.entries(strokeStyles) as [strokeId, strokeInfo]}
-                      <button
-                        class="flex flex-col items-center gap-1 group"
-                        onclick={() => {
-                          selectedStroke = { color: strokeInfo.colors[0], weight: strokeInfo.strokeWeight };
-                          selectedStrokeName = strokeInfo.name;
-                        }}
-                      >
-                        <div
-                          class="w-16 h-16 rounded border-2 bg-white flex items-center justify-center text-xs font-mono transition-transform group-hover:scale-105"
-                          style="border-color: {strokeInfo.colors[0]}; border-width: {strokeInfo.strokeWeight};"
+                <!-- Couleurs du Design System -->
+                {#if Object.keys(colorFills).length > 0}
+                  <div class="space-y-2">
+                    <h6 class="text-white text-sm font-medium">🎨 Couleurs</h6>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {#each Object.entries(colorFills) as [colorId, colorInfo]}
+                        <button
+                          class="flex flex-col items-center gap-1 group"
+                          onclick={() => {
+                            selectedColor = colorInfo.hexValue;
+                            selectedColorName = colorInfo.name;
+                          }}
                         >
-                          <span style="mix-blend-mode: difference; color: white; font-size: 12px;">
-                            {strokeInfo.colors[0]}
+                          <div
+                            class="w-16 h-16 rounded border-2 border-white/20 flex items-center justify-center font-mono transition-transform group-hover:scale-105"
+                            style="background-color: {colorInfo.hexValue}; font-size: 12px;"
+                          >
+                            <span style="mix-blend-mode: difference; color: white;">
+                              {colorInfo.hexValue}
+                            </span>
+                          </div>
+                          <span class="text-figma-textMuted text-center break-words hyphens-auto" style="font-size: 10px;" lang="fr">
+                            {colorInfo.name}
                           </span>
-                        </div>
-                        <span class="text-figma-textMuted text-xs text-center break-words hyphens-auto" lang="fr">
-                          {strokeInfo.name} : {strokeInfo.strokeWeight}
-                        </span>
-                      </button>
-                    {/each}
+                        </button>
+                      {/each}
+                    </div>
                   </div>
-                </div>
-              {:else}
-                <div></div>
-              {/if}
+                {:else}
+                  <div class="text-center text-figma-textMuted py-4">
+                    <p class="text-xs">Aucune couleur</p>
+                  </div>
+                {/if}
+
+                <!-- Contours du Design System -->
+                {#if Object.keys(strokeStyles).length > 0}
+                  <div class="space-y-2">
+                    <h6 class="text-white text-sm font-medium">✏️ Contours</h6>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {#each Object.entries(strokeStyles) as [strokeId, strokeInfo]}
+                        <button
+                          class="flex flex-col items-center gap-1 group"
+                          onclick={() => {
+                            selectedStroke = { color: strokeInfo.colors[0], weight: strokeInfo.strokeWeight };
+                            selectedStrokeName = strokeInfo.name;
+                          }}
+                        >
+                          <div
+                            class="w-16 h-16 rounded border-2 bg-white flex items-center justify-center text-xs font-mono transition-transform group-hover:scale-105"
+                            style="border-color: {strokeInfo.colors[0]}; border-width: {strokeInfo.strokeWeight};"
+                          >
+                            <span style="mix-blend-mode: difference; color: white; font-size: 12px;">
+                              {strokeInfo.colors[0]}
+                            </span>
+                          </div>
+                          <span class="text-figma-textMuted text-xs text-center break-words hyphens-auto" lang="fr">
+                            {strokeInfo.name}
+                          </span>
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+                {:else}
+                  <div class="text-center text-figma-textMuted py-4">
+                    <p class="text-xs">Aucun contour</p>
+                  </div>
+                {/if}
+              </div>
+
+              <!-- Colonne Styles Locaux -->
+              <div class="space-y-4">
+                <h5 class="text-figma-button text-base font-semibold">Styles Locaux</h5>
+
+                <!-- Couleurs locales -->
+                {#if Object.keys(localColorFills).length > 0}
+                  <div class="space-y-2">
+                    <h6 class="text-white text-sm font-medium">🖌️ Couleurs</h6>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {#each Object.entries(localColorFills) as [colorId, colorInfo]}
+                        <button
+                          class="flex flex-col items-center gap-1 group"
+                          onclick={() => {
+                            selectedColor = colorInfo.hexValue;
+                            selectedColorName = colorInfo.name;
+                          }}
+                        >
+                          <div
+                            class="w-16 h-16 rounded border-2 border-white/20 flex items-center justify-center font-mono transition-transform group-hover:scale-105"
+                            style="background-color: {colorInfo.hexValue}; font-size: 12px;"
+                          >
+                            <span style="mix-blend-mode: difference; color: white;">
+                              {colorInfo.hexValue}
+                            </span>
+                          </div>
+                          <span class="text-figma-textMuted text-center break-words hyphens-auto" style="font-size: 10px;" lang="fr">
+                            {colorInfo.name}
+                          </span>
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+                {:else}
+                  <div class="text-center text-figma-textMuted py-4">
+                    <p class="text-xs">Aucune couleur locale</p>
+                  </div>
+                {/if}
+
+                <!-- Contours locaux -->
+                {#if Object.keys(localStrokeStyles).length > 0}
+                  <div class="space-y-2">
+                    <h6 class="text-white text-sm font-medium">✏️ Contours</h6>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {#each Object.entries(localStrokeStyles) as [strokeId, strokeInfo]}
+                        <button
+                          class="flex flex-col items-center gap-1 group"
+                          onclick={() => {
+                            selectedStroke = { color: strokeInfo.colors[0], weight: strokeInfo.strokeWeight };
+                            selectedStrokeName = strokeInfo.name;
+                          }}
+                        >
+                          <div
+                            class="w-16 h-16 rounded border-2 bg-white flex items-center justify-center text-xs font-mono transition-transform group-hover:scale-105"
+                            style="border-color: {strokeInfo.colors[0]}; border-width: {strokeInfo.strokeWeight};"
+                          >
+                            <span style="mix-blend-mode: difference; color: white; font-size: 12px;">
+                              {strokeInfo.colors[0]}
+                            </span>
+                          </div>
+                          <span class="text-figma-textMuted text-xs text-center break-words hyphens-auto" lang="fr">
+                            {strokeInfo.name}
+                          </span>
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+                {:else}
+                  <div class="text-center text-figma-textMuted py-4">
+                    <p class="text-xs">Aucun contour local</p>
+                  </div>
+                {/if}
+              </div>
+
             </div>
           {/if}
         {:else}
@@ -279,7 +383,7 @@
       </div>
     </div>
 
-        {#if Object.keys(textStyles).length === 0 && Object.keys(colorFills).length === 0 && Object.keys(strokeStyles).length === 0}
+        {#if Object.keys(textStyles).length === 0 && Object.keys(colorFills).length === 0 && Object.keys(localColorFills).length === 0 && Object.keys(strokeStyles).length === 0 && Object.keys(localStrokeStyles).length === 0}
         <!-- État vide global -->
         <div class="text-center text-figma-textMuted py-8">
           <div class="text-3xl mb-2">🎨</div>
