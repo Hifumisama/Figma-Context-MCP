@@ -95,6 +95,16 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     color: "#8B5CF6",
     category: "standard",
     state: "enabled"
+  },
+  {
+    id: 12,
+    name: "Typographie (WCAG)",
+    description: "Vérifier que la taille du texte et l'interlignage respectent les standards WCAG pour la lisibilité",
+    resolutionAdvice: "Utiliser une taille de police minimum de 16px et un line-height d'au moins 1.5× la taille de police (ou 150% en pourcentage)",
+    icon: "📝",
+    color: "#6366F1",
+    category: "standard",
+    state: "enabled"
   }
 ];
 
