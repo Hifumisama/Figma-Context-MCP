@@ -19,6 +19,7 @@ import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
 import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
+import { checkColorContrast } from "./rules/check-color-contrast.js";
 import { detectComponentPatterns } from "./detectors/pattern-detector.js";
 import { FigmaDescriptionGenerator } from "./generators/figma-description-generator.js";
 import { LLMService } from "../../../services/llm-service.js";
@@ -44,6 +45,7 @@ const programmaticRules = [
     checkExportSettings,
     checkGroupVsFrame,
     checkComponentDescriptions,
+    checkColorContrast,
 ];
 
 const aiBasedRules: AsyncAuditRule[] = [

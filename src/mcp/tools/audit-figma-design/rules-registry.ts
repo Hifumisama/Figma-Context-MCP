@@ -85,6 +85,16 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     color: "#22D3EE",
     category: "standard",
     state: "enabled"
+  },
+  {
+    id: 11,
+    name: "Contraste des couleurs (WCAG)",
+    description: "Vérifier que le contraste entre texte et arrière-plan respecte les standards WCAG AA/AAA pour l'accessibilité",
+    resolutionAdvice: "Ajuster les couleurs pour atteindre un ratio de contraste minimum de 4.5:1 (AA) ou 7:1 (AAA) pour le texte normal, 3:1 (AA) ou 4.5:1 (AAA) pour le texte large",
+    icon: "♿",
+    color: "#8B5CF6",
+    category: "standard",
+    state: "enabled"
   }
 ];
 

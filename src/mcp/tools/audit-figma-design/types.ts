@@ -49,6 +49,7 @@ export interface AuditReport {
   rulesDefinitions: RuleDefinition[];
   results: AuditResult[];
   designSystem?: DesignSystemStyles;
+  localStyles?: any; // Styles locaux de la maquette Figma
   componentSuggestions?: ComponentSuggestion[];
   figmaAiDescription?: string;
 }
