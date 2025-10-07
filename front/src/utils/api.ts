@@ -2,13 +2,16 @@
 
 /**
  * Appelle l'API d'audit Figma
- * @param {Object} params - Paramètres de l'audit
- * @param {string} params.figmaUrl - URL du fichier Figma
- * @param {string} params.figmaApiKey - Clé API Figma (optionnelle)
- * @param {string} params.outputFormat - Format de sortie ('json' ou 'markdown')
- * @returns {Promise<Object>} - Résultats de l'audit
  */
-export async function auditFigmaDesign({ figmaUrl, figmaApiKey, outputFormat = 'json' }) {
+export async function auditFigmaDesign({
+  figmaUrl,
+  figmaApiKey,
+  outputFormat = 'json'
+}: {
+  figmaUrl: string;
+  figmaApiKey?: string;
+  outputFormat?: string;
+}) {
   try {
     // Utilise la variable d'environnement ou fallback sur l'URL de production
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://figma-mcp-server-1045310654832.europe-west9.run.app';
@@ -19,7 +22,7 @@ export async function auditFigmaDesign({ figmaUrl, figmaApiKey, outputFormat = '
       },
       body: JSON.stringify({
         figmaUrl,
-        figmaApiKey: figmaApiKey || undefined, // Envoie undefined si vide
+        figmaApiKey: figmaApiKey || undefined,
         outputFormat
       }),
     });
@@ -34,7 +37,7 @@ export async function auditFigmaDesign({ figmaUrl, figmaApiKey, outputFormat = '
     if (error instanceof ApiError) {
       throw error;
     }
-    
+
     // Erreur réseau ou autre
     throw new ApiError(500, 'Erreur de connexion', 'Impossible de contacter le serveur d\'audit', 'Vérifiez votre connexion réseau');
   }
@@ -44,7 +47,12 @@ export async function auditFigmaDesign({ figmaUrl, figmaApiKey, outputFormat = '
  * Classe d'erreur personnalisée pour les erreurs API
  */
 export class ApiError extends Error {
-  constructor(status, error, details, suggestion) {
+  status: number;
+  error: string;
+  details?: string;
+  suggestion?: string;
+
+  constructor(status: number, error: string, details?: string, suggestion?: string) {
     super(error);
     this.name = 'ApiError';
     this.status = status;
@@ -64,21 +72,21 @@ export class ApiError extends Error {
           message: 'L\'URL Figma fournie n\'est pas valide.',
           suggestion: 'Vérifiez que l\'URL commence par https://www.figma.com/file/ ou https://www.figma.com/design/'
         };
-      
+
       case 401:
         return {
           title: 'Accès refusé',
           message: this.details || 'Ce fichier Figma n\'est pas public ou la clé API est incorrecte.',
           suggestion: this.suggestion || 'Obtenez une clé API sur https://www.figma.com/developers/api#access-tokens'
         };
-      
+
       case 500:
         return {
           title: 'Erreur du serveur',
           message: 'Une erreur s\'est produite lors de l\'audit.',
           suggestion: 'Essayez de nouveau dans quelques instants'
         };
-      
+
       default:
         return {
           title: 'Erreur inattendue',
@@ -91,33 +99,26 @@ export class ApiError extends Error {
 
 /**
  * Valide une URL Figma
- * @param {string} url - URL à valider
- * @returns {boolean} - True si l'URL est valide
  */
-export function isValidFigmaUrl(url) {
+export function isValidFigmaUrl(url: string): boolean {
   if (!url) return false;
-  
+
   const figmaUrlPattern = /^https:\/\/www\.figma\.com\/(file|design)\/[a-zA-Z0-9]+/;
   return figmaUrlPattern.test(url);
 }
 
 /**
  * Extrait l'ID du fichier depuis une URL Figma
- * @param {string} url - URL Figma
- * @returns {string|null} - ID du fichier ou null si invalide
  */
-export function extractFigmaFileId(url) {
+export function extractFigmaFileId(url: string): string | null {
   const match = url.match(/\/(?:file|design)\/([a-zA-Z0-9]+)/);
   return match ? match[1] : null;
 }
 
 /**
  * Génère une URL Figma pour une node spécifique
- * @param {string} baseUrl - URL Figma de base
- * @param {string} nodeId - ID de la node (format "123:456" ou "I12:34;56:78;90:12" pour les instances)
- * @returns {string|null} - URL vers la node ou null si invalide
  */
-export function generateNodeUrl(baseUrl, nodeId) {
+export function generateNodeUrl(baseUrl: string, nodeId: string): string | null {
   if (!isValidFigmaUrl(baseUrl) || !nodeId) return null;
 
   // Pour les instances avec structure hiérarchique (ex: "I12:34;56:78;90:12")
@@ -125,7 +126,7 @@ export function generateNodeUrl(baseUrl, nodeId) {
   const lastSegment = nodeId.includes(';') ? nodeId.split(';').pop() : nodeId;
 
   // Convertir le format "123:456" en "123-456" pour l'URL
-  const urlNodeId = lastSegment.replace(':', '-');
+  const urlNodeId = lastSegment!.replace(':', '-');
 
   // Enlever les paramètres existants et ajouter node-id
   const urlWithoutParams = baseUrl.split('?')[0];

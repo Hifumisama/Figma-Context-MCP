@@ -1,0 +1,49 @@
+/* Styles pour le contenu markdown rendu */
+.card-figma h1,
+.card-figma h2,
+.card-figma h3,
+.card-figma h4 {
+  @apply text-white font-semibold mb-2;
+}
+
+.card-figma h1 {
+  @apply text-lg;
+}
+
+.card-figma h2 {
+  @apply text-base;
+}
+
+.card-figma h3,
+.card-figma h4 {
+  @apply text-sm;
+}
+
+.card-figma p {
+  @apply mb-3 last:mb-0;
+}
+
+.card-figma strong {
+  @apply text-white font-semibold;
+}
+
+.card-figma em {
+  @apply text-figma-components italic;
+}
+
+.card-figma ul,
+.card-figma ol {
+  @apply ml-4 mb-3 space-y-1;
+}
+
+.card-figma li {
+  @apply text-figma-textMuted text-sm;
+}
+
+.card-figma code {
+  @apply bg-figma-background px-1 py-0.5 rounded text-figma-components text-xs;
+}
+
+.card-figma blockquote {
+  @apply border-l-4 border-figma-button pl-4 italic text-figma-textMuted;
+}

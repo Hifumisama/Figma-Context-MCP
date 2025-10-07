@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}', './index.html'],
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}', './index.html'],
   theme: {
     extend: {
       colors: {
@@ -30,6 +30,21 @@ export default {
       fontFamily: {
         sans: ['Work Sans', 'system-ui', 'sans-serif'],
         body: ['Roboto', 'system-ui', 'sans-serif']
+      },
+      keyframes: {
+        'pulse-progress': {
+          '0%, 100%': {
+            opacity: '1',
+            width: '30%'
+          },
+          '50%': {
+            opacity: '0.8',
+            width: '80%'
+          }
+        }
+      },
+      animation: {
+        'pulse-progress': 'pulse-progress 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       }
     }
   },
