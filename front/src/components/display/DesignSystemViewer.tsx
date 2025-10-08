@@ -146,7 +146,17 @@ const DesignSystemViewer: React.FC = () => {
     setIsDesignSystemOpen(prev => !prev);
   };
 
+  // Ne pas afficher le composant si designSystem est absent ou vide
   if (!designSystem) {
+    return null;
+  }
+
+  const hasTextStyles = Object.keys(textStyles).length > 0;
+  const hasColors = Object.keys(colorFills).length + Object.keys(localColorFills).length > 0;
+  const hasStrokes = Object.keys(strokeStyles).length + Object.keys(localStrokeStyles).length > 0;
+
+  // Ne rien afficher si aucune donnée n'est présente
+  if (!hasTextStyles && !hasColors && !hasStrokes) {
     return null;
   }
 

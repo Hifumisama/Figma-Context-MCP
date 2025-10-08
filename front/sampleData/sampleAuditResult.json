@@ -1,0 +1,2863 @@
+{
+    "rulesDefinitions": [
+        {
+            "id": 1,
+            "name": "Utilisation d'Auto Layout",
+            "description": "Les conteneurs avec plusieurs enfants devraient utiliser Auto Layout pour une meilleure flexibilité et réactivité",
+            "resolutionAdvice": "Activer Auto Layout dans les propriétés du frame pour permettre un redimensionnement automatique et une organisation flexible des éléments",
+            "icon": "📐",
+            "color": "#3B82F6",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 2,
+            "name": "Nommage des calques",
+            "description": "Éviter les noms par défaut de Figma comme \"Frame 123\". Utiliser une convention claire (ex: btn-primary)",
+            "resolutionAdvice": "Renommer les calques avec une convention claire et descriptive (ex: btn-primary, card-content, header-logo)",
+            "icon": "🏷️",
+            "color": "#10B981",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 3,
+            "name": "Styles détachés",
+            "description": "Utiliser les tokens du Design System plutôt que les styles inline pour maintenir la cohérence",
+            "resolutionAdvice": "Reconnecter aux styles du Design System ou créer de nouveaux styles partagés pour remplacer les valeurs inline",
+            "icon": "🎨",
+            "color": "#EF4444",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 4,
+            "name": "Paramètres d'export",
+            "description": "Les assets doivent avoir une configuration d'export appropriée pour l'optimisation",
+            "resolutionAdvice": "Configurer les paramètres d'export (format, résolution, suffixe) pour les éléments destinés aux développeurs",
+            "icon": "📤",
+            "color": "#F59E0B",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 6,
+            "name": "Groupes vs Frames",
+            "description": "Utiliser des frames plutôt que des groupes pour un layout approprié et des fonctionnalités avancées",
+            "resolutionAdvice": "Convertir les groupes en frames pour bénéficier des fonctionnalités avancées (Auto Layout, contraintes, etc.)",
+            "icon": "📦",
+            "color": "#EC4899",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 8,
+            "name": "États d'interaction",
+            "description": "Les composants interactifs doivent avoir tous leurs états (hover, focus, disabled)",
+            "resolutionAdvice": "Ajouter les états manquants (hover, focus, active, disabled) sous forme de variants du composant",
+            "icon": "🔄",
+            "color": "#14B8A6",
+            "category": "ai-based",
+            "state": "enabled"
+        },
+        {
+            "id": 9,
+            "name": "Nommage des couleurs",
+            "description": "Utiliser des noms sémantiques (primary, secondary) plutôt que des noms littéraux (bleu, rouge)",
+            "resolutionAdvice": "Renommer les couleurs avec des noms sémantiques qui reflètent leur usage plutôt que leur apparence",
+            "icon": "🌈",
+            "color": "#F97316",
+            "category": "ai-based",
+            "state": "enabled"
+        },
+        {
+            "id": 10,
+            "name": "Descriptions des composants",
+            "description": "Les composants et composant sets doivent avoir une description pour faciliter la documentation",
+            "resolutionAdvice": "Ajouter une description claire et utile pour chaque composant afin d'améliorer la collaboration équipe",
+            "icon": "📝",
+            "color": "#22D3EE",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 11,
+            "name": "Contraste des couleurs (WCAG)",
+            "description": "Vérifier que le contraste entre texte et arrière-plan respecte les standards WCAG AA/AAA pour l'accessibilité",
+            "resolutionAdvice": "Ajuster les couleurs pour atteindre un ratio de contraste minimum de 4.5:1 (AA) ou 7:1 (AAA) pour le texte normal, 3:1 (AA) ou 4.5:1 (AAA) pour le texte large",
+            "icon": "♿",
+            "color": "#8B5CF6",
+            "category": "standard",
+            "state": "enabled"
+        },
+        {
+            "id": 12,
+            "name": "Typographie (WCAG)",
+            "description": "Vérifier que la taille du texte et l'interlignage respectent les standards WCAG pour la lisibilité",
+            "resolutionAdvice": "Utiliser une taille de police minimum de 16px et un line-height d'au moins 1.5× la taille de police (ou 150% en pourcentage)",
+            "icon": "📝",
+            "color": "#6366F1",
+            "category": "standard",
+            "state": "enabled"
+        }
+    ],
+    "results": [
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:31",
+            "nodeName": "Hello, I’m John,",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:33",
+            "nodeName": "based in Netherland.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:35",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:58",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:77",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "16:17",
+            "nodeName": "johndoe@mail.com",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "16:18",
+            "nodeName": "twitter.com/johndoe",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "16:19",
+            "nodeName": "behance.com/johndoe",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:62",
+            "nodeName": "Some Case Study",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:67",
+            "nodeName": "Some Case Study",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:66",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:68",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed aliquam sollicitudin rhoncus morbi. Tincidunt quam sem elit a convallis. Eget ipsum, velit vitae eu nunc, consequat, at.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                12
+            ],
+            "nodeId": "2:63",
+            "nodeName": "November 24, 2019",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "12": "Taille: 15px (minimum: 16px)"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                12
+            ],
+            "nodeId": "2:69",
+            "nodeName": "November 24, 2019",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "12": "Taille: 15px (minimum: 16px)"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:49",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:50",
+            "nodeName": "2014-2018",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:51",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:52",
+            "nodeName": "2018-2020",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:53",
+            "nodeName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:54",
+            "nodeName": "2020 - Present",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:32",
+            "nodeName": "Product Designer",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                11
+            ],
+            "nodeId": "2:34",
+            "nodeName": "about.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "11": "Contraste insuffisant: Yellow (#F5EE84) sur Light Yellow (#FBF8CC) (texte large). WCAG AA: 1.11:1 (requis: 3:1)"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                11
+            ],
+            "nodeId": "2:59",
+            "nodeName": "work.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "11": "Contraste insuffisant: Too Light Yellow (#F7F197) sur Light Yellow (#FBF8CC) (texte large). WCAG AA: 1.08:1 (requis: 3:1)"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                11
+            ],
+            "nodeId": "2:71",
+            "nodeName": "contact.",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "11": "Contraste insuffisant: Too Light Yellow (#F7F197) sur Light Yellow (#FBF8CC) (texte large). WCAG AA: 1.08:1 (requis: 3:1)"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "0:11",
+            "nodeName": "Home",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "0:12",
+            "nodeName": "Work",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:2",
+            "nodeName": "About",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:24",
+            "nodeName": "behance-2 1",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:26",
+            "nodeName": "twitter-6 1",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:39",
+            "nodeName": "medium-4 1",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "2:94",
+            "nodeName": "Image",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                2
+            ],
+            "nodeId": "11:88",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "11:114",
+            "nodeName": "unsplash:ubIWo074QlU",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                2,
+                1
+            ],
+            "nodeId": "256:16",
+            "nodeName": "Frame 12",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills, strokes"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                2
+            ],
+            "nodeId": "256:15",
+            "nodeName": "Rectangle 22",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "256:17",
+            "nodeName": "PlaceholderIcon",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                12
+            ],
+            "nodeId": "256:18",
+            "nodeName": "Rechercher",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills, textStyle",
+                "12": "Taille: 12px (minimum: 16px)"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                2
+            ],
+            "nodeId": "11:41",
+            "nodeName": "Group 5",
+            "moreInfos": {
+                "3": "Propriétés détachées: strokes"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "11:39",
+            "nodeName": "Resume",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "11:45",
+            "nodeName": "Resume",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                2,
+                10
+            ],
+            "nodeId": "11:79",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {
+                "3": "Propriétés détachées: strokes",
+                "type": "componentSet",
+                "componentKey": "6e7185449c4756e2337e9d1aeadf2eb912939000"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "11:78",
+            "nodeName": "Property 1=Default",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "11:80",
+            "nodeName": "Property 1=Variant2",
+            "moreInfos": {
+                "3": "Propriétés détachées: fills"
+            }
+        },
+        {
+            "ruleIds": [
+                3,
+                11
+            ],
+            "nodeId": "11:83",
+            "nodeName": "Some Case Study",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle",
+                "11": "Contraste insuffisant: Light Yellow (#FBF8CC) sur #FFFFFF (#FFFFFF) (texte large). WCAG AA: 1.08:1 (requis: 3:1)"
+            }
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "2:55",
+            "nodeName": "Group 2",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "2:56",
+            "nodeName": "Group 3",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "2:57",
+            "nodeName": "Group 4",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "2:8",
+            "nodeName": "Group 1",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "5:14",
+            "nodeName": "Group 6",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:9",
+            "nodeName": "Rectangle 13",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:10",
+            "nodeName": "Rectangle 14",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:11",
+            "nodeName": "Rectangle 15",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:12",
+            "nodeName": "Rectangle 16",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:13",
+            "nodeName": "Rectangle 17",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "8:35",
+            "nodeName": "Group 10",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "7:28",
+            "nodeName": "Group 7",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:21",
+            "nodeName": "Rectangle 18",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "5:22",
+            "nodeName": "Rectangle 19",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "7:32",
+            "nodeName": "Group 9",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "7:33",
+            "nodeName": "Rectangle 18",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "7:34",
+            "nodeName": "Rectangle 19",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2,
+                1,
+                6
+            ],
+            "nodeId": "7:29",
+            "nodeName": "Group 8",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "7:30",
+            "nodeName": "Rectangle 18",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "7:31",
+            "nodeName": "Rectangle 19",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:56",
+            "nodeName": "Group 11",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "15:14",
+            "nodeName": "Ellipse 1",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "15:15",
+            "nodeName": "Ellipse 2",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "16:16",
+            "nodeName": "Ellipse 3",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "2:102",
+            "nodeName": "Rectangle 9",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "2:103",
+            "nodeName": "Rectangle 10",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "2:104",
+            "nodeName": "Rectangle 11",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "2:105",
+            "nodeName": "Rectangle 12",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:37",
+            "nodeName": "Rectangle 1",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:38",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:43",
+            "nodeName": "Rectangle 1",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:44",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:77",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:81",
+            "nodeName": "Rectangle 8",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                2
+            ],
+            "nodeId": "11:82",
+            "nodeName": "Rectangle 20",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                1
+            ],
+            "nodeId": "0:3",
+            "nodeName": "Home",
+            "moreInfos": {}
+        },
+        {
+            "ruleIds": [
+                10
+            ],
+            "nodeId": "2:21",
+            "nodeName": "behance-2 1",
+            "moreInfos": {
+                "type": "standaloneComponent",
+                "componentKey": "b775e19197616e1d815cb8482e187787fe093101"
+            }
+        },
+        {
+            "ruleIds": [
+                10
+            ],
+            "nodeId": "2:23",
+            "nodeName": "twitter-6 1",
+            "moreInfos": {
+                "type": "standaloneComponent",
+                "componentKey": "15bcbabff061ad6d4f8af1f921cba38d6b6b8304"
+            }
+        },
+        {
+            "ruleIds": [
+                10
+            ],
+            "nodeId": "2:38",
+            "nodeName": "medium-4 1",
+            "moreInfos": {
+                "type": "standaloneComponent",
+                "componentKey": "23197299dc0327550a2d07a5d9e03047aa4d75c5"
+            }
+        },
+        {
+            "ruleIds": [
+                10
+            ],
+            "nodeId": "2:93",
+            "nodeName": "Image",
+            "moreInfos": {
+                "type": "standaloneComponent",
+                "componentKey": "f1718dc0023c40ec74cf0d31e678e713c4e264be"
+            }
+        },
+        {
+            "ruleIds": [
+                9
+            ],
+            "nodeId": "2:109",
+            "nodeName": "Style couleur \"Light Yellow\"",
+            "moreInfos": {
+                "9": "Nom littéral détecté: \"Light Yellow\". Suggestion sémantique: \"background-color-light\""
+            }
+        },
+        {
+            "ruleIds": [
+                9
+            ],
+            "nodeId": "2:106",
+            "nodeName": "Style couleur \"Dark Blue\"",
+            "moreInfos": {
+                "9": "Nom littéral détecté: \"Dark Blue\". Suggestion sémantique: \"color-primary-dark\""
+            }
+        },
+        {
+            "ruleIds": [
+                9
+            ],
+            "nodeId": "2:108",
+            "nodeName": "Style couleur \"Yellow\"",
+            "moreInfos": {
+                "9": "Nom littéral détecté: \"Yellow\". Suggestion sémantique: \"color-warning\""
+            }
+        },
+        {
+            "ruleIds": [
+                9
+            ],
+            "nodeId": "2:110",
+            "nodeName": "Style couleur \"Too Light Yellow\"",
+            "moreInfos": {
+                "9": "Nom littéral détecté: \"Too Light Yellow\". Suggestion sémantique: \"background-color-lighter\""
+            }
+        },
+        {
+            "ruleIds": [
+                9
+            ],
+            "nodeId": "2:107",
+            "nodeName": "Style couleur \"Dark Brown\"",
+            "moreInfos": {
+                "9": "Nom littéral détecté: \"Dark Brown\". Suggestion sémantique: \"color-brown-dark\""
+            }
+        },
+        {
+            "ruleIds": [
+                3
+            ],
+            "nodeId": "I11:56;11:39",
+            "nodeName": "Resume",
+            "moreInfos": {
+                "3": "Propriétés détachées: textStyle"
+            },
+            "masterComponentId": "11:56"
+        },
+        {
+            "ruleIds": [
+                1,
+                6
+            ],
+            "nodeId": "I2:94;2:92",
+            "nodeName": "Mask group",
+            "moreInfos": {},
+            "masterComponentId": "2:94"
+        },
+        {
+            "ruleIds": [
+                4
+            ],
+            "nodeId": "I2:24;2:10",
+            "nodeName": "Vector",
+            "moreInfos": {},
+            "masterComponentId": "2:24"
+        },
+        {
+            "ruleIds": [
+                4
+            ],
+            "nodeId": "I2:26;2:14",
+            "nodeName": "Vector",
+            "moreInfos": {},
+            "masterComponentId": "2:26"
+        },
+        {
+            "ruleIds": [
+                4
+            ],
+            "nodeId": "I2:39;2:37",
+            "nodeName": "Vector",
+            "moreInfos": {},
+            "masterComponentId": "2:39"
+        },
+        {
+            "ruleIds": [
+                4
+            ],
+            "nodeId": "I2:94;2:90",
+            "nodeName": "Vector",
+            "moreInfos": {},
+            "masterComponentId": "2:94"
+        }
+    ],
+    "designSystem": {
+        "text": {
+            "126:18": {
+                "name": "Texte qui super styley",
+                "value": {
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": 24,
+                    "lineHeight": "1.5em",
+                    "textAlignHorizontal": "LEFT",
+                    "textAlignVertical": "TOP"
+                }
+            }
+        },
+        "strokes": {
+            "2:106": {
+                "name": "Dark Blue",
+                "value": {
+                    "colors": [
+                        "#03045E"
+                    ],
+                    "strokeWeight": "1px"
+                }
+            },
+            "2:107": {
+                "name": "Dark Brown",
+                "value": {
+                    "colors": [
+                        "#474306"
+                    ],
+                    "strokeWeight": "1px"
+                }
+            }
+        },
+        "layout": {},
+        "colors": {
+            "2:109": {
+                "name": "Light Yellow",
+                "hexValue": "#FBF8CC"
+            },
+            "2:106": {
+                "name": "Dark Blue",
+                "hexValue": "#03045E"
+            },
+            "2:108": {
+                "name": "Yellow",
+                "hexValue": "#F5EE84"
+            },
+            "2:110": {
+                "name": "Too Light Yellow",
+                "hexValue": "#F7F197"
+            },
+            "2:107": {
+                "name": "Dark Brown",
+                "hexValue": "#474306"
+            }
+        }
+    },
+    "localStyles": {
+        "text": {
+            "t1": {
+                "fontFamily": "Poppins",
+                "fontWeight": 500,
+                "fontSize": 28,
+                "lineHeight": "1.5em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t2": {
+                "fontFamily": "Poppins",
+                "fontWeight": 400,
+                "fontSize": 24,
+                "lineHeight": "1.8333333333333333em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t3": {
+                "fontFamily": "Poppins",
+                "fontWeight": 600,
+                "fontSize": 24,
+                "lineHeight": "1.8333333333333333em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t4": {
+                "fontFamily": "Poppins",
+                "fontWeight": 400,
+                "fontSize": 18,
+                "lineHeight": "1.7777777777777777em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t5": {
+                "fontFamily": "Poppins",
+                "fontWeight": 400,
+                "fontSize": 15,
+                "lineHeight": "2.933333333333333em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t6": {
+                "fontFamily": "Poppins",
+                "fontWeight": 600,
+                "fontSize": 24,
+                "lineHeight": "1.6666666666666667em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t7": {
+                "fontFamily": "Poppins",
+                "fontWeight": 800,
+                "fontSize": 100,
+                "lineHeight": "1.16em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "BOTTOM"
+            },
+            "t8": {
+                "fontFamily": "Poppins",
+                "fontWeight": 400,
+                "fontSize": 18,
+                "lineHeight": "1.5em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t9": {
+                "fontFamily": "Poppins",
+                "fontWeight": 400,
+                "fontSize": 20,
+                "lineHeight": "1.5em",
+                "textAlignHorizontal": "LEFT",
+                "textAlignVertical": "TOP"
+            },
+            "t10": {
+                "fontFamily": "Inter",
+                "fontWeight": 400,
+                "fontSize": 12,
+                "lineHeight": "1.2102272510528564em",
+                "textAlignHorizontal": "RIGHT",
+                "textAlignVertical": "TOP"
+            },
+            "t11": {
+                "fontFamily": "Poppins",
+                "fontWeight": 600,
+                "fontSize": 40,
+                "lineHeight": "1.25em",
+                "textAlignHorizontal": "CENTER",
+                "textAlignVertical": "TOP"
+            }
+        },
+        "strokes": {
+            "s1": {
+                "colors": [
+                    "#000000"
+                ],
+                "strokeWeight": "1px"
+            },
+            "s2": {
+                "colors": [
+                    "#7B61FF"
+                ],
+                "strokeWeight": "1px",
+                "strokeDashes": [
+                    10,
+                    5
+                ]
+            }
+        },
+        "layout": {
+            "l1": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 1266,
+                    "height": 3867
+                },
+                "position": {
+                    "x": -650,
+                    "y": -555
+                }
+            },
+            "l2": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 114,
+                    "height": 36
+                },
+                "position": {
+                    "x": -624,
+                    "y": -555
+                }
+            },
+            "l3": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 254
+                },
+                "dimensions": {
+                    "width": 211,
+                    "height": 42
+                },
+                "position": {
+                    "x": -624,
+                    "y": -301
+                }
+            },
+            "l4": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 537
+                },
+                "dimensions": {
+                    "width": 294,
+                    "height": 42
+                },
+                "position": {
+                    "x": -624,
+                    "y": -18
+                }
+            },
+            "l5": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 1103
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 132
+                },
+                "position": {
+                    "x": -624,
+                    "y": 548
+                }
+            },
+            "l6": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 2417
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 132
+                },
+                "position": {
+                    "x": -624,
+                    "y": 1862
+                }
+            },
+            "l7": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 525,
+                    "y": 3538
+                },
+                "dimensions": {
+                    "width": 640,
+                    "height": 176
+                },
+                "position": {
+                    "x": -125,
+                    "y": 2983
+                }
+            },
+            "l8": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 525,
+                    "y": 3735
+                },
+                "dimensions": {
+                    "width": 236,
+                    "height": 44
+                },
+                "position": {
+                    "x": -125,
+                    "y": 3180
+                }
+            },
+            "l9": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 525,
+                    "y": 3779
+                },
+                "dimensions": {
+                    "width": 246,
+                    "height": 44
+                },
+                "position": {
+                    "x": -125,
+                    "y": 3224
+                }
+            },
+            "l10": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 525,
+                    "y": 3823
+                },
+                "dimensions": {
+                    "width": 278,
+                    "height": 44
+                },
+                "position": {
+                    "x": -125,
+                    "y": 3268
+                }
+            },
+            "l11": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 3117
+                },
+                "dimensions": {
+                    "width": 215,
+                    "height": 44
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2562
+                }
+            },
+            "l12": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 706,
+                    "y": 3117
+                },
+                "dimensions": {
+                    "width": 215,
+                    "height": 44
+                },
+                "position": {
+                    "x": 56,
+                    "y": 2562
+                }
+            },
+            "l13": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 3161
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 96
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2606
+                }
+            },
+            "l14": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 706,
+                    "y": 3161
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 96
+                },
+                "position": {
+                    "x": 56,
+                    "y": 2606
+                }
+            },
+            "l15": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 3073
+                },
+                "dimensions": {
+                    "width": 141,
+                    "height": 44
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2518
+                }
+            },
+            "l16": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 706,
+                    "y": 3073
+                },
+                "dimensions": {
+                    "width": 141,
+                    "height": 44
+                },
+                "position": {
+                    "x": 56,
+                    "y": 2518
+                }
+            },
+            "l17": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 313,
+                    "y": 1380
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 182
+                },
+                "position": {
+                    "x": -337,
+                    "y": 825
+                }
+            },
+            "l18": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 50
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 132
+                },
+                "position": {
+                    "x": -337,
+                    "y": 875
+                }
+            },
+            "l19": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 122,
+                    "height": 40
+                },
+                "position": {
+                    "x": -337,
+                    "y": 825
+                }
+            },
+            "l20": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 313,
+                    "y": 1642
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 182
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1087
+                }
+            },
+            "l21": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 50
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 132
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1137
+                }
+            },
+            "l22": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 126,
+                    "height": 40
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1087
+                }
+            },
+            "l23": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 313,
+                    "y": 1904
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 182
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1349
+                }
+            },
+            "l24": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 50
+                },
+                "dimensions": {
+                    "width": 900,
+                    "height": 132
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1399
+                }
+            },
+            "l25": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 177,
+                    "height": 40
+                },
+                "position": {
+                    "x": -337,
+                    "y": 1349
+                }
+            },
+            "l26": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 295
+                },
+                "dimensions": {
+                    "width": 616,
+                    "height": 232
+                },
+                "position": {
+                    "x": -624,
+                    "y": -260
+                }
+            },
+            "l27": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 955
+                },
+                "dimensions": {
+                    "width": 341,
+                    "height": 116
+                },
+                "position": {
+                    "x": -624,
+                    "y": 400
+                }
+            },
+            "l28": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 2269
+                },
+                "dimensions": {
+                    "width": 292,
+                    "height": 116
+                },
+                "position": {
+                    "x": -624,
+                    "y": 1714
+                }
+            },
+            "l29": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 3381
+                },
+                "dimensions": {
+                    "width": 436,
+                    "height": 116
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2826
+                }
+            },
+            "l30": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 511,
+                    "y": 3
+                },
+                "dimensions": {
+                    "width": 276,
+                    "height": 27.00002098083496
+                },
+                "position": {
+                    "x": -139,
+                    "y": -552
+                }
+            },
+            "l31": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 54,
+                    "height": 27
+                },
+                "position": {
+                    "x": -139,
+                    "y": -552
+                }
+            },
+            "l32": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 230,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 46,
+                    "height": 27
+                },
+                "position": {
+                    "x": 91,
+                    "y": -552
+                }
+            },
+            "l33": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 115,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 54,
+                    "height": 27
+                },
+                "position": {
+                    "x": -24,
+                    "y": -552
+                }
+            },
+            "l34": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 1185,
+                    "y": 8
+                },
+                "dimensions": {
+                    "width": 26,
+                    "height": 16.095245361328125
+                },
+                "position": {
+                    "x": 535,
+                    "y": -547
+                }
+            },
+            "l35": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 25.99346351623535,
+                    "height": 16.095388412475586
+                },
+                "position": {
+                    "x": 535.0034790039062,
+                    "y": -547
+                }
+            },
+            "l36": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 1240,
+                    "y": 7
+                },
+                "dimensions": {
+                    "width": 26,
+                    "height": 17.789474487304688
+                },
+                "position": {
+                    "x": 590,
+                    "y": -548
+                }
+            },
+            "l37": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 3.87,
+                    "y": 1.87
+                },
+                "dimensions": {
+                    "width": 19.281715393066406,
+                    "height": 15.92312240600586
+                },
+                "position": {
+                    "x": 593.8702392578125,
+                    "y": -546.1336669921875
+                }
+            },
+            "l38": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 1130,
+                    "y": 8
+                },
+                "dimensions": {
+                    "width": 26,
+                    "height": 15.052631378173828
+                },
+                "position": {
+                    "x": 480,
+                    "y": -547
+                }
+            },
+            "l39": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0.03
+                },
+                "dimensions": {
+                    "width": 26,
+                    "height": 14.987442016601562
+                },
+                "position": {
+                    "x": 480,
+                    "y": -546.9674072265625
+                }
+            },
+            "l40": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 3546
+                },
+                "dimensions": {
+                    "width": 440,
+                    "height": 314
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2991
+                }
+            },
+            "l41": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 760,
+                    "y": 157
+                },
+                "dimensions": {
+                    "width": 506,
+                    "height": 509
+                },
+                "position": {
+                    "x": 110,
+                    "y": -398
+                }
+            },
+            "l42": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 13,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 493,
+                    "height": 493.0000305175781
+                },
+                "position": {
+                    "x": 123,
+                    "y": -398
+                }
+            },
+            "l43": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 493,
+                    "height": 493.0000305175781
+                },
+                "position": {
+                    "x": 123,
+                    "y": -398
+                }
+            },
+            "l44": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 493,
+                    "height": 532
+                },
+                "position": {
+                    "x": 123,
+                    "y": -398
+                }
+            },
+            "l45": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 16
+                },
+                "dimensions": {
+                    "width": 493,
+                    "height": 493
+                },
+                "position": {
+                    "x": 110,
+                    "y": -382
+                }
+            },
+            "l46": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 752,
+                    "y": 530
+                },
+                "dimensions": {
+                    "width": 103.84905242919922,
+                    "height": 29.440048217773438
+                },
+                "position": {
+                    "x": 102,
+                    "y": -25
+                }
+            },
+            "l47": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 16.769826293919778,
+                    "height": 29.440047695246562
+                },
+                "position": {
+                    "x": 102.0000035157459,
+                    "y": -25
+                }
+            },
+            "l48": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 21.77,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 16.769826293919778,
+                    "height": 29.440047695246562
+                },
+                "position": {
+                    "x": 123.7697789063709,
+                    "y": -25
+                }
+            },
+            "l49": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 43.54,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 16.769826293919778,
+                    "height": 29.440047695246562
+                },
+                "position": {
+                    "x": 145.5396763673084,
+                    "y": -25
+                }
+            },
+            "l50": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 65.31,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 16.769826293919778,
+                    "height": 29.440047695246562
+                },
+                "position": {
+                    "x": 167.3094517579334,
+                    "y": -25
+                }
+            },
+            "l51": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 87.08,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 16.769826293919778,
+                    "height": 29.440047695246562
+                },
+                "position": {
+                    "x": 189.0792271485584,
+                    "y": -25
+                }
+            },
+            "l52": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 1175,
+                    "y": 140
+                },
+                "dimensions": {
+                    "width": 50,
+                    "height": 56
+                },
+                "position": {
+                    "x": 525,
+                    "y": -415
+                }
+            },
+            "l53": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 16
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 24
+                },
+                "position": {
+                    "x": 525,
+                    "y": -399
+                }
+            },
+            "l54": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 9,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 6,
+                    "height": 24
+                },
+                "position": {
+                    "x": 534,
+                    "y": -399
+                }
+            },
+            "l55": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 9
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 6
+                },
+                "position": {
+                    "x": 525,
+                    "y": -390
+                }
+            },
+            "l56": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 32
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 24
+                },
+                "position": {
+                    "x": 551,
+                    "y": -383
+                }
+            },
+            "l57": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 9,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 6,
+                    "height": 24
+                },
+                "position": {
+                    "x": 560,
+                    "y": -383
+                }
+            },
+            "l58": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 9
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 6
+                },
+                "position": {
+                    "x": 551,
+                    "y": -374
+                }
+            },
+            "l59": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 24
+                },
+                "position": {
+                    "x": 551,
+                    "y": -415
+                }
+            },
+            "l60": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 9,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 6,
+                    "height": 24
+                },
+                "position": {
+                    "x": 560,
+                    "y": -415
+                }
+            },
+            "l61": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 9
+                },
+                "dimensions": {
+                    "width": 24,
+                    "height": 6
+                },
+                "position": {
+                    "x": 551,
+                    "y": -406
+                }
+            },
+            "l62": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 616
+                },
+                "dimensions": {
+                    "width": 164,
+                    "height": 68
+                },
+                "position": {
+                    "x": -624,
+                    "y": 61
+                }
+            },
+            "l63": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 6,
+                    "y": 7
+                },
+                "dimensions": {
+                    "width": 158,
+                    "height": 61
+                },
+                "position": {
+                    "x": -618,
+                    "y": 68
+                }
+            },
+            "l64": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 158,
+                    "height": 61
+                },
+                "position": {
+                    "x": -624,
+                    "y": 61
+                }
+            },
+            "l65": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 38,
+                    "y": 16
+                },
+                "dimensions": {
+                    "width": 81,
+                    "height": 30
+                },
+                "position": {
+                    "x": -586,
+                    "y": 77
+                }
+            },
+            "l66": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 26,
+                    "y": 2673
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2118
+                }
+            },
+            "l67": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": -624,
+                    "y": 2118
+                }
+            },
+            "l68": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 706,
+                    "y": 2673
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 56,
+                    "y": 2118
+                }
+            },
+            "l69": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 56,
+                    "y": 2118
+                }
+            },
+            "l70": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 282,
+                    "y": 1393
+                },
+                "dimensions": {
+                    "width": 13,
+                    "height": 13
+                },
+                "position": {
+                    "x": -368,
+                    "y": 838
+                }
+            },
+            "l71": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 282,
+                    "y": 1655
+                },
+                "dimensions": {
+                    "width": 13,
+                    "height": 13
+                },
+                "position": {
+                    "x": -368,
+                    "y": 1100
+                }
+            },
+            "l72": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 282,
+                    "y": 1917
+                },
+                "dimensions": {
+                    "width": 13,
+                    "height": 13
+                },
+                "position": {
+                    "x": -368,
+                    "y": 1362
+                }
+            },
+            "l73": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 844,
+                    "y": 3
+                },
+                "dimensions": {
+                    "width": 249,
+                    "height": 30
+                },
+                "position": {
+                    "x": 194,
+                    "y": -552
+                }
+            },
+            "l74": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 4,
+                    "y": 4
+                },
+                "dimensions": {
+                    "width": 213,
+                    "height": 22
+                },
+                "position": {
+                    "x": 198,
+                    "y": -548
+                }
+            },
+            "l75": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 220,
+                    "y": 4
+                },
+                "dimensions": {
+                    "width": 25,
+                    "height": 22
+                },
+                "position": {
+                    "x": 414,
+                    "y": -548
+                }
+            },
+            "l76": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 11,
+                    "y": 8
+                },
+                "dimensions": {
+                    "width": 201,
+                    "height": 15
+                },
+                "position": {
+                    "x": 205,
+                    "y": -544
+                }
+            },
+            "l77": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 143,
+                    "height": 143
+                },
+                "position": {
+                    "x": -720,
+                    "y": -951
+                }
+            },
+            "l78": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 143,
+                    "height": 143
+                },
+                "position": {
+                    "x": -354,
+                    "y": -951
+                }
+            },
+            "l79": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 143,
+                    "height": 143
+                },
+                "position": {
+                    "x": -171,
+                    "y": -951
+                }
+            },
+            "l80": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 143,
+                    "height": 143
+                },
+                "position": {
+                    "x": -537,
+                    "y": -951
+                }
+            },
+            "l81": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 204,
+                    "height": 196
+                },
+                "position": {
+                    "x": 922,
+                    "y": -235
+                }
+            },
+            "l82": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 20,
+                    "y": 20
+                },
+                "dimensions": {
+                    "width": 164,
+                    "height": 68
+                },
+                "position": {
+                    "x": 942,
+                    "y": -215
+                }
+            },
+            "l83": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 6,
+                    "y": 7
+                },
+                "dimensions": {
+                    "width": 158,
+                    "height": 61
+                },
+                "position": {
+                    "x": 948,
+                    "y": -208
+                }
+            },
+            "l84": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 158,
+                    "height": 61
+                },
+                "position": {
+                    "x": 942,
+                    "y": -215
+                }
+            },
+            "l85": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 38,
+                    "y": 16
+                },
+                "dimensions": {
+                    "width": 81,
+                    "height": 30
+                },
+                "position": {
+                    "x": 980,
+                    "y": -199
+                }
+            },
+            "l86": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 20,
+                    "y": 108
+                },
+                "dimensions": {
+                    "width": 164,
+                    "height": 68
+                },
+                "position": {
+                    "x": 942,
+                    "y": -127
+                }
+            },
+            "l87": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 6,
+                    "y": 7
+                },
+                "dimensions": {
+                    "width": 158,
+                    "height": 61
+                },
+                "position": {
+                    "x": 948,
+                    "y": -120
+                }
+            },
+            "l88": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 45,
+                    "y": 22
+                },
+                "dimensions": {
+                    "width": 81,
+                    "height": 30
+                },
+                "position": {
+                    "x": 987,
+                    "y": -105
+                }
+            },
+            "l89": {
+                "mode": "none",
+                "sizing": {},
+                "dimensions": {
+                    "width": 600,
+                    "height": 860
+                },
+                "position": {
+                    "x": 1174,
+                    "y": -235
+                }
+            },
+            "l90": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 20,
+                    "y": 20
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 1194,
+                    "y": -215
+                }
+            },
+            "l91": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 1194,
+                    "y": -215
+                }
+            },
+            "l92": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 20,
+                    "y": 440
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 1194,
+                    "y": 205
+                }
+            },
+            "l93": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 0,
+                    "y": 0
+                },
+                "dimensions": {
+                    "width": 560,
+                    "height": 400
+                },
+                "position": {
+                    "x": 1194,
+                    "y": 205
+                }
+            },
+            "l94": {
+                "mode": "none",
+                "sizing": {},
+                "locationRelativeToParent": {
+                    "x": 161,
+                    "y": 150
+                },
+                "dimensions": {
+                    "width": 239,
+                    "height": 100
+                },
+                "position": {
+                    "x": 1355,
+                    "y": 355
+                }
+            }
+        },
+        "colors": {
+            "c1": {
+                "name": "#FFFFFF",
+                "hexValue": "#FFFFFF"
+            },
+            "c2": {
+                "name": "#F5EE84",
+                "hexValue": "#F5EE84"
+            },
+            "c3": {
+                "name": "#000000",
+                "hexValue": "#000000"
+            },
+            "c4": {
+                "name": "#FEFEFE",
+                "hexValue": "#FEFEFE"
+            },
+            "c5": {
+                "name": "#D9D9D9",
+                "hexValue": "#D9D9D9"
+            }
+        }
+    },
+    "componentSuggestions": [
+        {
+            "componentName": "ExperienceItem",
+            "description": "Composant représentant une expérience professionnelle avec un titre, une période et une description.",
+            "rootNodeId": "2:55",
+            "rootNodeName": "Group 2",
+            "possibleInstances": [
+                {
+                    "name": "Group 2",
+                    "nodeId": "2:55"
+                },
+                {
+                    "name": "Group 3",
+                    "nodeId": "2:56"
+                },
+                {
+                    "name": "Group 4",
+                    "nodeId": "2:57"
+                }
+            ],
+            "usableNodes": [
+                {
+                    "name": "Group 2",
+                    "nodeId": "2:55"
+                },
+                {
+                    "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet vulputate tristique quam felis. Id phasellus dui orci vulputate consequat nulla proin. Id sit scelerisque neque, proin bibendum diam.",
+                    "nodeId": "2:49"
+                },
+                {
+                    "name": "2014-2018",
+                    "nodeId": "2:50"
+                }
+            ]
+        },
+        {
+            "componentName": "HorizontalRectangles",
+            "description": "Un ensemble de rectangles disposés horizontalement.",
+            "rootNodeId": "7:28",
+            "rootNodeName": "Group 7",
+            "possibleInstances": [
+                {
+                    "name": "Group 7",
+                    "nodeId": "7:28"
+                },
+                {
+                    "name": "Group 9",
+                    "nodeId": "7:32"
+                },
+                {
+                    "name": "Group 8",
+                    "nodeId": "7:29"
+                }
+            ],
+            "usableNodes": [
+                {
+                    "name": "Group 7",
+                    "nodeId": "7:28"
+                },
+                {
+                    "name": "Rectangle 18",
+                    "nodeId": "5:21"
+                },
+                {
+                    "name": "Rectangle 19",
+                    "nodeId": "5:22"
+                }
+            ]
+        },
+        {
+            "componentName": "NavigationLinks",
+            "description": "Groupe de liens de navigation (Home, Work, About).",
+            "rootNodeId": "2:8",
+            "rootNodeName": "Group 1",
+            "possibleInstances": [
+                {
+                    "name": "Group 1",
+                    "nodeId": "2:8"
+                }
+            ],
+            "usableNodes": [
+                {
+                    "name": "Group 1",
+                    "nodeId": "2:8"
+                },
+                {
+                    "name": "Home",
+                    "nodeId": "0:11"
+                },
+                {
+                    "name": "Work",
+                    "nodeId": "0:12"
+                },
+                {
+                    "name": "About",
+                    "nodeId": "2:2"
+                }
+            ]
+        },
+        {
+            "componentName": "RectangleGroup",
+            "description": "Groupe de rectangles disposés horizontalement.",
+            "rootNodeId": "5:14",
+            "rootNodeName": "Group 6",
+            "possibleInstances": [
+                {
+                    "name": "Group 6",
+                    "nodeId": "5:14"
+                }
+            ],
+            "usableNodes": [
+                {
+                    "name": "Group 6",
+                    "nodeId": "5:14"
+                },
+                {
+                    "name": "Rectangle 13",
+                    "nodeId": "5:9"
+                },
+                {
+                    "name": "Rectangle 14",
+                    "nodeId": "5:10"
+                },
+                {
+                    "name": "Rectangle 15",
+                    "nodeId": "5:11"
+                },
+                {
+                    "name": "Rectangle 16",
+                    "nodeId": "5:12"
+                },
+                {
+                    "name": "Rectangle 17",
+                    "nodeId": "5:13"
+                }
+            ]
+        },
+        {
+            "componentName": "SearchBar",
+            "description": "Une barre de recherche avec un placeholder.",
+            "rootNodeId": "256:16",
+            "rootNodeName": "Frame 12",
+            "possibleInstances": [
+                {
+                    "name": "Frame 12",
+                    "nodeId": "256:16"
+                }
+            ],
+            "usableNodes": [
+                {
+                    "name": "Frame 12",
+                    "nodeId": "256:16"
+                },
+                {
+                    "name": "Rectangle 22",
+                    "nodeId": "256:15"
+                },
+                {
+                    "name": "PlaceholderIcon",
+                    "nodeId": "256:17"
+                },
+                {
+                    "name": "Rechercher",
+                    "nodeId": "256:18"
+                }
+            ]
+        }
+    ],
+    "figmaAiDescription": "Cette maquette Figma, nommée 'Portfolio BadVersion', semble être un *portfolio personnel* en ligne. \n\nElle comprend 97 éléments, dont des textes, rectangles, groupes, instances et images SVG.\n\n**Composants et Sections Principales:**\n\n*   Une section d'accueil avec le nom 'John Doe' et une brève introduction.\n*   Des sections de présentation de projets utilisant des images.\n*   Une section 'À propos' ou 'Bio' avec du texte descriptif (Lorem ipsum).\n*   Navigation possible (non explicitée dans les éléments listés).\n\n**Éléments de Design Notables:**\n\n*   Utilisation de 5 couleurs et 1 style de texte.\n*   Présence de 4 images. L'interface se base sur des *éléments visuels simples* et une *typographie sobre*.\n*   Le layout reste à analyser plus en détail, mais on peut supposer une structure classique de site web avec des sections claires."
+}

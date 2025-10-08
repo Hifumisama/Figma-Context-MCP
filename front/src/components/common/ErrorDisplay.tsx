@@ -40,6 +40,11 @@ const ErrorDisplay: React.FC = () => {
     window.location.reload();
   };
 
+  // Ne pas afficher le composant s'il n'y a pas d'erreur
+  if (!state.error) {
+    return null;
+  }
+
   const errorDetails = getErrorDetails();
   const errorIcon = getErrorIcon();
 
@@ -77,7 +82,7 @@ const ErrorDisplay: React.FC = () => {
 
           {isApiError(state.error) && state.error.status === 401 && (
             <a
-              href="https://www.figma.com/developers/api#access-tokens"
+              href="https://developers.figma.com/docs/rest-api/authentication/#access-tokens"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"

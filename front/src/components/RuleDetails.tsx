@@ -2,7 +2,7 @@ import React from 'react';
 import { useAudit } from '../contexts/AuditContext';
 
 interface RuleDetailsProps {
-  ruleId: string;
+  ruleId: number;
   isOpen?: boolean;
   moreInfos?: Record<string, string>;
 }

@@ -6,11 +6,11 @@ import { generateNodeUrl } from '../../utils/api';
 
 const DetailedTables: React.FC = () => {
   const { getFilteredReportData, state } = useAudit();
-  const [activeDetails, setActiveDetails] = useState<Record<string, string | null>>({});
+  const [activeDetails, setActiveDetails] = useState<Record<string, number | null>>({});
 
   const groupedData = getFilteredReportData();
 
-  const toggleDetails = (nodeId: string, ruleId: string) => {
+  const toggleDetails = (nodeId: string, ruleId: number) => {
     if (activeDetails[nodeId] === ruleId) {
       // Fermer si le même badge est cliqué
       setActiveDetails({ ...activeDetails, [nodeId]: null });
@@ -20,7 +20,7 @@ const DetailedTables: React.FC = () => {
     }
   };
 
-  const isDetailOpen = (nodeId: string, ruleId: string) => {
+  const isDetailOpen = (nodeId:string, ruleId: number) => {
     return activeDetails[nodeId] === ruleId;
   };
 

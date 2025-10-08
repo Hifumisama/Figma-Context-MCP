@@ -16,11 +16,11 @@ const StatsCards: React.FC = () => {
     }
   }, [statsCards, state.showCompliantRules, toggleCompliantRules]);
 
-  const handleCardClick = (ruleId: string) => {
+  const handleCardClick = (ruleId: number) => {
     toggleRuleFilter(ruleId);
   };
 
-  const isCardActive = (ruleId: string) => {
+  const isCardActive = (ruleId: number) => {
     return selectedFilters.includes(ruleId);
   };
 
@@ -85,7 +85,7 @@ const StatsCards: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filteredCards.map(card => (
+        {filteredCards.map((card) => (
           <button
             key={card.ruleId}
             className="rounded-lg border-l-4 p-4 relative transition-all duration-200 hover:scale-105 cursor-pointer text-left"

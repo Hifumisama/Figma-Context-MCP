@@ -1,74 +1,34 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
-
-// Types
-interface RuleDefinition {
-  id: string;
-  name: string;
-  nameFr?: string;
-  category: 'standard' | 'ai-based';
-  color: string;
-  description?: string;
-  descriptionFr?: string;
-  icon?: string;
-  resolutionAdvice?: string;
-}
-
-interface AuditResult {
-  ruleIds: string[];
-  [key: string]: any;
-}
-
-interface AuditState {
-  // Form state
-  figmaUrl: string;
-  figmaApiKey: string;
-  outputFormat: string;
-
-  // UI state
-  currentView: 'home' | 'report';
-  isLoading: boolean;
-
-  // Filtering state
-  selectedRulesFilter: string[];
-  showCompliantRules: boolean;
-
-  // Results state
-  results: any;
-  rulesDefinitions: RuleDefinition[];
-  auditResults: AuditResult[];
-  designSystem: any;
-  localStyles: any;
-  componentSuggestions: any[];
-  figmaAiDescription: string;
-  error: string | null;
-}
+import type {
+  RuleDefinition,
+  AuditState,
+  RuleWithStatus,
+  GroupedNodeData,
+  ComponentSuggestion,
+  AuditResponse
+} from '../types/audit';
 
 interface AuditContextType {
   state: AuditState;
   // Getters
-  getAllRules: () => RuleDefinition[];
-  getRuleById: (id: string) => RuleDefinition | undefined;
-  hasResults: () => boolean;
+  getRuleById: (id: number) => RuleDefinition | undefined;
   showReport: () => boolean;
   hasComponentSuggestions: () => boolean;
-  getComponentSuggestions: () => any[];
+  getComponentSuggestions: () => ComponentSuggestion[];
   getFigmaAiDescription: () => string;
   chartData: () => any;
   totalRulesDetected: () => number;
-  rulesCategoriesStats: () => { standard: { count: number; total: number }; 'ai-based': { count: number; total: number } };
-  allRulesWithStatus: () => any[];
-  getFilteredReportData: () => AuditResult[];
+  allRulesWithStatus: () => RuleWithStatus[];
+  getFilteredReportData: () => GroupedNodeData[];
   // Actions
   setFigmaUrl: (url: string) => void;
   setFigmaApiKey: (key: string) => void;
-  setOutputFormat: (format: string) => void;
   setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  setResults: (results: any) => void;
+  setError: (error: string | Error | null) => void;
+  setResults: (results: AuditResponse) => void;
   resetAudit: () => void;
-  toggleRuleFilter: (ruleId: string) => void;
+  toggleRuleFilter: (ruleId: number) => void;
   clearAllFilters: () => void;
-  selectAllRules: () => void;
   toggleCompliantRules: () => void;
 }
 
@@ -96,13 +56,9 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [state, setState] = useState<AuditState>(initialState);
 
   // Getters
-  const getAllRules = useCallback(() => state.rulesDefinitions, [state.rulesDefinitions]);
-
-  const getRuleById = useCallback((id: string) => {
+  const getRuleById = useCallback((id: number) => {
     return state.rulesDefinitions.find(rule => rule.id === id);
   }, [state.rulesDefinitions]);
-
-  const hasResults = useCallback(() => state.results !== null, [state.results]);
 
   const showReport = useCallback(() => {
     return state.currentView === 'report' && state.results !== null;
@@ -150,36 +106,10 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return state.auditResults.length;
   }, [state.auditResults]);
 
-  const rulesCategoriesStats = useCallback(() => {
-    if (!state.rulesDefinitions.length) {
-      return { standard: { count: 0, total: 0 }, 'ai-based': { count: 0, total: 0 } };
-    }
-
-    const ruleCounts: Record<string, number> = {};
-    state.auditResults.forEach(result => {
-      result.ruleIds.forEach(ruleId => {
-        ruleCounts[ruleId] = (ruleCounts[ruleId] || 0) + 1;
-      });
-    });
-
-    const stats = {
-      standard: { count: 0, total: state.rulesDefinitions.filter(r => r.category === 'standard').length },
-      'ai-based': { count: 0, total: state.rulesDefinitions.filter(r => r.category === 'ai-based').length }
-    };
-
-    state.rulesDefinitions.forEach(rule => {
-      if (ruleCounts[rule.id] > 0) {
-        stats[rule.category].count++;
-      }
-    });
-
-    return stats;
-  }, [state.auditResults, state.rulesDefinitions]);
-
-  const allRulesWithStatus = useCallback(() => {
+  const allRulesWithStatus = useCallback((): RuleWithStatus[] => {
     if (!state.rulesDefinitions.length) return [];
 
-    const ruleCounts: Record<string, number> = {};
+    const ruleCounts: Record<number, number> = {};
     state.auditResults.forEach(result => {
       result.ruleIds.forEach(ruleId => {
         ruleCounts[ruleId] = (ruleCounts[ruleId] || 0) + 1;
@@ -191,6 +121,8 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       return {
         ...rule,
+        ruleId: rule.id,
+        count: detectedCount,
         detectedCount,
         isCompliant: detectedCount === 0,
         status: detectedCount === 0 ? 'Conforme' : `${detectedCount} détection${detectedCount > 1 ? 's' : ''}`
@@ -198,20 +130,26 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
   }, [state.auditResults, state.rulesDefinitions]);
 
-  const getFilteredReportData = useCallback(() => {
-    if (state.selectedRulesFilter.length === 0) {
-      return state.auditResults;
-    }
+  const getFilteredReportData = useCallback((): GroupedNodeData[] => {
+    const dataToFilter = state.selectedRulesFilter.length === 0
+      ? state.auditResults
+      : state.auditResults.filter(result => {
+          return result.ruleIds.some(ruleId =>
+            state.selectedRulesFilter.includes(ruleId)
+          );
+        }).map(result => ({
+          ...result,
+          ruleIds: result.ruleIds.filter(ruleId =>
+            state.selectedRulesFilter.includes(ruleId)
+          )
+        }));
 
-    return state.auditResults.filter(result => {
-      return result.ruleIds.some(ruleId =>
-        state.selectedRulesFilter.includes(ruleId)
-      );
-    }).map(result => ({
-      ...result,
-      ruleIds: result.ruleIds.filter(ruleId =>
-        state.selectedRulesFilter.includes(ruleId)
-      )
+    // Transform to GroupedNodeData format
+    return dataToFilter.map(result => ({
+      nodeId: result.nodeId,
+      nodeName: result.nodeName,
+      ruleIds: result.ruleIds,
+      moreInfos: result.moreInfos
     }));
   }, [state.auditResults, state.selectedRulesFilter]);
 
@@ -224,19 +162,15 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setState(prev => ({ ...prev, figmaApiKey: key }));
   }, []);
 
-  const setOutputFormat = useCallback((format: string) => {
-    setState(prev => ({ ...prev, outputFormat: format }));
-  }, []);
-
   const setLoading = useCallback((loading: boolean) => {
     setState(prev => ({ ...prev, isLoading: loading }));
   }, []);
 
-  const setError = useCallback((error: string | null) => {
+  const setError = useCallback((error: string | Error | null) => {
     setState(prev => ({ ...prev, error, isLoading: false }));
   }, []);
 
-  const setResults = useCallback((results: any) => {
+  const setResults = useCallback((results: AuditResponse) => {
     setState(prev => ({
       ...prev,
       results,
@@ -256,7 +190,7 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setState(initialState);
   }, []);
 
-  const toggleRuleFilter = useCallback((ruleId: string) => {
+  const toggleRuleFilter = useCallback((ruleId: number) => {
     setState(prev => ({
       ...prev,
       selectedRulesFilter: prev.selectedRulesFilter.includes(ruleId)
@@ -269,66 +203,49 @@ export const AuditProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setState(prev => ({ ...prev, selectedRulesFilter: [] }));
   }, []);
 
-  const selectAllRules = useCallback(() => {
-    setState(prev => ({
-      ...prev,
-      selectedRulesFilter: prev.rulesDefinitions.map(rule => rule.id)
-    }));
-  }, []);
-
   const toggleCompliantRules = useCallback(() => {
     setState(prev => ({ ...prev, showCompliantRules: !prev.showCompliantRules }));
   }, []);
 
   const value = useMemo(() => ({
     state,
-    getAllRules,
     getRuleById,
-    hasResults,
     showReport,
     hasComponentSuggestions,
     getComponentSuggestions,
     getFigmaAiDescription,
     chartData,
     totalRulesDetected,
-    rulesCategoriesStats,
     allRulesWithStatus,
     getFilteredReportData,
     setFigmaUrl,
     setFigmaApiKey,
-    setOutputFormat,
     setLoading,
     setError,
     setResults,
     resetAudit,
     toggleRuleFilter,
     clearAllFilters,
-    selectAllRules,
     toggleCompliantRules,
   }), [
     state,
-    getAllRules,
     getRuleById,
-    hasResults,
     showReport,
     hasComponentSuggestions,
     getComponentSuggestions,
     getFigmaAiDescription,
     chartData,
     totalRulesDetected,
-    rulesCategoriesStats,
     allRulesWithStatus,
     getFilteredReportData,
     setFigmaUrl,
     setFigmaApiKey,
-    setOutputFormat,
     setLoading,
     setError,
     setResults,
     resetAudit,
     toggleRuleFilter,
     clearAllFilters,
-    selectAllRules,
     toggleCompliantRules,
   ]);
 
