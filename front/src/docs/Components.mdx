@@ -1,0 +1,592 @@
+---
+title: Documentation/Guide des Composants
+---
+
+<div className="sb-container">
+  <div className="sb-section-title">
+    # Guide des Composants
+
+    Ce guide présente tous les composants de l'application, leurs usages et leurs bonnes pratiques d'utilisation.
+  </div>
+
+  ## Architecture des composants
+
+  Les composants sont organisés en trois catégories principales :
+
+  ### 📦 Common - Composants réutilisables
+  Composants génériques utilisables dans tout le projet
+
+  ### 📝 Forms - Composants de formulaire
+  Composants liés à la saisie et la soumission de données
+
+  ### 📊 Display - Composants d'affichage
+  Composants pour afficher les résultats et les données d'audit
+
+  ---
+
+  ## Common
+
+  ### LoadingSpinner
+
+  **Fichier** : `src/components/common/LoadingSpinner.tsx`
+
+  Indicateur de chargement animé avec message personnalisable.
+
+  **Props** :
+  - `message?: string` - Message principal (défaut: "Analyse en cours...")
+  - `subtext?: string` - Texte secondaire (défaut: "Cela peut prendre quelques instants.")
+
+  **Utilisation** :
+  ```jsx
+  <LoadingSpinner
+    message="Chargement des données..."
+    subtext="Merci de patienter."
+  />
+  ```
+
+  **Quand l'utiliser** :
+  - Pendant les appels API
+  - Lors du traitement de données
+  - Pendant les opérations asynchrones
+
+  **Stories disponibles** :
+  - Default - Configuration par défaut
+  - CustomMessage - Avec messages personnalisés
+  - ShortMessage - Message court
+  - LongMessage - Message long et détaillé
+
+  ---
+
+  ### ErrorDisplay
+
+  **Fichier** : `src/components/common/ErrorDisplay.tsx`
+
+  Affichage d'erreur avec suggestions de résolution.
+
+  **Props** :
+  - `message: string` - Message d'erreur à afficher
+
+  **Utilisation** :
+  ```jsx
+  <ErrorDisplay message="Erreur lors de la récupération des données Figma" />
+  ```
+
+  **Quand l'utiliser** :
+  - Erreurs API
+  - Erreurs de validation
+  - Erreurs de réseau
+
+  **Stories disponibles** :
+  - Default - Erreur standard
+  - NetworkError - Erreur réseau
+  - AuthError - Erreur d'authentification
+  - LongError - Message d'erreur long
+
+  ---
+
+  ## Forms
+
+  ### InputForm
+
+  **Fichier** : `src/components/forms/InputForm.tsx`
+
+  Formulaire principal pour soumettre une URL Figma et une clé API.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** : Aucune (utilise le contexte)
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider>
+    <InputForm />
+  </AuditProvider>
+  ```
+
+  **Fonctionnalités** :
+  - Validation d'URL Figma
+  - Gestion de la clé API (optionnelle pour les fichiers publics)
+  - États de chargement
+  - Gestion des erreurs
+
+  **Stories disponibles** :
+  - Default - Formulaire vide
+  - WithMockData - Formulaire pré-rempli
+
+  ---
+
+  ### PrimaryButton
+
+  **Fichier** : `src/components/forms/PrimaryButton.tsx`
+
+  Bouton principal avec états de chargement et désactivation.
+
+  **Props** :
+  - `onClick?: () => void` - Handler de clic
+  - `text?: string` - Texte du bouton (défaut: "Analyser la maquette")
+  - `loadingText?: string` - Texte pendant le chargement (défaut: "Analyse en cours...")
+  - `isLoading?: boolean` - État de chargement
+  - `canSubmit?: boolean` - Bouton activé/désactivé (défaut: true)
+  - `type?: 'submit' | 'button'` - Type HTML du bouton (défaut: 'submit')
+
+  **Utilisation** :
+  ```jsx
+  <PrimaryButton
+    onClick={handleSubmit}
+    isLoading={loading}
+    canSubmit={isValid}
+    text="Analyser"
+  />
+  ```
+
+  **States** :
+  - **Default** - Bouton normal, cliquable
+  - **Loading** - Spinner animé, non cliquable
+  - **Disabled** - Bouton grisé, non cliquable
+
+  **Stories disponibles** :
+  - Default - État normal
+  - Disabled - Bouton désactivé
+  - Loading - En cours de chargement
+  - CustomText - Texte personnalisé
+  - CustomLoadingText - Texte de chargement personnalisé
+  - ButtonType - Type "button" au lieu de "submit"
+  - LongText - Texte long
+  - LongLoadingText - Texte de chargement long
+
+  ---
+
+  ## Display
+
+  ### StatsCards
+
+  **Fichier** : `src/components/display/StatsCards.tsx`
+
+  Cartes statistiques affichant le résumé de l'audit.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** : Aucune (utilise le contexte)
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider initialState={{ auditResult: data }}>
+    <StatsCards />
+  </AuditProvider>
+  ```
+
+  **Affiche** :
+  - Nombre total de problèmes détectés
+  - Nombre de règles déclenchées
+  - Graphique de répartition (si disponible)
+
+  **Stories disponibles** :
+  - WithIssues - Avec plusieurs problèmes
+  - AllCompliant - Aucun problème (design parfait)
+  - SingleRuleWithIssues - Une seule règle déclenchée
+  - ManyRules - Beaucoup de règles (stress test)
+
+  ---
+
+  ### RuleBadge
+
+  **Fichier** : `src/components/RuleBadge.tsx`
+
+  Badge représentant une règle d'audit avec compteur de détections.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** :
+  - `ruleId: number` - ID de la règle
+  - `onClick?: () => void` - Handler de clic
+  - `isActive?: boolean` - État actif/sélectionné
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider initialState={{ auditResult: data }}>
+    <RuleBadge
+      ruleId={1}
+      onClick={() => console.log('Clicked')}
+      isActive={selectedRule === 1}
+    />
+  </AuditProvider>
+  ```
+
+  **Apparence** :
+  - Icône de la règle
+  - Nom de la règle
+  - Nombre de détections
+  - Couleur selon la catégorie
+
+  **Stories disponibles** :
+  - DefaultNaming - Badge de règle "Naming"
+  - ActiveNaming - Badge "Naming" actif
+  - AutoLayout - Badge "Auto Layout"
+  - ActiveAutoLayout - Badge "Auto Layout" actif
+  - DetachedStyles - Badge "Styles détachés"
+  - ActiveDetachedStyles - Badge "Styles détachés" actif
+  - AllBadges - Vue d'ensemble de tous les badges
+
+  ---
+
+  ### RuleDetails
+
+  **Fichier** : `src/components/RuleDetails.tsx`
+
+  Détails d'une règle avec description, sévérité et suggestions.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** :
+  - `ruleId: number` - ID de la règle
+  - `isOpen?: boolean` - Accordéon ouvert/fermé
+  - `moreInfos?: any` - Informations supplémentaires
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider initialState={{ auditResult: data }}>
+    <RuleDetails
+      ruleId={1}
+      isOpen={true}
+      moreInfos={additionalData}
+    />
+  </AuditProvider>
+  ```
+
+  **Affiche** :
+  - Description détaillée de la règle
+  - Badge de sévérité (info, warning, error)
+  - Suggestions de correction
+  - Informations contextuelles
+
+  **Stories disponibles** :
+  - DefaultNaming - Détails de la règle "Naming"
+  - AutoLayout - Détails "Auto Layout"
+  - DetachedStyles - Détails "Styles détachés"
+  - Closed - Accordéon fermé
+  - WithExtraInfo - Avec informations supplémentaires
+
+  ---
+
+  ### FigmaDescription
+
+  **Fichier** : `src/components/display/FigmaDescription.tsx`
+
+  Affiche les informations de la maquette Figma analysée.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** : Aucune (utilise le contexte)
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider initialState={{ figmaUrl: url }}>
+    <FigmaDescription />
+  </AuditProvider>
+  ```
+
+  **Affiche** :
+  - Nom du fichier Figma
+  - Lien vers la maquette
+  - Date d'analyse
+  - Métadonnées
+
+  **Stories disponibles** :
+  - Default - Description standard
+  - LongTitle - Titre long
+  - NoLink - Sans lien Figma
+
+  ---
+
+  ### TotalDetectedRules
+
+  **Fichier** : `src/components/display/TotalDetectedRules.tsx`
+
+  Affiche le nombre total de règles déclenchées.
+
+  **Contexte requis** : `AuditContext`
+
+  **Props** : Aucune (utilise le contexte)
+
+  **Utilisation** :
+  ```jsx
+  <AuditProvider initialState={{ auditResult: data }}>
+    <TotalDetectedRules />
+  </AuditProvider>
+  ```
+
+  **Affiche** :
+  - Nombre de règles déclenchées
+  - Animation de compteur
+  - Badge coloré selon le nombre
+
+  **Stories disponibles** :
+  - NoRules - Aucune règle
+  - FewRules - Quelques règles
+  - ManyRules - Beaucoup de règles
+  - WithAnimation - Avec animation
+
+  ---
+
+  ## Composants sans stories (à documenter)
+
+  ### ComponentSuggestionsCards
+
+  **Fichier** : `src/components/display/ComponentSuggestionsCards.tsx`
+
+  Affiche les suggestions de composants détectées par IA.
+
+  **Props** :
+  - `componentSuggestions?: ComponentSuggestion[]` - Liste des suggestions
+  - `baseFigmaUrl?: string` - URL de base Figma
+
+  **Fonctionnalités** :
+  - Accordéons pour chaque suggestion
+  - Liste des instances détectées
+  - Structure du composant
+  - Liens vers Figma
+
+  **TODO** : Créer des stories pour ce composant
+
+  ---
+
+  ### DesignSystemViewer
+
+  **Fichier** : `src/components/display/DesignSystemViewer.tsx`
+
+  Visualisation interactive du design system extrait.
+
+  **Contexte requis** : `AuditContext`
+
+  **Affiche** :
+  - Styles de texte avec preview
+  - Palette de couleurs (Design System + Locales)
+  - Contours/Strokes
+  - Sélecteurs interactifs
+
+  **TODO** : Créer des stories pour ce composant
+
+  ---
+
+  ### DetailedTables
+
+  **Fichier** : `src/components/display/DetailedTables.tsx`
+
+  Tableau détaillé avec tous les nœuds et règles.
+
+  **Contexte requis** : `AuditContext`
+
+  **Affiche** :
+  - Liste des nœuds avec problèmes
+  - Badges de règles cliquables
+  - Liens vers Figma
+  - Accordéons de détails
+
+  **TODO** : Créer des stories pour ce composant
+
+  ---
+
+  ## Bonnes pratiques
+
+  ### Gestion du contexte
+
+  **Toujours wrapper les composants utilisant AuditContext** :
+  ```jsx
+  // ✅ Correct
+  <AuditProvider initialState={mockData}>
+    <MyComponent />
+  </AuditProvider>
+
+  // ❌ Erreur - composant sans contexte
+  <MyComponent />
+  ```
+
+  ### Props vs Context
+
+  **Privilégier les props pour les composants réutilisables** :
+  ```jsx
+  // ✅ Réutilisable
+  <LoadingSpinner message="Custom message" />
+
+  // ❌ Dépendant du contexte
+  const { message } = useContext(MessageContext);
+  <LoadingSpinner />
+  ```
+
+  ### Composition
+
+  **Composer les composants au lieu de les dupliquer** :
+  ```jsx
+  // ✅ Composition
+  <Card>
+    <CardHeader title="Audit" />
+    <CardBody>
+      <StatsCards />
+    </CardBody>
+  </Card>
+
+  // ❌ Duplication
+  <StatsCardWithHeader />
+  ```
+
+  ### Performance
+
+  **Utiliser React.memo pour les composants coûteux** :
+  ```jsx
+  export default React.memo(ExpensiveComponent);
+  ```
+
+  **Utiliser useMemo pour les calculs lourds** :
+  ```jsx
+  const filteredData = useMemo(
+    () => data.filter(item => item.active),
+    [data]
+  );
+  ```
+
+  ---
+
+  ## Tests
+
+  Chaque composant dispose de tests unitaires avec Testing Library :
+
+  ```bash
+  pnpm test                  # Lancer tous les tests
+  pnpm test:ui              # Interface de tests
+  pnpm test:coverage        # Rapport de couverture
+  ```
+
+  **Structure des tests** :
+  ```
+  ComponentName.tsx
+  ComponentName.stories.tsx
+  ComponentName.test.tsx
+  ```
+
+  **Exemple de test** :
+  ```jsx
+  import { render, screen } from '@testing-library/react';
+  import LoadingSpinner from './LoadingSpinner';
+
+  test('renders with custom message', () => {
+    render(<LoadingSpinner message="Loading..." />);
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+  ```
+
+  ---
+
+  **Documentation maintenue pour faciliter le développement et la collaboration**
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section-title h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: #be185d;
+  }
+
+  pre {
+    background-color: #1f2937;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+
+  pre code {
+    background-color: transparent;
+    color: #f9fafb;
+    padding: 0;
+  }
+
+  p {
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    color: #4b5563;
+  }
+
+  strong {
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  ul, ol {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  hr {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  blockquote {
+    border-left: 4px solid #667eea;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #6b7280;
+    font-style: italic;
+  }
+  `}
+</style>

@@ -1,0 +1,289 @@
+---
+title: Documentation/Introduction
+---
+
+<div className="sb-container">
+  <div className="sb-section-title">
+    # Figma MCP - Audit de Design Frontend
+
+    Bienvenue dans la documentation Storybook du frontend de **Figma MCP**, un outil d'audit automatisé pour analyser et améliorer vos designs Figma.
+  </div>
+
+  ## À propos du projet
+
+  Ce projet fournit une interface web intuitive pour auditer des fichiers Figma et détecter des problèmes de design courants. L'application analyse automatiquement :
+
+  - **Noms de layers par défaut** - Identifie les éléments non renommés (Frame 123, Rectangle 45, etc.)
+  - **Usage d'Auto Layout** - Détecte les conteneurs qui devraient utiliser Auto Layout
+  - **Styles détachés** - Trouve les éléments n'utilisant pas le design system
+  - **Paramètres d'export** - Vérifie que les assets ont une configuration d'export
+  - **Calques cachés** - Identifie les layers invisibles qui polluent le fichier
+  - **Suggestions de composants** - Détecte les patterns répétés qui pourraient être des composants
+  - **Analyse du design system** - Extrait les couleurs, typographies et styles
+
+  ## Architecture technique
+
+  ### Stack technique
+  - **React 18** - Bibliothèque UI avec hooks
+  - **TypeScript** - Typage statique
+  - **Vite** - Build tool rapide
+  - **Tailwind CSS** - Framework CSS utility-first
+  - **Vitest** - Framework de tests unitaires
+  - **Storybook 9** - Documentation et développement de composants
+
+  ### Structure du projet
+  ```
+  src/
+    ├── components/      # Composants React organisés par catégorie
+    │   ├── common/      # Composants réutilisables (LoadingSpinner, ErrorDisplay)
+    │   ├── forms/       # Composants de formulaire (InputForm, PrimaryButton)
+    │   └── display/     # Composants d'affichage (StatsCards, RuleBadge)
+    ├── contexts/        # Contextes React (AuditContext)
+    ├── utils/           # Fonctions utilitaires
+    └── docs/            # Documentation Storybook
+  ```
+
+  ## Comment naviguer dans Storybook
+
+  ### Organisation des stories
+
+  Les composants sont organisés en trois catégories principales :
+
+  1. **Common** - Composants génériques et réutilisables
+     - LoadingSpinner : Indicateur de chargement avec message personnalisable
+     - ErrorDisplay : Affichage des erreurs avec suggestions
+
+  2. **Forms** - Composants de formulaire
+     - InputForm : Formulaire principal d'analyse Figma
+     - PrimaryButton : Bouton principal avec états de chargement
+
+  3. **Display** - Composants d'affichage de données
+     - StatsCards : Cartes statistiques de l'audit
+     - RuleBadge : Badges représentant les règles détectées
+     - RuleDetails : Détails d'une règle spécifique
+     - FigmaDescription : Description de la maquette analysée
+     - TotalDetectedRules : Total des règles déclenchées
+
+  ### Utilisation des contrôles
+
+  Chaque story dispose de **contrôles interactifs** dans l'onglet "Controls" :
+  - Modifiez les props en temps réel
+  - Testez différents états du composant
+  - Visualisez les changements instantanément
+
+  ### Documentation automatique
+
+  Tous les composants disposent d'une **documentation automatique** générée via le tag `autodocs` :
+  - Description des props
+  - Types TypeScript
+  - Valeurs par défaut
+  - Exemples d'utilisation
+
+  ## Démarrage rapide
+
+  ### Installation
+  ```bash
+  npm install
+  # ou
+  pnpm install
+  ```
+
+  ### Lancer Storybook
+  ```bash
+  npm run storybook
+  # ou
+  pnpm storybook
+  ```
+
+  Storybook sera disponible sur [http://localhost:6006](http://localhost:6006)
+
+  ### Lancer les tests
+  ```bash
+  npm run test
+  # ou
+  pnpm test
+  ```
+
+  ### Lancer l'application
+  ```bash
+  npm run dev
+  # ou
+  pnpm dev
+  ```
+
+  ## Workflow de développement
+
+  ### 1. Créer un nouveau composant
+  ```
+  src/components/[catégorie]/MonComposant.tsx
+  src/components/[catégorie]/MonComposant.stories.tsx
+  src/components/[catégorie]/MonComposant.test.tsx
+  ```
+
+  ### 2. Développer avec Storybook
+  - Lancez Storybook : `pnpm storybook`
+  - Créez vos variants dans le fichier `.stories.tsx`
+  - Testez visuellement tous les états du composant
+
+  ### 3. Écrire les tests
+  - Tests unitaires avec Vitest et Testing Library
+  - Couverture de code complète
+  - Tests d'accessibilité
+
+  ### 4. Vérifier la qualité
+  ```bash
+  pnpm lint          # Vérification ESLint
+  pnpm type-check    # Vérification TypeScript
+  pnpm test          # Lancer les tests
+  ```
+
+  ## Contexte applicatif
+
+  ### AuditContext
+
+  L'application utilise un contexte React global (`AuditContext`) pour gérer l'état de l'audit :
+
+  ```typescript
+  interface AuditState {
+    isLoading: boolean;
+    error: string | null;
+    auditResult: AuditResult | null;
+    figmaUrl: string;
+    figmaApiKey: string;
+    designSystem?: DesignSystem;
+    localStyles?: LocalStyles;
+  }
+  ```
+
+  **Utilisation dans les stories** :
+  - Les composants utilisant le contexte sont wrappés dans un `AuditProvider`
+  - Des données mock sont fournies via `initialState`
+  - Permet de tester les composants avec différents états
+
+  ## Ressources
+
+  - [Documentation React](https://react.dev)
+  - [Documentation Storybook](https://storybook.js.org)
+  - [Documentation Tailwind CSS](https://tailwindcss.com)
+  - [Documentation Vitest](https://vitest.dev)
+  - [MCP Figma API](https://github.com/votre-repo) _(lien à mettre à jour)_
+
+  ## Contribution
+
+  Pour contribuer au projet :
+  1. Créez une branche depuis `main`
+  2. Développez votre feature avec Storybook
+  3. Écrivez des tests
+  4. Créez une Pull Request
+
+  ---
+
+  **Développé avec ❤️ pour améliorer les workflows Figma**
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section-title h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sb-section-title p {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #6b7280;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #374151;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: #be185d;
+  }
+
+  pre {
+    background-color: #1f2937;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+
+  pre code {
+    background-color: transparent;
+    color: #f9fafb;
+    padding: 0;
+  }
+
+  ul, ol {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  strong {
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+  }
+  `}
+</style>
