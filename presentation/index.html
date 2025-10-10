@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma Audit - Présentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Introduction -->
+            <section data-auto-animate>
+                <h1 class="gradient-text" data-id="title">Figma Audit</h1>
+                <h3 data-id="subtitle">Projet FigmaMCP</h3>
+                <p class="fragment fade-in-then-semi-out">
+                    Un outil d'audit intelligent pour vos maquettes Figma
+                </p>
+                <p class="fragment fade-in subtitle">
+                    Analysez, optimisez et structurez vos designs pour une meilleure cohérence
+                </p>
+            </section>
+
+            <!-- Slide 2: Pourquoi cette application ? -->
+            <section data-transition="convex">
+                <h2>Pourquoi Figma Audit ?</h2>
+                <div class="two-column">
+                    <div>
+                        <p>Cette application sert à <strong>auditer les maquettes Figma</strong> pour :</p>
+                        <ul>
+                            <li class="fragment fade-up">Maximiser leur cohérence</li>
+                            <li class="fragment fade-up">Améliorer leur structure</li>
+                            <li class="fragment fade-up">Faciliter l'intégration avec les outils de codage IA</li>
+                        </ul>
+                    </div>
+                    <div class="fragment fade-left">
+                        <div class="coherence-visualization">
+                            <h4>Impact de la cohérence</h4>
+                            <div class="coherence-flow">
+                                <div class="coherence-step">
+                                    <div class="step-icon">📐</div>
+                                    <div class="step-label">Maquette structurée</div>
+                                </div>
+                                <div class="coherence-arrow">
+                                    <div class="arrow-line"></div>
+                                    <div class="arrow-progress" id="arrowProgress"></div>
+                                </div>
+                                <div class="coherence-step">
+                                    <div class="step-icon">🤖</div>
+                                    <div class="step-label">Compréhension IA</div>
+                                    <div class="step-score" id="coherenceScore">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Architecture du projet -->
+            <section data-background-gradient="linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05))">
+                <h2>Architecture du projet</h2>
+                <div class="mermaid-container fragment zoom-in">
+                    <pre class="mermaid">
+graph TB
+    subgraph "Source de données"
+        A[API Figma]
+    end
+
+    subgraph "Backend - Traitement"
+        B[get-figma-context<br/>Collecte & Simplification]
+        C[audit-figma-design<br/>Analyse & Règles]
+        D[LLM - Gemini 2.0 Flash]
+    end
+
+    subgraph "Frontend - Visualisation"
+        E[Interface utilisateur<br/>Formulaire & Rapport]
+    end
+
+    A -->|Données brutes| B
+    B -->|Données structurées| C
+    D -->|Analyse IA| C
+    C -->|Rapport d'audit| E
+
+    style A fill:#6366f1,stroke:#4f46e5,color:#fff
+    style B fill:#3b82f6,stroke:#2563eb,color:#fff
+    style C fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    style D fill:#ec4899,stroke:#db2777,color:#fff
+    style E fill:#10b981,stroke:#059669,color:#fff
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Slide 4: Présentation du back -->
+            <section data-auto-animate>
+                <h2 data-id="backend-title">Backend - Outils & Règles</h2>
+
+                <div class="backend-section">
+                    <h3>🔧 Outils principaux</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card fragment fade-right">
+                            <h4>get-figma-context</h4>
+                            <p>Collecte et simplifie les données Figma brutes</p>
+                        </div>
+                        <div class="tool-card fragment fade-left">
+                            <h4>audit-figma-design</h4>
+                            <p>Analyse la maquette via un ensemble de règles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backend-section fragment">
+                    <h3>📋 Règles d'audit (8 règles)</h3>
+                    <div class="rules-grid">
+                        <!-- Rule 1 -->
+                        <div class="rule-item" data-tooltip="Activer Auto Layout dans les propriétés du frame pour permettre un redimensionnement automatique et une organisation flexible des éléments">
+                            <span class="rule-icon">📐</span>
+                            <span class="rule-name">Auto Layout</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+
+                        <!-- Rule 2 -->
+                        <div class="rule-item" data-tooltip="Renommer les calques avec une convention claire et descriptive (ex: btn-primary, card-content, header-logo)">
+                            <span class="rule-icon">🏷️</span>
+                            <span class="rule-name">Nommage des calques</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+
+                        <!-- Rule 3 -->
+                        <div class="rule-item" data-tooltip="Reconnecter aux styles du Design System ou créer de nouveaux styles partagés pour remplacer les valeurs inline">
+                            <span class="rule-icon">🎨</span>
+                            <span class="rule-name">Styles détachés</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+
+                        <!-- Rule 4 -->
+                        <div class="rule-item" data-tooltip="Configurer les paramètres d'export (format, résolution, suffixe) pour les éléments destinés aux développeurs">
+                            <span class="rule-icon">📤</span>
+                            <span class="rule-name">Export Settings</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+
+                        <!-- Rule 6 -->
+                        <div class="rule-item" data-tooltip="Convertir les groupes en frames pour bénéficier des fonctionnalités avancées (Auto Layout, contraintes, etc.)">
+                            <span class="rule-icon">📦</span>
+                            <span class="rule-name">Groupes vs Frames</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+
+                        <!-- Rule 8 -->
+                        <div class="rule-item" data-tooltip="Ajouter les états manquants (hover, focus, active, disabled) sous forme de variants du composant">
+                            <span class="rule-icon">🔄</span>
+                            <span class="rule-name">États d'interaction</span>
+                            <span class="badge badge-ai">AI-Ready</span>
+                        </div>
+
+                        <!-- Rule 9 -->
+                        <div class="rule-item" data-tooltip="Renommer les couleurs avec des noms sémantiques qui reflètent leur usage plutôt que leur apparence">
+                            <span class="rule-icon">🌈</span>
+                            <span class="rule-name">Nommage des couleurs</span>
+                            <span class="badge badge-ai">AI-Active</span>
+                        </div>
+
+                        <!-- Rule 10 -->
+                        <div class="rule-item" data-tooltip="Ajouter une description claire et utile pour chaque composant afin d'améliorer la collaboration équipe">
+                            <span class="rule-icon">📝</span>
+                            <span class="rule-name">Descriptions</span>
+                            <span class="badge badge-standard">Standard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backend-section fragment">
+                    <p class="api-info">
+                        <strong>Endpoint:</strong> <code>POST /api/audit-figma</code>
+                    </p>
+                    <p class="llm-info">
+                        <strong>LLM:</strong> Google Gemini 2.0 Flash Lite (pour règles AI-Active)
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 5: Présentation du front -->
+            <section>
+                <!-- Étape 1 : Formulaire (haut) -->
+                <section data-background-gradient="linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(6, 182, 212, 0.05))">
+                    <h2>Frontend - Interface & Rapport</h2>
+                    <h3>📝 Étape 1 : Formulaire</h3>
+
+                    <div class="flow-step">
+                        <ul>
+                            <li>Lien de la maquette Figma</li>
+                            <li>Clé API (temporaire)</li>
+                            <li class="future-note">🔮 Future: Authentification OAuth via Figma/Google</li>
+                        </ul>
+                        <div class="screenshot-placeholder">
+                            <p>📸 Screenshot : Formulaire</p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 1em; color: var(--color-text-muted); font-size: 0.6em;">
+                        ⬇️ Appuyez sur ↓ pour voir l'étape suivante
+                    </p>
+                </section>
+
+                <!-- Étape 2 : Rapport (bas) -->
+                <section data-background-gradient="linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(6, 182, 212, 0.05))">
+                    <h2>Frontend - Interface & Rapport</h2>
+                    <h3>📊 Étape 2 : Rapport d'audit</h3>
+
+                    <div class="flow-step">
+                        <div class="report-sections">
+                            <div class="report-card">
+                                <h4>1. Règles détectées</h4>
+                                <p>Liste des violations avec détails</p>
+                            </div>
+                            <div class="report-card">
+                                <h4>2. Design System</h4>
+                                <p>Représentation du système de design</p>
+                            </div>
+                            <div class="report-card">
+                                <h4>3. Suggestions IA</h4>
+                                <p>Composants candidats détectés</p>
+                            </div>
+                        </div>
+                        <div class="screenshot-placeholder">
+                            <p>📸 Screenshot : Rapport complet</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/highlight/highlight.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#1a1a2e',
+                primaryColor: '#6366f1',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#4f46e5',
+                lineColor: '#8b5cf6',
+                secondaryColor: '#3b82f6',
+                tertiaryColor: '#10b981'
+            }
+        });
+
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+
+            // Dimensions optimales
+            width: 1400,
+            height: 900,
+            margin: 0.05,
+            minScale: 0.2,
+            maxScale: 2.0,
+
+            // Transitions fluides
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+
+            // Navigation améliorée
+            controls: true,
+            progress: true,
+            center: true,
+            mouseWheel: false,
+
+            // Auto-animate pour les transitions entre slides similaires
+            autoAnimate: true,
+            autoAnimateDuration: 0.8,
+            autoAnimateEasing: 'ease-out',
+
+            // Overview mode avec Échap
+            overview: true,
+
+            // Numérotation des slides
+            slideNumber: 'c/t',
+            showSlideNumber: 'speaker'
+        });
+
+        // Animation de la cohérence
+        Reveal.on('slidechanged', event => {
+            if (event.indexh === 1) { // Slide 2
+                setTimeout(() => {
+                    const arrowProgress = document.getElementById('arrowProgress');
+                    const score = document.getElementById('coherenceScore');
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 2;
+                        if (progress > 95) {
+                            clearInterval(interval);
+                            progress = 95;
+                        }
+                        arrowProgress.style.width = progress + '%';
+                        score.textContent = progress + '%';
+                    }, 30);
+                }, 500);
+            }
+        });
+
+        // Tooltips pour les règles
+        document.addEventListener('DOMContentLoaded', () => {
+            const rules = document.querySelectorAll('.rule-item');
+            rules.forEach(rule => {
+                rule.addEventListener('mouseenter', (e) => {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip';
+                    tooltip.textContent = e.currentTarget.dataset.tooltip;
+                    document.body.appendChild(tooltip);
+
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                    tooltip.style.top = rect.bottom + 10 + 'px';
+
+                    e.currentTarget._tooltip = tooltip;
+                });
+
+                rule.addEventListener('mouseleave', (e) => {
+                    if (e.currentTarget._tooltip) {
+                        e.currentTarget._tooltip.remove();
+                        e.currentTarget._tooltip = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
