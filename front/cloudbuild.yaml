@@ -5,7 +5,6 @@ steps:
     args:
       - '-c'
       - |
-        cd front
         npm install -g pnpm
         pnpm install
         # Utilise les variables d'environnement pour la production
@@ -21,7 +20,7 @@ steps:
       - '-r'  # Récursif
       - '-c'  # Checksum (ne copie que si différent)
       - '-d'  # Supprime les fichiers qui n'existent plus dans la source
-      - 'front/dist/'
+      - 'dist/'
       - 'gs://${_FRONTEND_BUCKET_NAME}/'
 
   # Étape 3: Configurer les métadonnées des fichiers pour le caching

@@ -20,7 +20,12 @@
       "Bash(npm test:*)",
       "Bash(npm run lint)",
       "Bash(npx storybook:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(robocopy:*)",
+      "Bash(powershell:*)",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []
