@@ -16,7 +16,6 @@ import { checkLayerNaming } from "./rules/check-layer-naming.js";
 import { checkAutoLayoutUsage } from "./rules/check-auto-layout-usage.js";
 import { checkExportSettings } from "./rules/check-export-settings.js";
 import { checkGroupVsFrame } from "./rules/check-group-vs-frame.js";
-import { checkInteractionStates } from "./rules/check-interaction-states.js";
 import { checkColorNames } from "./rules/check-color-names.js";
 import { checkComponentDescriptions } from "./rules/check-component-descriptions.js";
 import { checkColorContrast } from "./rules/check-color-contrast.js";
@@ -52,7 +51,6 @@ const programmaticRules = [
 
 const aiBasedRules: AsyncAuditRule[] = [
     checkColorNames,
-    checkInteractionStates,
 ];
 
 async function runAudit(context: FigmaContext, options: AuditOptions): Promise<AuditReport> {

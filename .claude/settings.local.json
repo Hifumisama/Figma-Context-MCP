@@ -25,7 +25,10 @@
       "Bash(mv:*)",
       "Bash(robocopy:*)",
       "Bash(powershell:*)",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm test)",
+      "Bash(pnpm test:*)"
     ],
     "deny": [],
     "ask": []

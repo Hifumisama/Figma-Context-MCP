@@ -57,16 +57,6 @@ export const RULES_REGISTRY: RuleDefinition[] = [
     state: "enabled"
   },
   {
-    id: 8,
-    name: "États d'interaction",
-    description: "Les composants interactifs doivent avoir tous leurs états (hover, focus, disabled)",
-    resolutionAdvice: "Ajouter les états manquants (hover, focus, active, disabled) sous forme de variants du composant",
-    icon: "🔄",
-    color: "#14B8A6",
-    category: "ai-based",
-    state: "enabled"
-  },
-  {
     id: 9,
     name: "Nommage des couleurs",
     description: "Utiliser des noms sémantiques (primary, secondary) plutôt que des noms littéraux (bleu, rouge)",
