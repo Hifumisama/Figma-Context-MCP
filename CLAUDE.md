@@ -80,7 +80,7 @@ FIGMA_OAUTH_TOKEN=your_figma_oauth_token
 
 # Optional configuration
 PORT=3333                    # HTTP server port (default: 3333)
-OUTPUT_FORMAT=yaml           # Tool output format: "yaml" or "json" (default: yaml)
+OUTPUT_FORMAT=json           # Tool output format: "json" or "yaml" (default: json)
 SKIP_IMAGE_DOWNLOADS=false   # Disable image download tool (default: false)
 ENABLE_AI_RULES=false        # Enable AI-based audit rules (default: false)
 
@@ -88,31 +88,22 @@ ENABLE_AI_RULES=false        # Enable AI-based audit rules (default: false)
 GOOGLE_CLOUD_PROJECT=your_project_id     # Required: Google Cloud Project ID
 GOOGLE_CLOUD_LOCATION=us-central1        # Optional: Vertex AI region (default: us-central1)
 LLM_MODEL=gemini-2.0-flash-exp           # LLM model to use (default: gemini-2.0-flash-exp)
-LLM_MAX_TOKENS=1000                      # Maximum tokens for LLM responses (default: 1000)
-LLM_TEMPERATURE=0.1                      # LLM temperature for consistency (default: 0.1)
+LLM_MAX_TOKENS=8192                      # Maximum tokens for LLM responses (default: 8192)
+LLM_TEMPERATURE=0.9                      # LLM temperature (default: 0.9)
 
-# Authentication Options (choose one method):
-
-# Method 1: Service Account JSON file (recommended for local development)
-GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
-
-# Method 2: Service Account credentials inline (for containerized environments)
-GOOGLE_CLIENT_EMAIL=service-account@project.iam.gserviceaccount.com
-GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...your private key...\n-----END PRIVATE KEY-----\n"
-
-# Method 3: OAuth2 credentials (for user authentication)
-OAUTH_CLIENT_ID=your_oauth_client_id
-OAUTH_CLIENT_SECRET=your_oauth_client_secret
-OAUTH_REFRESH_TOKEN=your_refresh_token
-
-# Method 4: Application Default Credentials (ADC) - if no auth method specified above
-# Automatically uses gcloud auth application-default login or metadata service on GCP
+# Authentication: Application Default Credentials (ADC)
+# The project uses ADC exclusively for Google Cloud authentication.
+# Configure ADC by logging in with gcloud:
+#   gcloud auth application-default login
+#
+# In production (Cloud Run), ADC automatically uses the service account
+# of the runtime environment (metadata service)
 ```
 
 ### CLI Arguments
 
 All environment variables can be overridden with CLI arguments:
-- `--figma-api-key` 
+- `--figma-api-key`
 - `--figma-oauth-token`
 - `--port`
 - `--json` (sets OUTPUT_FORMAT to json)
@@ -120,8 +111,9 @@ All environment variables can be overridden with CLI arguments:
 - `--enable-ai-rules`
 - `--google-cloud-project` (Google Cloud Project ID)
 - `--google-cloud-location` (Vertex AI region)
-- `--google-application-credentials` (path to service account JSON)
 - `--env path/to/custom/.env`
+
+**Note**: Authentication uses ADC (Application Default Credentials) exclusively. Configure it with `gcloud auth application-default login`.
 
 ## Testing and Development
 
@@ -234,13 +226,7 @@ The audit tool analyzes Figma designs against these best practices:
    - Generates structural signatures like: `FRAME(RECTANGLE,TEXT,TEXT)[FONT(Poppins,12,400);FONT(Roboto,14,700)]`
    - Groups nodes by signature and similar dimensions (±20% tolerance)
 
-8. **Interaction States** (`check-interaction-states.ts`) 🤖 *AI-Ready*
-   - **Current**: Detects missing state variants for interactive components (button, input, etc.)
-   - **Future AI Enhancement**: Will use AI to analyze interaction patterns and suggest missing states
-   - Looks for keywords: `button`, `input`, `select`, `toggle`, `checkbox`, `radio`, `switch`, `slider`, `tab`
-   - Checks for states: `hover`, `focus`, `active`, `disabled`
-
-9. **Color Naming** (`check-color-names.ts`) 🤖 *AI-Active*
+8. **Color Naming** (`check-color-names.ts`) 🤖 *AI-Active*
    - Uses Google Gemini 2.0 Flash to analyze color style naming conventions  
    - Identifies literal names (e.g., "Blue", "red-500") vs. semantic names (e.g., "primary-500", "text-danger")
    - Provides semantic suggestions for literal color names
@@ -252,13 +238,12 @@ Rules can be enabled/disabled and configured in the audit tool. AI-based rules a
 
 **Rule Categories:**
 - **Standard Rules (1-6)**: Always active, use pattern matching and structural analysis
-- **AI-Ready Rules (7-8)**: Currently use algorithmic detection, designed for future AI enhancement
-- **AI-Active Rules (9)**: Currently use AI prompts, require `--enable-ai-rules` flag
+- **AI-Ready Rules (7)**: Currently use algorithmic detection, designed for future AI enhancement
+- **AI-Active Rules (8)**: Currently use AI prompts, require `--enable-ai-rules` flag
 
 **Implementation Details:**
 - **Component Candidates** uses structural signature matching: `generateSignature()` creates patterns like `FRAME(RECTANGLE,TEXT)[FONT(family,size,weight)]`
-- **Interaction States** uses keyword matching against `['button', 'input', 'select', 'toggle', 'checkbox', 'radio', 'switch', 'slider', 'tab']`
-- Both are designed for future AI integration to detect more sophisticated design patterns
+- **Color Naming** uses Google Gemini 2.0 Flash to analyze color style naming conventions and provide semantic suggestions
 
 ## Package Management
 
@@ -280,8 +265,7 @@ The project has been migrated from the deprecated `@google/generative-ai` packag
 - **After**: Uses Google Cloud Vertex AI with OAuth2/Service Account authentication
 - **Benefits**: Better security, enterprise-grade authentication, and long-term support
 
-### Authentication Methods
-1. **Service Account JSON** (Recommended for development)
-2. **Inline Service Account credentials** (For containers/CI)
-3. **OAuth2** (For user authentication)
-4. **Application Default Credentials** (Automatic on GCP)
+### Authentication Method
+The project uses **Application Default Credentials (ADC)** exclusively for Google Cloud authentication:
+- **Local development**: Configure with `gcloud auth application-default login`
+- **Production (Cloud Run)**: Automatically uses the service account of the runtime environment
