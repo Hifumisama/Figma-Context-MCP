@@ -4,40 +4,126 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a TypeScript-based MCP (Model Context Protocol) server that provides tools for analyzing and extracting data from Figma design files. The server can run in two modes: stdio mode (for MCP clients) or HTTP mode (for web API access).
+**FigmAudit** is a full-stack TypeScript project for analyzing and auditing Figma design files. It consists of two main parts:
+
+- **Backend** (`back/`): TypeScript MCP (Model Context Protocol) server with REST API
+  - Provides 4 MCP tools for Claude Code/Desktop integration
+  - Exposes REST API endpoints for web clients
+  - Runs in two modes: stdio (MCP) or HTTP (API)
+
+- **Frontend** (`front/`): React + TypeScript web application
+  - Interactive UI for auditing Figma files
+  - Visualizes audit results with charts and tables
+  - Connected to backend via REST API
+
+The project is a **monorepo** where each part is independent but complementary.
 
 ## Common Development Commands
 
-### Build and Development
-- `pnpm build` - Build TypeScript to JavaScript
-- `pnpm dev` - Development mode with watch (for MCP stdio mode)
-- `pnpm dev:cli` - Development mode with CLI stdio interface
-- `pnpm type-check` - Run TypeScript type checking without emitting files
+### Workspace Commands (from root)
 
-### Testing
-- `pnpm test` - Run Jest test suite
-- Test files are located in `src/tests/`
+These commands manage both backend and frontend from the project root:
 
-### Code Quality
-- `pnpm lint` - Run ESLint for code linting
-- `pnpm format` - Format code with Prettier
+```bash
+# Installation
+pnpm install:all              # Install dependencies for both back and front
 
-### Running the Server
-- `pnpm start` - Start the built server (HTTP mode by default)
-- `pnpm start:cli` - Start in CLI stdio mode for MCP clients
-- `pnpm start:http` - Start in HTTP mode
+# Build
+pnpm build:back               # Build backend only
+pnpm build:front              # Build frontend only
 
-### Debugging and Inspection
-- `pnpm inspect` - Use MCP inspector tool to debug MCP connections
+# Development
+pnpm dev:back                 # Start backend in watch mode
+pnpm dev:front                # Start frontend dev server
+
+# Testing
+pnpm test:back                # Run backend tests (Jest)
+pnpm test:front               # Run frontend tests (Vitest)
+
+# Code Quality
+pnpm lint:back                # Lint backend
+pnpm lint:front               # Lint frontend
+```
+
+### Backend Commands (from `back/`)
+
+```bash
+# Build and Development
+pnpm build                    # Build TypeScript to JavaScript
+pnpm dev                      # Development mode with watch (HTTP mode)
+pnpm dev:cli                  # Development mode with CLI stdio interface
+pnpm type-check               # Run TypeScript type checking without emitting files
+
+# Testing
+pnpm test                     # Run Jest test suite
+pnpm test:watch               # Run tests in watch mode
+
+# Code Quality
+pnpm lint                     # Run ESLint for code linting
+pnpm format                   # Format code with Prettier
+
+# Running the Server
+pnpm start                    # Start the built server (HTTP mode by default)
+pnpm start:cli                # Start in CLI stdio mode for MCP clients
+pnpm start:http               # Start in HTTP mode
+
+# Debugging and Inspection
+pnpm inspect                  # Use MCP inspector tool to debug MCP connections
+```
+
+### Frontend Commands (from `front/`)
+
+```bash
+# Build and Development
+pnpm dev                      # Start Vite dev server (http://localhost:5173)
+pnpm build                    # Build for production
+pnpm preview                  # Preview production build locally
+pnpm type-check               # Run TypeScript type checking
+
+# Testing
+pnpm test                     # Run Vitest test suite
+pnpm test:ui                  # Run tests with UI
+pnpm test:watch               # Run tests in watch mode
+pnpm test:coverage            # Generate coverage report
+
+# Code Quality
+pnpm lint                     # Run ESLint
+pnpm format                   # Format code with Prettier
+
+# Documentation
+pnpm storybook                # Start Storybook (http://localhost:6006)
+pnpm build-storybook          # Build Storybook for deployment
+```
 
 ## Architecture Overview
 
-### Core Components
+### Project Structure
+
+```
+.
+├── back/                    # Backend MCP Server
+├── front/                   # Frontend React App
+├── CLAUDE.md               # This file (guidelines for Claude Code)
+├── README.md               # Main project documentation
+└── package.json            # Workspace scripts
+```
+
+### Backend Core Components (`back/`)
 
 1. **MCP Server** (`src/mcp/index.ts`) - Main server that registers and handles MCP tools
-2. **CLI Entry Point** (`src/cli.ts`) - Command-line interface that can run in stdio or HTTP mode  
+2. **CLI Entry Point** (`src/cli.ts`) - Command-line interface that can run in stdio or HTTP mode
 3. **HTTP Server** (`src/server.ts`) - Express server for HTTP API endpoints
 4. **Figma Service** (`src/services/figma.ts`) - Service layer for interacting with Figma REST API
+
+### Frontend Core Components (`front/`)
+
+1. **App Component** (`src/App.tsx`) - Root component managing the main layout
+2. **Audit Context** (`src/contexts/AuditContext.tsx`) - Global state management for audit data
+3. **Components** (`src/components/`) - Reusable React components organized by category:
+   - `common/` - Shared components (LoadingSpinner, ErrorDisplay)
+   - `display/` - Data display components (StatsCards, DetailedTables)
+   - `forms/` - Form components (InputForm, PrimaryButton)
+4. **API Client** (`src/utils/api.ts`) - HTTP client for backend communication
 
 ### MCP Tools
 
@@ -114,6 +200,100 @@ All environment variables can be overridden with CLI arguments:
 - `--env path/to/custom/.env`
 
 **Note**: Authentication uses ADC (Application Default Credentials) exclusively. Configure it with `gcloud auth application-default login`.
+
+## Typical Workflows
+
+As an expert on this project, you can handle both backend and frontend features, as well as bugfixes. The workflow depends on the type of feature being developed.
+
+### Backend-First Features
+
+For features that start with backend changes (e.g., new audit rules, MCP tools, API endpoints):
+
+1. **Backend Implementation**
+   ```bash
+   cd back
+
+   # Create the feature (e.g., new audit rule)
+   # - Add rule in src/mcp/tools/audit-figma-design/rules/
+   # - Register in rules-registry.ts
+   # - Write tests
+
+   pnpm test           # Run tests
+   pnpm build          # Build
+   pnpm start          # Start server
+   ```
+
+2. **Frontend Integration** (if needed)
+   ```bash
+   cd ../front
+
+   # Create component to display the new data
+   # - Add component in src/components/display/
+   # - Create tests and stories
+   # - Update AuditContext if needed
+
+   pnpm test           # Run tests
+   pnpm storybook      # Verify in Storybook
+   pnpm dev            # Test full integration
+   ```
+
+### Frontend-Only Features
+
+For features that only affect the UI (e.g., new visualizations, UI improvements):
+
+```bash
+cd front
+
+# Create the component
+# - Add in src/components/
+# - Create ComponentName.tsx
+# - Create ComponentName.test.tsx
+# - Create ComponentName.stories.tsx
+
+pnpm test           # Run tests
+pnpm storybook      # Verify in Storybook
+pnpm dev            # Test in dev server
+```
+
+### Fullstack Features
+
+For features that require both backend and frontend changes:
+
+```bash
+# Terminal 1: Backend
+cd back
+# Implement backend changes
+pnpm build && pnpm start
+
+# Terminal 2: Frontend
+cd front
+# Implement frontend changes
+pnpm dev
+
+# Test the full integration at http://localhost:5173
+```
+
+### Bugfix Workflow
+
+1. **Identify the bug location** (backend or frontend)
+2. **Write a failing test** that reproduces the bug
+3. **Fix the bug**
+4. **Verify the test passes**
+5. **Run the full test suite** to ensure no regressions
+
+```bash
+# Backend bugfix
+cd back
+pnpm test           # Should fail initially
+# Fix the bug
+pnpm test           # Should pass now
+
+# Frontend bugfix
+cd front
+pnpm test           # Should fail initially
+# Fix the bug
+pnpm test           # Should pass now
+```
 
 ## Testing and Development
 
@@ -269,3 +449,415 @@ The project has been migrated from the deprecated `@google/generative-ai` packag
 The project uses **Application Default Credentials (ADC)** exclusively for Google Cloud authentication:
 - **Local development**: Configure with `gcloud auth application-default login`
 - **Production (Cloud Run)**: Automatically uses the service account of the runtime environment
+
+---
+
+## Frontend Development Guidelines
+
+This section provides comprehensive guidelines for developing React components in the frontend application.
+
+### Naming Conventions
+
+**Files and Components**
+- React components: `PascalCase` (e.g., `StatsCards.tsx`, `InputForm.tsx`)
+- Utilities: `camelCase` (e.g., `api.ts`, `formatters.ts`)
+- Contexts: suffix `Context` (e.g., `AuditContext.tsx`)
+- Types: `camelCase` (e.g., `audit.ts`, `common.ts`)
+
+**Component Structure**
+
+Each component follows this organization:
+```
+ComponentName.tsx         # Main component
+ComponentName.test.tsx    # Unit tests (Vitest)
+ComponentName.stories.tsx # Storybook documentation
+```
+
+### Import Organization
+
+Always structure imports in this order:
+
+```typescript
+// 1. React and external libraries
+import React from 'react';
+import { marked } from 'marked';
+
+// 2. Contexts and custom hooks
+import { useAudit } from '../../contexts/AuditContext';
+
+// 3. Local components
+import RuleBadge from './RuleBadge';
+import PrimaryButton from './PrimaryButton';
+
+// 4. Utilities
+import { auditFigmaDesign, isValidFigmaUrl } from '../../utils/api';
+
+// 5. Types
+import type { RuleDefinition, AuditResult } from '../../types/audit';
+```
+
+### Tailwind Design System
+
+The project uses custom Tailwind tokens defined in `tailwind.config.js`:
+
+**Figma Brand Colors**
+```css
+bg-figma-background   /* #081028 - Main app background */
+bg-figma-card         /* #0B1739 - Card backgrounds */
+bg-figma-button       /* #CB3CFF - Primary button color */
+text-figma-text       /* #FFFFFF - Primary text */
+text-figma-textMuted  /* #AEB9E1 - Secondary text */
+text-figma-components /* #D9E1FA - Component text */
+```
+
+**Primary Colors**
+```css
+bg-primary-500  /* #4570ea - Default primary */
+bg-primary      /* #CB3CFF - Custom primary */
+```
+
+**Typography**
+```css
+font-sans  /* Work Sans - Headings and important text */
+font-body  /* Roboto - Body text */
+```
+
+**Custom Animations**
+```css
+animate-pulse-progress  /* Progress animation for loaders */
+```
+
+### Pattern: Creating Display Components
+
+Display components (`src/components/display/`) render data from context without business logic:
+
+```typescript
+// src/components/display/MyNewComponent.tsx
+import React from 'react';
+import { useAudit } from '../../contexts/AuditContext';
+
+interface MyNewComponentProps {
+  title?: string;
+}
+
+const MyNewComponent: React.FC<MyNewComponentProps> = ({
+  title = 'Default Title'
+}) => {
+  const { state, getRuleById } = useAudit();
+
+  if (!state.results) {
+    return null;
+  }
+
+  return (
+    <div className="bg-figma-card rounded-lg p-6 space-y-4">
+      <h2 className="text-xl font-semibold text-figma-text">
+        {title}
+      </h2>
+
+      <div className="space-y-2">
+        {/* Your content here */}
+      </div>
+    </div>
+  );
+};
+
+export default MyNewComponent;
+```
+
+### Pattern: Using AuditContext
+
+The context centralizes all application state:
+
+**Accessing Data**
+```typescript
+import { useAudit } from '../contexts/AuditContext';
+
+const MyComponent = () => {
+  const {
+    state,                    // Complete state
+    getRuleById,              // Get rule by ID
+    allRulesWithStatus,       // All rules with counters
+    showReport,               // Boolean: show report?
+    chartData,                // Data formatted for Chart.js
+    getFilteredReportData     // Filtered data
+  } = useAudit();
+
+  const rule = getRuleById(1);
+  const hasResults = showReport();
+
+  return (/* JSX */);
+};
+```
+
+**Modifying State**
+```typescript
+const {
+  setFigmaUrl,           // Update URL
+  setFigmaApiKey,        // Update API key
+  setLoading,            // Toggle loading
+  setError,              // Set error
+  setResults,            // Save audit results
+  toggleRuleFilter,      // Add/remove filter
+  clearAllFilters,       // Reset filters
+  toggleCompliantRules,  // Show/hide compliant rules
+  resetAudit             // Complete reset
+} = useAudit();
+```
+
+### Pattern: API Calls
+
+All API calls go through `utils/api.ts`:
+
+```typescript
+import { auditFigmaDesign, isValidFigmaUrl, ApiError } from '../../utils/api';
+
+const handleAudit = async () => {
+  // 1. Validation
+  if (!isValidFigmaUrl(figmaUrl)) {
+    setError('Invalid Figma URL');
+    return;
+  }
+
+  // 2. Loading
+  setLoading(true);
+
+  try {
+    // 3. API Call
+    const results = await auditFigmaDesign({
+      figmaUrl,
+      figmaApiKey,
+      outputFormat: 'json'
+    });
+
+    // 4. Success
+    setResults(results);
+  } catch (error) {
+    // 5. Error Handling
+    if (error instanceof ApiError) {
+      const userMessage = error.getUserMessage();
+      setError(`${userMessage.title}: ${userMessage.message}`);
+    } else {
+      setError('An unexpected error occurred');
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
+### Testing with Vitest
+
+**Standard Test Pattern**
+```typescript
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import MyComponent from './MyComponent';
+
+describe('MyComponent', () => {
+  it('renders with default props', () => {
+    render(<MyComponent />);
+    expect(screen.getByText('Expected Text')).toBeInTheDocument();
+  });
+
+  it('handles user interaction', async () => {
+    const { user } = render(<MyComponent />);
+    const button = screen.getByRole('button');
+
+    await user.click(button);
+
+    expect(screen.getByText('Updated Text')).toBeInTheDocument();
+  });
+});
+```
+
+**Coverage Thresholds**
+- Lines: 70% minimum
+- Functions: 70% minimum
+- Branches: 70% minimum
+- Statements: 70% minimum
+
+**What to Test**
+- ✅ Default rendering
+- ✅ Custom props
+- ✅ User interactions (clicks, inputs)
+- ✅ Conditional states
+- ✅ Error handling
+
+**What to Skip**
+- ❌ Purely visual components without logic
+- ❌ Storybook stories
+- ❌ Configuration files
+- ❌ TypeScript types
+
+### Storybook Documentation
+
+**Standard Story Pattern**
+```typescript
+import type { Meta, StoryObj } from '@storybook/react';
+import MyComponent from './MyComponent';
+
+const meta = {
+  title: 'Category/MyComponent',  // e.g., Forms/PrimaryButton
+  component: MyComponent,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: 'Detailed component description',
+      },
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    propName: {
+      control: 'text',
+      description: 'Prop description',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: "'default value'" },
+      },
+    },
+  },
+} satisfies Meta<typeof MyComponent>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Required stories
+export const Default: Story = {
+  args: {},
+};
+
+export const WithCustomProps: Story = {
+  args: {
+    propName: 'custom value',
+  },
+};
+
+// State-specific stories
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    error: 'Something went wrong',
+  },
+};
+```
+
+**Storybook Categories**
+- `Common/` - Reusable components (LoadingSpinner, ErrorDisplay)
+- `Forms/` - Form components (InputForm, PrimaryButton)
+- `Display/` - Data display components (StatsCards, DetailedTables)
+
+### TypeScript Best Practices
+
+**Strict Mode Enabled**
+```json
+{
+  "strict": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "noFallthroughCasesInSwitch": true
+}
+```
+
+**Types vs Interfaces**
+- Use `interface` for component props
+- Use `type` for unions, intersections, and complex types
+
+```typescript
+// ✅ Component props
+interface MyComponentProps {
+  title: string;
+  count?: number;
+}
+
+// ✅ Complex types
+type RuleCategory = 'standard' | 'ai-based';
+type AuditState = {
+  isLoading: boolean;
+  error: string | null;
+};
+```
+
+### Error Handling
+
+**Standard Pattern**
+```typescript
+try {
+  const result = await someAsyncOperation();
+  handleSuccess(result);
+} catch (error) {
+  if (error instanceof ApiError) {
+    // Structured API error
+    const userMessage = error.getUserMessage();
+    setError(`${userMessage.title}: ${userMessage.message}`);
+  } else if (error instanceof Error) {
+    // Standard JavaScript error
+    setError(error.message);
+  } else {
+    // Unknown error
+    setError('An unexpected error occurred');
+  }
+}
+```
+
+### Performance Optimization
+
+**React Optimizations**
+- Use `useMemo` for expensive computations
+- Use `useCallback` for functions passed as props
+- `AuditContext` is already optimized with `useMemo` and `useCallback`
+
+**Tailwind CSS**
+- Avoid dynamic inline styles unless necessary
+- Prefer Tailwind utility classes
+- For dynamic colors, use `style={{ backgroundColor: color }}`
+
+### Pre-PR Checklist
+
+Before submitting a pull request, ensure:
+
+- [ ] Code compiles without TypeScript errors (`pnpm type-check`)
+- [ ] Linter passes without errors (`pnpm lint`)
+- [ ] Code is formatted with Prettier (`pnpm format`)
+- [ ] Tests pass (`pnpm test`)
+- [ ] Storybook story exists for new components
+- [ ] Custom Tailwind tokens are used instead of raw colors
+- [ ] Imports are organized in the correct order
+- [ ] Component uses `AuditContext` if accessing audit data
+
+### Development URLs
+
+- **Backend Dev**: `http://localhost:3333`
+- **Frontend Dev**: `http://localhost:5173`
+- **Storybook**: `http://localhost:6006`
+- **Backend Production**: `https://figma-mcp-server-1045310654832.europe-west9.run.app`
+- **Frontend Production**: `https://storage.googleapis.com/figma-mcp-frontend/index.html`
+
+### Type Duplication Note
+
+Currently, TypeScript types are **duplicated** between backend and frontend. In the future, these should be unified in a shared types package. For now, ensure consistency when modifying types that exist in both codebases.
+
+---
+
+## Summary
+
+This CLAUDE.md provides comprehensive guidelines for working on the FigmAudit project. As Claude Code, you should:
+
+1. **Understand the architecture**: Backend (MCP server + REST API) and Frontend (React app)
+2. **Follow typical workflows**: Backend-first for audit rules, frontend-only for UI, fullstack for integrated features
+3. **Use the right tools**: Jest for backend, Vitest for frontend, Storybook for component docs
+4. **Apply conventions**: Naming, imports, Tailwind tokens, TypeScript best practices
+5. **Write tests**: Always include tests for new features and bugfixes
+6. **Document components**: Create Storybook stories for all new React components
+
+When in doubt, refer to:
+- Backend details: `back/README.md`
+- Frontend details: `front/README.md`
+- Main project overview: `README.md`
