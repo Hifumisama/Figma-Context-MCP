@@ -1,5 +1,4 @@
-import type { Node as FigmaDocumentNode, Rectangle } from "@figma/rest-api-spec";
-import type { StyleKey } from "~/utils/common.js";
+import type { Node as FigmaDocumentNode } from "@figma/rest-api-spec";
 import type { SimplifiedTextStyle } from "~/transformers/text.js";
 import type { SimplifiedLayout } from "~/transformers/layout.js";
 import type { SimplifiedFill, SimplifiedStroke } from "~/transformers/style.js";

@@ -16,6 +16,8 @@ export default defineConfig({
         '**/types.ts',
         'src/cli.ts', // Entry point, hard to test
         'src/index.ts', // Re-exports only
+        'src/__mocks__/**', // Mock files
+        'src/mcp/index.ts', // Registration only, tested via integration
       ],
     },
     setupFiles: [],

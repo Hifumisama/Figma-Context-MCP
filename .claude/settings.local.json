@@ -28,7 +28,17 @@
       "Bash(pnpm install:*)",
       "Bash(pnpm remove:*)",
       "Bash(pnpm test)",
-      "Bash(pnpm test:*)"
+      "Bash(pnpm test:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm type-check:*)",
+      "Bash(timeout 10 pnpm test:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm run test:*)",
+      "Bash(npm run test:*)",
+      "Bash(pnpm run test:back:*)",
+      "Bash(pnpm run type-check)",
+      "Bash(pnpm vitest:*)",
+      "Bash(pnpm list:*)"
     ],
     "deny": [],
     "ask": []

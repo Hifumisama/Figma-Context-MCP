@@ -7,7 +7,7 @@ import type { LLMResponse } from "../services/llm-service.js";
 
 export const createMockLLMService = () => {
   return {
-    callLLM: vi.fn<[string, number?], Promise<LLMResponse>>(),
+    callLLM: vi.fn<(prompt: string, temperature?: number | null) => Promise<LLMResponse>>(),
   };
 };
 

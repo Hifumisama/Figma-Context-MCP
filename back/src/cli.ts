@@ -31,8 +31,8 @@ export async function startServer(): Promise<void> {
   }
 }
 
-// If we're being executed directly (not imported), start the server
-if (process.argv[1]) {
+// If we're being executed directly (not imported) and not in test mode, start the server
+if (process.argv[1] && process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
   startServer().catch((error) => {
     console.error("Failed to start server:", error);
     process.exit(1);

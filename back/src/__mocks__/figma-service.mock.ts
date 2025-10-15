@@ -7,8 +7,8 @@ import { vi } from "vitest";
 
 export const createMockFigmaService = () => {
   return {
-    getRawFile: vi.fn<[string, number?], Promise<GetFileResponse>>(),
-    getRawNode: vi.fn<[string, string, number?], Promise<GetFileNodesResponse>>(),
+    getRawFile: vi.fn<(fileKey: string, depth?: number | null) => Promise<GetFileResponse>>(),
+    getRawNode: vi.fn<(fileKey: string, nodeId: string, depth?: number | null) => Promise<GetFileNodesResponse>>(),
     getImageFillUrls: vi.fn(),
     getNodeRenderUrls: vi.fn(),
     downloadImages: vi.fn(),
