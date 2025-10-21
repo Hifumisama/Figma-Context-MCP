@@ -38,7 +38,8 @@
       "Bash(pnpm run test:back:*)",
       "Bash(pnpm run type-check)",
       "Bash(pnpm vitest:*)",
-      "Bash(pnpm list:*)"
+      "Bash(pnpm list:*)",
+      "Bash(pnpm typecheck)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,72 @@
+{
+  "id": "11:40",
+  "name": "Button Component",
+  "type": "COMPONENT",
+  "componentSetId": "11:41",
+  "description": "Primary button with active state",
+  "properties": [
+    {
+      "name": "State",
+      "value": "active",
+      "type": "VARIANT"
+    }
+  ],
+  "children": [
+    {
+      "id": "11:37",
+      "name": "Background",
+      "type": "RECTANGLE",
+      "layout": "l26",
+      "fills": "2:108",
+      "borderRadius": "6px"
+    },
+    {
+      "id": "11:38",
+      "name": "Outline",
+      "type": "RECTANGLE",
+      "layout": "l27",
+      "strokes": "2:107",
+      "borderRadius": "6px"
+    },
+    {
+      "id": "11:39",
+      "name": "Button Text",
+      "type": "TEXT",
+      "layout": "l28",
+      "text": "Resume",
+      "textStyle": "197:31",
+      "fills": "2:107"
+    }
+  ],
+  "styles": {
+    "fills": {
+      "2:108": {
+        "name": "title-color",
+        "hexValue": "#F5EE84"
+      },
+      "2:107": {
+        "name": "text-color-secondary",
+        "hexValue": "#474306"
+      }
+    },
+    "text": {
+      "197:31": {
+        "name": "Poppins Paragraph",
+        "value": {
+          "fontFamily": "Poppins",
+          "fontWeight": 400,
+          "fontSize": 24,
+          "lineHeight": "1.5em"
+        }
+      }
+    }
+  },
+  "expectedReactComponent": {
+    "name": "Button",
+    "props": {
+      "variant": "active | inactive",
+      "children": "string"
+    },
+    "example": "<Button variant=\"active\">Resume</Button>"
+  }
+}
