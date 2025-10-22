@@ -7,8 +7,48 @@
 
 - **Incrémental** : Un agent à la fois, validation humaine entre chaque étape
 - **Simple d'abord** : Versions minimalistes, on enrichit après validation
-- **Contexte maîtrisé** : Purge de la fenêtre de contexte entre agents
-- **Budget conscient** : Modèles économiques en développement
+- **Contexte VoltAgent** : Gestion de la mémoire via le système de contexte intégré
+- **Budget conscient** : Modèles Gemini économiques en développement
+- **Agents généralistes** : Préférer des agents réutilisables avec plusieurs responsabilités
+
+---
+
+## 📋 Architecture Simplifiée
+
+### Pipeline en 6 Étapes
+
+```
+┌─────────────────────────────────────────────────────┐
+│ 1. Script Fetch + Validation (pas d'agent)         │
+│    → Appel MCP direct + Zod validation             │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│ 2. 🏗️ Project Architect (Agent généraliste)        │
+│    → Analyse + Init projet + Design System          │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│ 3. 🧪 Test Engineer (Agent généraliste)            │
+│    → Stratégie + Écriture des tests                │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│ 4. 💻 Component Developer (Agent itératif)         │
+│    → Code + Test + Debug (boucle TDD)              │
+│    Appelé N fois (1 fois par composant)            │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│ 5. 📄 Page Assembler (Agent spécialisé)           │
+│    → Composition des pages + Routing                │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│ 6. ⚡ Build Engineer (Agent généraliste)           │
+│    → Build + Analyse + Optimisations                │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -24,15 +64,15 @@
 
 **Livrables** :
 ```
-figma-to-react/
+figmAgentReactCode/
 ├── src/
-│   ├── agents/          # Agents TypeScript
-│   ├── workflows/       # Workflows
-│   └── index.ts         # Point d'entrée VoltAgent
-├── workspace/           # Output des agents
-├── sampleData/          # exemples de données d'entrées des outils  
-├── examples/
-│   └── sample-button.json
+│   ├── agents/             # Agents TypeScript (6 agents max)
+│   ├── workflows/          # Workflows
+│   ├── tools/              # Tools personnalisés
+│   └── index.ts            # Point d'entrée VoltAgent
+├── workspace/              # Output des agents
+├── sampleData/             # Exemples de données d'entrées
+├── agents-definitions/     # Définitions markdown des agents
 ├── package.json
 ├── tsconfig.json
 └── .env
@@ -44,7 +84,7 @@ figma-to-react/
   "dependencies": {
     "@voltagent/core": "latest",
     "@voltagent/vercel-ai": "latest",
-    "@ai-sdk/openai": "latest",
+    "@google/generative-ai": "latest",
     "ai": "latest",
     "zod": "latest"
   },
@@ -63,11 +103,11 @@ figma-to-react/
 **Philosophie** :
 - ❌ **Pas d'agent** pour une simple récupération de données (gaspillage de tokens)
 - ✅ **Appel MCP direct** + validation TypeScript pure
-- ✅ Fusion des anciennes étapes 1 (Extractor) et 2 (Validator) en un seul script
+- ✅ **Contexte VoltAgent** : Les données validées sont passées au prochain agent via le contexte
 
 **Implémentation** :
 ```typescript
-// src/utils/fetch-and-validate-figma.ts
+// src/tools/figma/fetch-and-validate-figma.ts
 import { MCPConfiguration } from "@voltagent/core";
 import { z } from "zod";
 
@@ -216,25 +256,17 @@ export async function fetchAndValidateFigma(
 
 **Utilisation** :
 ```typescript
-// src/test-validation.ts
-import { fetchAndValidateFigma } from "./utils/fetch-and-validate-figma";
+// src/workflows/complete-pipeline.ts
+import { fetchAndValidateFigma } from "../tools/figma/fetch-and-validate-figma";
 
-const TEST_URL = "https://www.figma.com/design/YOUR_FILE_ID/...?node-id=0-3";
+const validationResult = await fetchAndValidateFigma(figmaUrl);
 
-const result = await fetchAndValidateFigma(TEST_URL);
-
-if (result.valid) {
+if (validationResult.valid) {
   console.log("✅ Figma data is valid!");
-  console.log(`📊 ${result.stats.componentsCount} components found`);
-  console.log(`🎨 Design tokens: ${result.stats.hasDesignTokens ? "Yes" : "No"}`);
-} else {
-  console.error("❌ Validation failed:");
-  result.errors.forEach((err) => console.error(`  - ${err}`));
-}
+  console.log(`📊 ${validationResult.stats.componentsCount} components found`);
 
-if (result.warnings.length > 0) {
-  console.warn("⚠️  Warnings:");
-  result.warnings.forEach((warn) => console.warn(`  - ${warn}`));
+  // Les données sont passées au prochain agent via le contexte VoltAgent
+  // (pas besoin de sauvegarder dans un fichier JSON)
 }
 ```
 
@@ -244,78 +276,33 @@ if (result.warnings.length > 0) {
 - [ ] Détecte les fichiers multi-pages (erreur)
 - [ ] Détecte l'absence de composants (warning)
 - [ ] Détecte l'absence de design tokens (warning)
-- [ ] Contenu structuré et exploitable pour les agents suivants
 
 ---
 
-### 🏗️ Étape 3 : Agent Architect
-**Objectif** : Créer le plan de génération
+### 🏗️ Étape 2 : Agent Project Architect
+**Objectif** : Analyser Figma + Créer la structure du projet + Setup Design System
+
+**Responsabilités Fusionnées** :
+- Analyse de la structure Figma (Atomic Design)
+- Création de l'arborescence du projet
+- Génération des fichiers de configuration (package.json, vite, tsconfig)
+- Setup du Design System (tailwind.config.js)
 
 **Implémentation** :
 ```typescript
-// src/agents/architect.ts
-import { Agent } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-
-export const architectAgent = new Agent({
-  id: "architect",
-  name: "Project Architect",
-  instructions: `
-    You are a React project architect.
-    Analyze the validated Figma JSON and create:
-    1. Component generation order (atoms → molecules → organisms)
-    2. Project folder structure
-    3. List of required dependencies
-    Return a structured plan in JSON format.
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o"), // Need reasoning for architecture
-  maxSteps: 5,
-});
-```
-
-**Output attendu** :
-```json
-{
-  "componentsOrder": ["Button", "Input", "Card", "Header"],
-  "projectStructure": {
-    "src/components/atoms": ["Button", "Input"],
-    "src/components/molecules": ["Card"],
-    "src/components/organisms": ["Header"]
-  },
-  "dependencies": ["react-router-dom", "tailwindcss"]
-}
-```
-
-**Validation** :
-- [ ] Ordre logique (atoms avant molecules)
-- [ ] Pas de dépendances circulaires
-
----
-
-### 🛠️ Étape 4 : Agent Project Initializer
-**Objectif** : Créer la structure du projet React
-
-**Implémentation** :
-```typescript
-// src/agents/initializer.ts
+// src/agents/project-architect.ts
 import { Agent, createTool } from "@voltagent/core";
 import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
-import { exec } from "child_process";
-import { promisify } from "util";
 import fs from "fs/promises";
 
-const execAsync = promisify(exec);
-
-// Tool pour créer des dossiers
+// Tool: Créer des dossiers
 const createFolderTool = createTool({
   name: "create_folder",
-  description: "Create a folder structure",
+  description: "Créer une structure de dossiers",
   parameters: z.object({
-    path: z.string().describe("Folder path to create"),
+    path: z.string().describe("Chemin du dossier à créer"),
   }),
   execute: async ({ path }) => {
     await fs.mkdir(path, { recursive: true });
@@ -323,10 +310,10 @@ const createFolderTool = createTool({
   },
 });
 
-// Tool pour créer package.json
+// Tool: Créer package.json
 const createPackageJsonTool = createTool({
   name: "create_package_json",
-  description: "Create package.json with dependencies",
+  description: "Créer package.json avec dépendances",
   parameters: z.object({
     dependencies: z.array(z.string()),
   }),
@@ -334,230 +321,280 @@ const createPackageJsonTool = createTool({
     const packageJson = {
       name: "figma-react-app",
       version: "1.0.0",
+      type: "module",
       scripts: {
         dev: "vite",
-        build: "vite build",
+        build: "tsc && vite build",
+        preview: "vite preview",
         test: "vitest",
       },
-      dependencies: dependencies.reduce((acc, dep) => {
-        acc[dep] = "latest";
-        return acc;
-      }, {} as Record<string, string>),
+      dependencies: {
+        "react": "^18.3.0",
+        "react-dom": "^18.3.0",
+        ...dependencies.reduce((acc, dep) => {
+          acc[dep] = "latest";
+          return acc;
+        }, {} as Record<string, string>),
+      },
+      devDependencies: {
+        "@types/react": "^18.3.0",
+        "@types/react-dom": "^18.3.0",
+        "typescript": "^5.5.0",
+        "vite": "^5.4.0",
+        "@vitejs/plugin-react": "^4.3.0",
+        "vitest": "^2.0.0",
+        "@testing-library/react": "^16.0.0",
+      },
     };
-    
+
     await fs.writeFile(
       "workspace/project/package.json",
       JSON.stringify(packageJson, null, 2)
     );
-    
+
     return { success: true };
   },
 });
 
-export const initializerAgent = new Agent({
-  id: "initializer",
-  name: "Project Initializer",
-  instructions: `
-    You initialize React projects.
-    1. Create the folder structure from the architecture plan
-    2. Generate package.json with required dependencies
-    3. Setup basic Vite config
-    Use the provided tools to create files and folders.
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o-mini"),
-  tools: [createFolderTool, createPackageJsonTool],
-  maxSteps: 10,
+// Tool: Créer fichiers de configuration
+const createConfigFilesTool = createTool({
+  name: "create_config_files",
+  description: "Créer vite.config.ts, tsconfig.json, etc.",
+  parameters: z.object({
+    configs: z.record(z.string()),
+  }),
+  execute: async ({ configs }) => {
+    const createdFiles: string[] = [];
+
+    for (const [filename, content] of Object.entries(configs)) {
+      const path = `workspace/project/${filename}`;
+      await fs.writeFile(path, content);
+      createdFiles.push(path);
+    }
+
+    return { success: true, files: createdFiles };
+  },
 });
-```
 
-**Validation** :
-- [ ] Structure créée dans `workspace/project/`
-- [ ] `package.json` valide
-
----
-
-### 🎨 Étape 5 : Agent Design System Generator
-**Objectif** : Générer les tokens CSS depuis Figma
-
-**Implémentation** :
-```typescript
-// src/agents/design-system.ts
-import { Agent, createTool } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-import { z } from "zod";
-import fs from "fs/promises";
-
+// Tool: Générer tailwind.config.js
 const generateTailwindConfigTool = createTool({
   name: "generate_tailwind_config",
-  description: "Generate tailwind.config.js from design tokens",
+  description: "Générer tailwind.config.js depuis les design tokens Figma",
   parameters: z.object({
     colors: z.record(z.string()),
     fonts: z.record(z.string()),
     spacing: z.record(z.string()),
   }),
   execute: async ({ colors, fonts, spacing }) => {
-    const config = `
-module.exports = {
+    const config = `/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
-      colors: ${JSON.stringify(colors, null, 2)},
-      fontFamily: ${JSON.stringify(fonts, null, 2)},
-      spacing: ${JSON.stringify(spacing, null, 2)}
-    }
-  }
+      colors: ${JSON.stringify(colors, null, 6)},
+      fontFamily: ${JSON.stringify(fonts, null, 6)},
+      spacing: ${JSON.stringify(spacing, null, 6)}
+    },
+  },
+  plugins: [],
 }`;
-    
-    await fs.writeFile(
-      "workspace/project/tailwind.config.js",
-      config
-    );
-    
+
+    await fs.writeFile("workspace/project/tailwind.config.js", config);
+
     return { success: true };
   },
 });
 
-export const designSystemAgent = new Agent({
-  id: "design-system",
-  name: "Design System Generator",
+export const projectArchitectAgent = new Agent({
+  id: "project-architect",
+  name: "Project Architect",
   instructions: `
-    Extract design tokens from Figma JSON:
-    - Colors from 'designTokens.colors'
-    - Fonts from 'designTokens.typography'
-    - Spacing from 'designTokens.spacing'
-    Generate tailwind.config.js using the tool.
+    Tu es un architecte de projet React expert.
+
+    Ton rôle est de :
+    1. Analyser les données Figma validées (depuis le contexte)
+    2. Créer un plan d'architecture (Atomic Design: atoms → molecules → organisms)
+    3. Créer la structure de dossiers du projet React
+    4. Générer tous les fichiers de configuration (package.json, vite, tsconfig)
+    5. Extraire les design tokens et générer tailwind.config.js
+
+    Tu dois utiliser les tools fournis pour :
+    - create_folder: Créer les dossiers du projet
+    - create_package_json: Générer package.json avec les bonnes dépendances
+    - create_config_files: Créer vite.config.ts, tsconfig.json, .gitignore, etc.
+    - generate_tailwind_config: Générer tailwind.config.js depuis les tokens Figma
+
+    Structure attendue :
+    workspace/project/
+    ├── src/
+    │   ├── components/
+    │   │   ├── atoms/
+    │   │   ├── molecules/
+    │   │   └── organisms/
+    │   ├── pages/
+    │   ├── styles/
+    │   └── utils/
+    ├── public/
+    ├── package.json
+    ├── vite.config.ts
+    ├── tsconfig.json
+    ├── tailwind.config.js (si design tokens présents)
+    └── .gitignore
+
+    Retourne un résumé JSON avec :
+    {
+      "componentsOrder": ["Button", "Input", "Card", "Header"],
+      "atomicDesign": {
+        "atoms": ["Button", "Input"],
+        "molecules": ["Card"],
+        "organisms": ["Header"]
+      },
+      "dependencies": ["tailwindcss", "react-router-dom"],
+      "designTokensExtracted": true
+    }
   `,
   llm: new VercelAIProvider(),
-  model: openai("gpt-4o-mini"),
-  tools: [generateTailwindConfigTool],
-  maxSteps: 3,
+  model: google("gemini-2.0-flash-exp"), // Modèle Gemini pour le raisonnement
+  tools: [
+    createFolderTool,
+    createPackageJsonTool,
+    createConfigFilesTool,
+    generateTailwindConfigTool,
+  ],
+  maxSteps: 15,
 });
 ```
 
 **Validation** :
-- [ ] `tailwind.config.js` créé
-- [ ] Au moins 3 couleurs extraites
+- [ ] Structure créée dans `workspace/project/`
+- [ ] `package.json` valide avec bonnes dépendances
+- [ ] Fichiers de config créés (vite, tsconfig)
+- [ ] `tailwind.config.js` généré si design tokens présents
+- [ ] Ordre des composants logique (atoms avant molecules)
 
 ---
 
-### 📝 Étape 6 : Agent Test Planner
-**Objectif** : Définir les tests à écrire (approche TDD)
+### 🧪 Étape 3 : Agent Test Engineer
+**Objectif** : Planifier ET écrire les tests (approche TDD)
+
+**Responsabilités Fusionnées** :
+- Définir la stratégie de tests pour chaque composant
+- Écrire les fichiers `.test.tsx`
 
 **Implémentation** :
 ```typescript
-// src/agents/test-planner.ts
-import { Agent } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-import { z } from "zod";
-
-const testSpecSchema = z.object({
-  componentName: z.string(),
-  tests: z.array(z.object({
-    description: z.string(),
-    type: z.enum(["render", "props", "interaction", "snapshot"]),
-  })),
-});
-
-export const testPlannerAgent = new Agent({
-  id: "test-planner",
-  name: "Test Strategy Planner",
-  instructions: `
-    For each component, define 3-5 essential tests:
-    - Render test (always)
-    - Props validation
-    - User interactions (if applicable)
-    Return test specifications in structured format.
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o"), // Need good reasoning for test strategy
-  maxSteps: 3,
-});
-```
-
-**Output attendu** :
-```json
-{
-  "Button": [
-    { "description": "renders with text prop", "type": "render" },
-    { "description": "calls onClick when clicked", "type": "interaction" },
-    { "description": "applies variant styles correctly", "type": "props" }
-  ]
-}
-```
-
-**Validation** :
-- [ ] Tests pertinents pour chaque composant
-- [ ] Pas de tests redondants
-
----
-
-### ✍️ Étape 7 : Agent Test Writer
-**Objectif** : Écrire les fichiers de tests (TDD)
-
-**Implémentation** :
-```typescript
-// src/agents/test-writer.ts
+// src/agents/test-engineer.ts
 import { Agent, createTool } from "@voltagent/core";
 import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import fs from "fs/promises";
 
+// Tool: Écrire un fichier de test
 const writeTestFileTool = createTool({
   name: "write_test_file",
-  description: "Write a test file",
+  description: "Écrire un fichier de test React (.test.tsx)",
   parameters: z.object({
     componentName: z.string(),
     testCode: z.string(),
   }),
   execute: async ({ componentName, testCode }) => {
+    // Déterminer le dossier selon le type (atom/molecule/organism)
+    // Pour simplifier, on met tout dans components/ pour l'instant
     const path = `workspace/project/src/components/${componentName}.test.tsx`;
     await fs.writeFile(path, testCode);
     return { success: true, path };
   },
 });
 
-export const testWriterAgent = new Agent({
-  id: "test-writer",
-  name: "Test Code Writer",
+export const testEngineerAgent = new Agent({
+  id: "test-engineer",
+  name: "Test Engineer",
   instructions: `
-    Write React tests using @testing-library/react.
-    Follow this template structure:
-    - Import necessary utilities
-    - Write test cases based on specifications
-    - Use descriptive test names
-    - Keep tests simple and focused
+    Tu es un ingénieur QA expert en tests React.
+
+    Ton rôle est de :
+    1. Analyser chaque composant identifié par l'Architect (depuis le contexte)
+    2. Définir une stratégie de tests (3-5 tests par composant)
+    3. Écrire les fichiers .test.tsx en suivant l'approche TDD
+
+    Pour chaque composant, tu dois écrire des tests qui couvrent :
+    - Render de base (toujours)
+    - Props validation
+    - Interactions utilisateur (clicks, inputs)
+    - Edge cases (props undefined, erreurs)
+
+    Utilise @testing-library/react et Vitest.
+
+    Template de test :
+    \`\`\`tsx
+    import { describe, it, expect } from 'vitest';
+    import { render, screen } from '@testing-library/react';
+    import ComponentName from './ComponentName';
+
+    describe('ComponentName', () => {
+      it('renders with default props', () => {
+        render(<ComponentName />);
+        expect(screen.getByText('Expected')).toBeInTheDocument();
+      });
+
+      it('handles user interaction', async () => {
+        const { user } = render(<ComponentName />);
+        await user.click(screen.getByRole('button'));
+        expect(screen.getByText('Updated')).toBeInTheDocument();
+      });
+    });
+    \`\`\`
+
+    Les tests DOIVENT échouer initialement (TDD).
   `,
   llm: new VercelAIProvider(),
-  model: openai("gpt-4o"), // Need code generation quality
+  model: google("gemini-2.0-flash-exp"),
   tools: [writeTestFileTool],
-  maxSteps: 5,
+  maxSteps: 10,
 });
 ```
 
 **Validation** :
-- [ ] Fichiers `.test.tsx` syntaxiquement corrects
-- [ ] Tests échouent (composant pas encore créé)
+- [ ] Fichiers `.test.tsx` créés pour chaque composant
+- [ ] Tests syntaxiquement corrects
+- [ ] Tests échouent (composants pas encore implémentés)
+- [ ] Couverture : render + props + interactions
 
 ---
 
-### 💻 Étape 8 : Agent Component Coder
-**Objectif** : Implémenter le composant pour passer les tests
+### 💻 Étape 4 : Agent Component Developer
+**Objectif** : Implémenter les composants en suivant TDD (Code + Test + Debug)
+
+**Responsabilités Fusionnées** :
+- Lire les tests existants
+- Écrire le code du composant
+- Exécuter les tests
+- Corriger les erreurs (debug)
+- Itérer jusqu'à ce que tous les tests passent
+
+**Note** : Cet agent est **itératif** - appelé N fois (1 fois par composant)
 
 **Implémentation** :
 ```typescript
-// src/agents/coder.ts
+// src/agents/component-developer.ts
 import { Agent, createTool } from "@voltagent/core";
 import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import fs from "fs/promises";
+import { exec } from "child_process";
+import { promisify } from "util";
 
+const execAsync = promisify(exec);
+
+// Tool: Écrire un composant
 const writeComponentTool = createTool({
   name: "write_component",
-  description: "Write React component code",
+  description: "Écrire le code d'un composant React",
   parameters: z.object({
     componentName: z.string(),
     code: z.string(),
@@ -569,61 +606,23 @@ const writeComponentTool = createTool({
   },
 });
 
-export const coderAgent = new Agent({
-  id: "coder",
-  name: "Component Coder",
-  instructions: `
-    Implement React components to pass the provided tests.
-    - Read the test file to understand requirements
-    - Write minimal code to pass tests (TDD approach)
-    - Use TypeScript and functional components
-    - Follow React best practices
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o"), // Need good code generation
-  tools: [writeComponentTool],
-  maxSteps: 7,
-  markdown: true, // Enable code formatting
-});
-```
-
-**Validation** :
-- [ ] Tests passent après génération du composant
-
----
-
-### 🔄 Étape 9 : Agent Test Runner
-**Objectif** : Exécuter les tests automatiquement
-
-**Implémentation** :
-```typescript
-// src/agents/test-runner.ts
-import { Agent, createTool } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-import { z } from "zod";
-import { exec } from "child_process";
-import { promisify } from "util";
-
-const execAsync = promisify(exec);
-
+// Tool: Exécuter les tests
 const runTestsTool = createTool({
   name: "run_tests",
-  description: "Execute npm test and return results",
+  description: "Exécuter les tests pour un composant spécifique",
   parameters: z.object({
-    testFile: z.string().optional(),
+    componentName: z.string(),
   }),
-  execute: async ({ testFile }) => {
-    const command = testFile 
-      ? `npm test -- ${testFile}`
-      : `npm test`;
-    
+  execute: async ({ componentName }) => {
+    const testFile = `src/components/${componentName}.test.tsx`;
+
     try {
-      const { stdout, stderr } = await execAsync(command, {
-        cwd: "workspace/project",
-      });
-      
-      return { 
+      const { stdout, stderr } = await execAsync(
+        `npm test -- ${testFile}`,
+        { cwd: "workspace/project" }
+      );
+
+      return {
         success: true,
         output: stdout,
         errors: stderr,
@@ -638,162 +637,318 @@ const runTestsTool = createTool({
   },
 });
 
-export const testRunnerAgent = new Agent({
-  id: "test-runner",
-  name: "Test Executor",
+// Tool: Lire le code d'un fichier
+const readFileTool = createTool({
+  name: "read_file",
+  description: "Lire le contenu d'un fichier",
+  parameters: z.object({
+    path: z.string(),
+  }),
+  execute: async ({ path }) => {
+    const content = await fs.readFile(path, "utf-8");
+    return { content };
+  },
+});
+
+export const componentDeveloperAgent = new Agent({
+  id: "component-developer",
+  name: "Component Developer",
   instructions: `
-    Run tests and parse results.
-    Report:
-    - Number of tests passed
-    - Number of tests failed
-    - Specific failures with details
+    Tu es un développeur React senior expert en TDD.
+
+    Ton rôle est d'implémenter UN composant en suivant cette boucle :
+    1. Lire le fichier de test (.test.tsx) avec read_file
+    2. Comprendre les requirements (quels tests doivent passer)
+    3. Écrire le composant React avec write_component
+    4. Exécuter les tests avec run_tests
+    5. SI des tests échouent :
+       - Analyser les erreurs
+       - Corriger le code
+       - Re-tester
+       - Répéter jusqu'à ce que tous les tests passent
+
+    Principes :
+    - Code minimal pour passer les tests (TDD)
+    - TypeScript strict
+    - Composants fonctionnels
+    - Props typées avec interface
+    - Utiliser Tailwind CSS pour le styling
+
+    Template de composant :
+    \`\`\`tsx
+    import React from 'react';
+
+    interface ButtonProps {
+      children: React.ReactNode;
+      onClick?: () => void;
+      variant?: 'primary' | 'secondary';
+    }
+
+    const Button: React.FC<ButtonProps> = ({
+      children,
+      onClick,
+      variant = 'primary'
+    }) => {
+      return (
+        <button
+          onClick={onClick}
+          className={\`btn btn-\${variant}\`}
+        >
+          {children}
+        </button>
+      );
+    };
+
+    export default Button;
+    \`\`\`
+
+    Tu dois itérer jusqu'à ce que run_tests retourne success: true.
   `,
   llm: new VercelAIProvider(),
-  model: openai("gpt-4o-mini"), // Simple parsing task
-  tools: [runTestsTool],
-  maxSteps: 2,
+  model: google("gemini-2.0-flash-exp"),
+  tools: [writeComponentTool, runTestsTool, readFileTool],
+  maxSteps: 20, // Plus de steps pour la boucle debug
+  markdown: true,
 });
 ```
 
 **Validation** :
-- [ ] Détecte les tests échoués
-- [ ] Rapport lisible et structuré
+- [ ] Composant créé dans `src/components/`
+- [ ] Tous les tests passent (success: true)
+- [ ] Code TypeScript valide
+- [ ] Pas de régression (anciens tests toujours OK)
 
 ---
 
-### 🐛 Étape 10 : Agent Debugger
-**Objectif** : Corriger automatiquement les tests échoués
+### 📄 Étape 5 : Agent Page Assembler
+**Objectif** : Créer les pages React en composant les composants
 
 **Implémentation** :
 ```typescript
-// src/agents/debugger.ts
+// src/agents/page-assembler.ts
 import { Agent, createTool } from "@voltagent/core";
 import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import fs from "fs/promises";
 
-const fixComponentTool = createTool({
-  name: "fix_component",
-  description: "Update component code to fix failing tests",
+// Tool: Créer une page
+const createPageTool = createTool({
+  name: "create_page",
+  description: "Créer une page React",
   parameters: z.object({
-    componentPath: z.string(),
-    fixedCode: z.string(),
+    pageName: z.string(),
+    code: z.string(),
   }),
-  execute: async ({ componentPath, fixedCode }) => {
-    await fs.writeFile(componentPath, fixedCode);
+  execute: async ({ pageName, code }) => {
+    const path = `workspace/project/src/pages/${pageName}.tsx`;
+    await fs.writeFile(path, code);
+    return { success: true, path };
+  },
+});
+
+// Tool: Setup routing (si multi-pages)
+const setupRoutingTool = createTool({
+  name: "setup_routing",
+  description: "Configurer React Router",
+  parameters: z.object({
+    routes: z.array(z.object({
+      path: z.string(),
+      component: z.string(),
+    })),
+  }),
+  execute: async ({ routes }) => {
+    const routerCode = `
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+${routes.map(r => `import ${r.component} from './pages/${r.component}';`).join('\n')}
+
+function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        ${routes.map(r => `<Route path="${r.path}" element={<${r.component} />} />`).join('\n        ')}
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default AppRouter;
+`;
+
+    await fs.writeFile("workspace/project/src/AppRouter.tsx", routerCode);
     return { success: true };
   },
 });
 
-export const debuggerAgent = new Agent({
-  id: "debugger",
-  name: "Code Debugger",
-  instructions: `
-    Analyze test failures and fix the code.
-    1. Read the component code
-    2. Understand the test error
-    3. Make minimal changes to fix the issue
-    4. Preserve existing functionality
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o"), // Need strong debugging capabilities
-  tools: [fixComponentTool],
-  maxSteps: 10,
-  markdown: true,
-});
-```
-
-**Validation** :
-- [ ] Tests précédemment échoués passent
-- [ ] Pas de régression
-
----
-
-### 📄 Étape 11 : Agent Page Assembler
-**Objectif** : Créer les pages React
-
-**Implémentation** :
-```typescript
-// src/agents/assembler.ts
-import { Agent } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-
-export const assemblerAgent = new Agent({
-  id: "assembler",
+export const pageAssemblerAgent = new Agent({
+  id: "page-assembler",
   name: "Page Assembler",
   instructions: `
-    Create React pages by composing components.
-    - Import the required components
-    - Follow the layout from Figma JSON
-    - Add React Router setup if needed
-    - Keep pages simple and maintainable
+    Tu es un architecte frontend expert en composition de pages React.
+
+    Ton rôle est de :
+    1. Analyser la structure Figma (depuis le contexte)
+    2. Identifier les différentes pages/screens
+    3. Composer chaque page en important les composants créés
+    4. Setup React Router si multi-pages détecté
+
+    Template de page :
+    \`\`\`tsx
+    import React from 'react';
+    import Header from '../components/Header';
+    import Card from '../components/Card';
+    import Button from '../components/Button';
+
+    const HomePage: React.FC = () => {
+      return (
+        <div className="min-h-screen bg-gray-50">
+          <Header />
+          <main className="container mx-auto p-8">
+            <Card>
+              <h1 className="text-4xl font-bold">Welcome</h1>
+              <Button variant="primary">Get Started</Button>
+            </Card>
+          </main>
+        </div>
+      );
+    };
+
+    export default HomePage;
+    \`\`\`
+
+    Utilise create_page pour chaque page.
+    Si plusieurs pages, utilise setup_routing pour configurer le router.
   `,
   llm: new VercelAIProvider(),
-  model: openai("gpt-4o"),
+  model: google("gemini-2.0-flash-exp"),
+  tools: [createPageTool, setupRoutingTool],
   maxSteps: 10,
   markdown: true,
 });
 ```
 
 **Validation** :
+- [ ] Pages créées dans `src/pages/`
+- [ ] Composants correctement importés
+- [ ] Routing configuré (si multi-pages)
 - [ ] Pages render sans crash
-- [ ] Composants bien importés
 
 ---
 
-### ⚡ Étape 12 : Agent Optimizer
-**Objectif** : Optimiser le build final
+### ⚡ Étape 6 : Agent Build Engineer
+**Objectif** : Build + Analyse + Optimisations
 
 **Implémentation** :
 ```typescript
-// src/agents/optimizer.ts
+// src/agents/build-engineer.ts
 import { Agent, createTool } from "@voltagent/core";
 import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import { exec } from "child_process";
 import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-const analyzeBundleTool = createTool({
-  name: "analyze_bundle",
-  description: "Run build and analyze bundle size",
+// Tool: Lancer le build
+const runBuildTool = createTool({
+  name: "run_build",
+  description: "Lancer le build de production",
   parameters: z.object({}),
   execute: async () => {
-    const { stdout } = await execAsync("npm run build", {
-      cwd: "workspace/project",
-    });
-    
-    // Parse build output for bundle size
-    return { 
-      output: stdout,
-      // Extract size info from build logs
-    };
+    try {
+      const { stdout, stderr } = await execAsync("npm run build", {
+        cwd: "workspace/project",
+      });
+
+      return {
+        success: true,
+        output: stdout,
+        errors: stderr,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        output: error.stdout || "",
+        errors: error.stderr || error.message,
+      };
+    }
   },
 });
 
-export const optimizerAgent = new Agent({
-  id: "optimizer",
-  name: "Bundle Optimizer",
+// Tool: Analyser le bundle
+const analyzeBundleTool = createTool({
+  name: "analyze_bundle",
+  description: "Analyser la taille du bundle",
+  parameters: z.object({}),
+  execute: async () => {
+    // Lire les fichiers du dossier dist/ et calculer les tailles
+    const fs = require("fs/promises");
+    const path = require("path");
+
+    const distPath = "workspace/project/dist";
+
+    try {
+      const files = await fs.readdir(distPath, { recursive: true });
+      const sizes: Record<string, number> = {};
+
+      for (const file of files) {
+        const filePath = path.join(distPath, file);
+        const stats = await fs.stat(filePath);
+        if (stats.isFile()) {
+          sizes[file] = stats.size;
+        }
+      }
+
+      return { success: true, sizes };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  },
+});
+
+export const buildEngineerAgent = new Agent({
+  id: "build-engineer",
+  name: "Build Engineer",
   instructions: `
-    Optimize the React application:
-    1. Run production build
-    2. Analyze bundle size
-    3. Suggest lazy loading for large components
-    4. Identify unused dependencies
+    Tu es un ingénieur DevOps expert en optimisation frontend.
+
+    Ton rôle est de :
+    1. Lancer le build de production avec run_build
+    2. Vérifier qu'il réussit sans erreurs
+    3. Analyser la taille du bundle avec analyze_bundle
+    4. Suggérer des optimisations si nécessaire :
+       - Lazy loading pour les gros composants
+       - Code splitting par route
+       - Tree shaking des dépendances inutilisées
+       - Compression des assets
+
+    Critères de succès :
+    - Build réussit (success: true)
+    - Bundle JS total < 200KB gzipped
+    - Pas d'erreurs TypeScript
+    - Pas de warnings critiques
+
+    Format de rapport :
+    {
+      "buildSuccess": true,
+      "bundleSize": "156KB",
+      "suggestions": [
+        "Consider lazy loading the Dashboard component",
+        "Remove unused lodash dependency"
+      ]
+    }
   `,
   llm: new VercelAIProvider(),
-  model: openai("gpt-4o-mini"),
-  tools: [analyzeBundleTool],
+  model: google("gemini-2.0-flash-exp"),
+  tools: [runBuildTool, analyzeBundleTool],
   maxSteps: 5,
 });
 ```
 
 **Validation** :
-- [ ] Build réussit
+- [ ] Build réussit sans erreurs
+- [ ] Bundle size acceptable (< 200KB)
 - [ ] Suggestions d'optimisation pertinentes
 
 ---
@@ -806,59 +961,77 @@ export const optimizerAgent = new Agent({
 // src/workflows/complete-pipeline.ts
 import { createWorkflowChain } from "@voltagent/core";
 import { z } from "zod";
-import { 
-  extractorAgent, 
-  validatorAgent, 
-  architectAgent,
-  // ... autres agents
+import {
+  projectArchitectAgent,
+  testEngineerAgent,
+  componentDeveloperAgent,
+  pageAssemblerAgent,
+  buildEngineerAgent,
 } from "../agents";
+import { fetchAndValidateFigma } from "../tools/figma/fetch-and-validate-figma";
 
 export const completePipeline = createWorkflowChain({
   id: "figma-to-react-pipeline",
   name: "Complete Figma to React Pipeline",
   purpose: "Transform Figma designs into production React apps",
-  input: z.object({}),
+  input: z.object({
+    figmaUrl: z.string().url(),
+  }),
   result: z.object({
     projectPath: z.string(),
-    testsCoverage: z.number(),
-    buildStatus: z.string(),
+    buildSuccess: z.boolean(),
+    componentsGenerated: z.number(),
   }),
 })
-  // Étape 1: Extraction
+  // Étape 1: Validation (script TypeScript, pas d'agent)
   .andAgent(
-    () => "Fetch JSON from MCP",
-    extractorAgent,
-    { schema: z.object({ json: z.string() }) }
+    async ({ input }) => {
+      const validationResult = await fetchAndValidateFigma(input.figmaUrl);
+
+      if (!validationResult.valid) {
+        throw new Error(`Validation failed: ${validationResult.errors.join(", ")}`);
+      }
+
+      return {
+        prompt: `Données Figma validées : ${validationResult.stats.componentsCount} composants, ${validationResult.stats.hasDesignTokens ? 'avec' : 'sans'} design tokens`,
+        data: validationResult.data,
+      };
+    }
   )
-  // Étape 2: Validation
+
+  // Étape 2: Project Architect
   .andAgent(
-    ({ data }) => `Validate: ${data.json}`,
-    validatorAgent,
-    { schema: z.object({ valid: z.boolean() }) }
+    ({ data }) => `Analyse ces données Figma et crée le projet React avec design system : ${JSON.stringify(data)}`,
+    projectArchitectAgent,
+    { schema: z.object({ componentsOrder: z.array(z.string()) }) }
   )
-  // Étape 3: Architecture
+
+  // Étape 3: Test Engineer
   .andAgent(
-    ({ data }) => `Create architecture plan from: ${data.json}`,
-    architectAgent,
-    { schema: z.object({ plan: z.string() }) }
+    ({ data }) => `Écris les tests pour ces composants : ${data.componentsOrder.join(", ")}`,
+    testEngineerAgent
   )
-  // Étape 4: Initialization
+
+  // Étape 4: Component Developer (boucle)
   .andAgent(
-    ({ data }) => `Initialize project with plan: ${data.plan}`,
-    initializerAgent
+    ({ data }) => {
+      // Pour chaque composant, appeler l'agent
+      const components = data.componentsOrder;
+      return `Implémente ces composants en TDD (1 par 1) : ${components.join(", ")}`;
+    },
+    componentDeveloperAgent
   )
-  // Étape 5: Design System
+
+  // Étape 5: Page Assembler
   .andAgent(
-    ({ data }) => `Generate design system from tokens`,
-    designSystemAgent
+    () => "Compose les pages à partir des composants créés",
+    pageAssemblerAgent
   )
-  // Boucle TDD pour chaque composant
-  // ... (test-planner → test-writer → coder → test-runner → debugger)
-  
-  // Étape finale: Assembly
+
+  // Étape 6: Build Engineer
   .andAgent(
-    () => "Assemble all components into pages",
-    assemblerAgent
+    () => "Lance le build et analyse les optimisations possibles",
+    buildEngineerAgent
   );
 ```
 
@@ -868,11 +1041,11 @@ export const completePipeline = createWorkflowChain({
 
 ### Variables d'environnement (.env)
 ```env
-# OpenAI API (via GCP)
-OPENAI_API_KEY=your_gcp_openai_key
+# Google Generative AI (Gemini)
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_api_key
 
 # MCP Server
-MCP_ENDPOINT=http://localhost:3333/mcp
+MCP_ENDPOINT=http://localhost:3333
 
 # VoltAgent
 NODE_ENV=development
@@ -905,18 +1078,29 @@ new VoltAgent({
 - ✅ **Couverture de tests** : > 80%
 - ✅ **Tests passants** : 100%
 - ✅ **Build fonctionnel** : `npm run dev` démarre
+- ✅ **Bundle optimisé** : < 200KB gzipped
 
 ---
 
 ## 🎯 Pattern d'Orchestration Utilisé
 
-**Pattern Pipeline** : Chaque agent traite les données et les passe au suivant
+**Pattern Simplifié avec Contexte VoltAgent** :
 
 ```
-[MCP JSON] → [Extractor] → [Validator] → [Architect] → [Initializer]
-                                                              ↓
-[Optimizer] ← [Assembler] ← [Test Loop] ← [Design System] ←─┘
+[MCP Call] → [Validation Script] → [VoltAgent Context]
+                                          ↓
+        [Project Architect] → Analyse + Init + Design System
+                                          ↓
+           [Test Engineer] → Stratégie + Écriture tests
+                                          ↓
+      [Component Developer] → Code + Test + Debug (itératif)
+                                          ↓
+          [Page Assembler] → Composition des pages
+                                          ↓
+         [Build Engineer] → Build + Analyse + Optimisations
 ```
+
+**Communication** : Via le contexte VoltAgent (pas de fichiers JSON intermédiaires)
 
 ---
 
@@ -924,16 +1108,19 @@ new VoltAgent({
 
 ```bash
 # Installation
-npm install
+pnpm install
 
 # Lancer le pipeline complet
-tsx src/index.ts
+pnpm dev
 
 # Lancer un agent spécifique (dev/debug)
-tsx src/agents/extractor.ts
+tsx src/agents/project-architect.ts
 
 # Tests
-npm test
+pnpm test
+
+# Build
+pnpm build
 ```
 
 ---
@@ -941,24 +1128,24 @@ npm test
 ## ✅ Checklist Avant Passage à l'Étape Suivante
 
 - [ ] Agent créé dans `src/agents/`
+- [ ] Définition markdown créée dans `agents-definitions/`
 - [ ] Tests manuels effectués
 - [ ] Output validé
 - [ ] Commit Git avec message explicite
 - [ ] Documentation des problèmes
-- [ ] **Purge du contexte** effectuée
 
 ---
 
 ## 📝 Notes Importantes
 
 ### Gestion du Contexte
-- ⚠️ **CRITIQUE** : Purger le contexte entre agents pour éviter la saturation
-- Utiliser des fichiers JSON dans `workspace/` pour la communication inter-agents
-- Chaque agent doit être **autonome et testable** individuellement
+- ✅ **Contexte VoltAgent** : Gestion automatique de la mémoire entre agents
+- ✅ Pas besoin de fichiers JSON intermédiaires
+- ✅ Chaque agent doit être **autonome et testable** individuellement
 
 ### Modèles & Coûts
-- **gpt-4o-mini** : Tâches simples (extraction, parsing, tests)
-- **gpt-4o** : Tâches complexes (architecture, génération de code, debugging)
+- **gemini-2.0-flash-exp** : Modèle principal (rapide, économique, performant)
+- **gemini-1.5-pro** : Pour tâches très complexes si nécessaire (plus lent, plus cher)
 
 ### Hooks d'Observabilité
 Pour chaque agent, on peut ajouter :
@@ -969,3 +1156,27 @@ hooks: {
   onError: (error) => console.error(`❌ ${agent.name} failed:`, error),
 }
 ```
+
+### Agents Réutilisables
+- **Component Developer** : Appelé N fois (1 fois par composant)
+- Les autres agents sont appelés 1 fois dans le workflow
+- Préférer des agents généralistes avec plusieurs responsabilités
+
+---
+
+## 🎓 Différences avec le Plan Original
+
+| Ancien Plan | Nouveau Plan (Simplifié) |
+|-------------|--------------------------|
+| 10+ agents spécialisés | 5 agents généralistes |
+| Fichiers JSON intermédiaires | Contexte VoltAgent |
+| GPT-4o / GPT-4o-mini | Gemini 2.0 Flash |
+| Test Planner + Test Writer | Test Engineer (fusionné) |
+| Coder + Test Runner + Debugger | Component Developer (fusionné) |
+| Architect + Initializer + Design System | Project Architect (fusionné) |
+
+**Avantages** :
+- Moins de complexité d'orchestration
+- Moins de tokens consommés (pas d'overhead inter-agents)
+- Agents plus autonomes et réutilisables
+- Contexte mieux maîtrisé

@@ -23,6 +23,7 @@
     "@voltagent/server-hono": "^1.0.0",
     "ai": "^5.0.76",
     "dotenv": "^16.4.7",
+    "glob": "^11.0.3",
     "zod": "^3.25.76"
   },
   "devDependencies": {

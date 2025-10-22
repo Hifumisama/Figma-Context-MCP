@@ -39,7 +39,8 @@
       "Bash(pnpm run type-check)",
       "Bash(pnpm vitest:*)",
       "Bash(pnpm list:*)",
-      "Bash(pnpm typecheck)"
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm lint:fix:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,50 +1,48 @@
 import "dotenv/config";
-import { VoltAgent, VoltOpsClient, Agent, Memory } from "@voltagent/core";
-import { LibSQLMemoryAdapter } from "@voltagent/libsql";
+import { VoltAgent, VoltOpsClient } from "@voltagent/core";
 import { createPinoLogger } from "@voltagent/logger";
-import { google } from "@ai-sdk/google";
 import { honoServer } from "@voltagent/server-hono";
-import { figmaValidationWorkflow } from "./workflows";
-import { fetchAndValidateFigmaTool } from "./tools";
+import {
+	buildEngineerAgent,
+	componentDeveloperAgent,
+	pageAssemblerAgent,
+	projectArchitectAgent,
+	testEngineerAgent,
+} from "./agents";
+import { figmaToReactWorkflow } from "./workflows";
 
 // Create a logger instance
 const logger = createPinoLogger({
-  name: "figmAgentReactCode",
-  level: "info",
+	name: "figmAgentReactCode",
+	level: "info",
 });
 
-// Configure persistent memory (LibSQL / SQLite)
-const memory = new Memory({
-  storage: new LibSQLMemoryAdapter({
-    url: "file:./.voltagent/memory.db",
-    logger: logger.child({ component: "libsql" }),
-  }),
-});
-
-const agent = new Agent({
-  name: "figmAgentReactCode",
-  instructions:
-    "A helpful assistant that can validate Figma designs. " +
-    "Use fetch_and_validate_figma tool to validate Figma design files.",
-  model: google("gemini-2.0-flash-exp"),
-  tools: [fetchAndValidateFigmaTool],
-  memory,
-});
-
-// Initialize VoltAgent
+// Initialize VoltAgent with all 5 specialized agents
 new VoltAgent({
-  agents: {
-    agent,
-  },
-  workflows: {
-    figmaValidationWorkflow,
-  },
-  server: honoServer(),
-  logger,
-  voltOpsClient: new VoltOpsClient({
-    publicKey: process.env.VOLTAGENT_PUBLIC_KEY || "",
-    secretKey: process.env.VOLTAGENT_SECRET_KEY || "",
-  }),
+	agents: {
+		// Pipeline Agents (5 agents généralistes)
+		projectArchitect: projectArchitectAgent,
+		testEngineer: testEngineerAgent,
+		componentDeveloper: componentDeveloperAgent,
+		pageAssembler: pageAssemblerAgent,
+		buildEngineer: buildEngineerAgent,
+	},
+	workflows: {
+		// Complete Figma to React Pipeline
+		figmaToReactWorkflow,
+	},
+	server: honoServer(),
+	logger,
+	voltOpsClient: new VoltOpsClient({
+		publicKey: process.env.VOLTAGENT_PUBLIC_KEY || "",
+		secretKey: process.env.VOLTAGENT_SECRET_KEY || "",
+	}),
 });
 
-logger.info("VoltAgent initialized with Figma validation workflow");
+logger.info("🚀 VoltAgent initialized with 5 pipeline agents and full workflow");
+logger.info("📋 Available agents:");
+logger.info("   1. 🏗️  Project Architect (Fetch + Analyze + Initialize)");
+logger.info("   2. 🧪 Test Engineer (TDD Test Writing)");
+logger.info("   3. 💻 Component Developer (Iterative Implementation)");
+logger.info("   4. 📄 Page Assembler (Routing + Pages)");
+logger.info("   5. ⚡ Build Engineer (Production Build + Optimization)");
