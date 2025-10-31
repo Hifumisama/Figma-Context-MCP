@@ -2,14 +2,7 @@ import "dotenv/config";
 import { VoltAgent, VoltOpsClient } from "@voltagent/core";
 import { createPinoLogger } from "@voltagent/logger";
 import { honoServer } from "@voltagent/server-hono";
-import {
-	buildEngineerAgent,
-	componentDeveloperAgent,
-	pageAssemblerAgent,
-	projectArchitectAgent,
-	testEngineerAgent,
-} from "./agents";
-import { figmaToReactWorkflow } from "./workflows";
+import figmaToReactMegaAgent from "./agents/figma-to-react-mega.agent";
 
 // Create a logger instance
 const logger = createPinoLogger({
@@ -19,20 +12,11 @@ const logger = createPinoLogger({
 
 // Initialize VoltAgent with all 5 specialized agents
 new VoltAgent({
-	agents: {
-		// Pipeline Agents (5 agents généralistes)
-		projectArchitect: projectArchitectAgent,
-		testEngineer: testEngineerAgent,
-		componentDeveloper: componentDeveloperAgent,
-		pageAssembler: pageAssemblerAgent,
-		buildEngineer: buildEngineerAgent,
-	},
-	workflows: {
-		// Complete Figma to React Pipeline
-		figmaToReactWorkflow,
-	},
 	server: honoServer(),
 	logger,
+	agents: {
+		figmaToReactMegaAgent: figmaToReactMegaAgent,
+	},
 	voltOpsClient: new VoltOpsClient({
 		publicKey: process.env.VOLTAGENT_PUBLIC_KEY || "",
 		secretKey: process.env.VOLTAGENT_SECRET_KEY || "",

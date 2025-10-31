@@ -3,11 +3,8 @@
 // Figma tools
 export { fetchAndValidateFigmaTool } from "./figma/fetch-and-validate-figma";
 
-// Filesystem tools
-export {
-	readFileTool,
-	writeFileTool,
-	runBashCommandTool,
-	searchFilesTool,
-	createDirectoryTool,
-} from "./filesystem";
+// NPM tools
+export { runNpmInstallTool } from "./npm/run-npm-install";
+export { runTestsTool } from "./npm/run-tests";
+export { buildProjectTool } from "./npm/build-project";
+export { lintCodeTool } from "./npm/lint-code";

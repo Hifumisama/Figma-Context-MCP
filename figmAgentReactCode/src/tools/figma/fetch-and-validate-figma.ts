@@ -14,8 +14,9 @@
  * - File system backup
  */
 
-import { MCPConfiguration, createTool } from "@voltagent/core";
+import { createTool } from "@voltagent/core";
 import { z } from "zod";
+import { getMCPTool, MCP_TOOL_NAMES } from "../../config/mcp.config";
 
 // ============================================================================
 // Zod Schemas - Based on Figma MCP data structure
@@ -95,16 +96,8 @@ const FigmaContextSchema = z.object({
 // ============================================================================
 // MCP Configuration
 // ============================================================================
-
-const mcpConfig = new MCPConfiguration({
-	servers: {
-		figma: {
-			type: "http",
-			url: process.env.MCP_ENDPOINT || "http://localhost:3333/mcp",
-			timeout: 30000, // 30 seconds
-		},
-	},
-});
+// Configuration is now centralized in src/config/mcp.config.ts
+// This tool uses the getMCPTool() helper to access the Figma MCP server
 
 // ============================================================================
 // Helper Functions
@@ -233,38 +226,15 @@ export const fetchAndValidateFigmaTool = createTool({
 
 		try {
 			// ======================================================================
-			// Step 1: Get MCP tools from the Figma server
+			// Step 1: Get the get_figma_context tool from centralized config
 			// ======================================================================
 
-			console.log("🔌 Connecting to MCP server...");
-			const toolsets = await mcpConfig.getToolsets();
-
-			if (!toolsets.figma) {
-				const errorMsg =
-					"Figma MCP server not found. Ensure the server is running at " +
-					(process.env.MCP_ENDPOINT || "http://localhost:3333");
-				errors.push(errorMsg);
-				throw new Error(errorMsg);
-			}
-
-			const figmaTools = toolsets.figma.getTools();
-			console.log(`✅ Connected. Found ${figmaTools.length} MCP tools.`);
-
-			// ======================================================================
-			// Step 2: Find the get_figma_context tool
-			// ======================================================================
-
-			const getFigmaContextTool = figmaTools.find(
-				(tool) => tool.name === "figma_get_figma_context",
+			console.log("🔌 Connecting to Figma MCP server...");
+			const getFigmaContextTool = await getMCPTool(
+				"figma",
+				MCP_TOOL_NAMES.figma.getContext,
 			);
-
-			if (!getFigmaContextTool) {
-				const errorMsg =
-					"MCP tool 'figma_get_figma_context' not found. Available tools: " +
-					figmaTools.map((t) => t.name).join(", ");
-				errors.push(errorMsg);
-				throw new Error(errorMsg);
-			}
+			console.log("✅ Connected to Figma MCP server");
 
 			// ======================================================================
 			// Step 3: Call the MCP tool directly (no agent!)

@@ -1,653 +1,268 @@
-# CLAUDE.md
+# Instructions pour Claude - Projet Figma to React avec VoltAgent
 
-This file provides guidance to Claude Code when working with the **Figma to React Pipeline** powered by VoltAgent.
+Salut Claude ! 👋
 
-## Project Overview
+Ce document contient toutes les infos importantes pour m'aider sur ce projet. Lis-le attentivement avant de commencer à coder ou à me conseiller.
 
-**Figma to React Pipeline** is an AI-powered code generation system that transforms Figma designs into production-ready React applications using autonomous agents orchestrated by VoltAgent.
+---
 
-### Philosophy
+## 🎯 Contexte du Projet
 
-- **Incremental**: One agent at a time, with human validation between steps
-- **Simple First**: Minimalist versions that are enriched after validation
-- **Context Managed**: Context window purging between agents to maintain focus
-- **Budget Conscious**: Use economical models during development (gpt-4o-mini when possible)
+Je développe un **système agent pour transformer des designs Figma en code React** de production, en utilisant **VoltAgent** comme framework d'orchestration.
 
-### Core Architecture
+**Ma philosophie** : 
+- 🚀 **Itératif** : Je préfère valider avec un POC simple avant d'architecturer un truc complexe
+- 💰 **Budget tokens** : Priorité #1, je veux optimiser les coûts
+- ⚡ **Rapidité** : Ensuite la vitesse d'exécution
+- 🎨 **Qualité** : Code propre et maintenable
+- 🛠️ **Pragmatique** : Réutiliser l'existant plutôt que tout recoder
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    VoltAgent Orchestrator                       │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-         ┌────────────────────┼────────────────────┐
-         │                    │                    │
-    ┌────▼────┐         ┌─────▼─────┐       ┌─────▼─────┐
-    │ Agents  │         │ Workflows │       │   Tools   │
-    └─────────┘         └───────────┘       └───────────┘
-         │                    │                    │
-         └────────────────────┼────────────────────┘
-                              │
-                    ┌─────────▼──────────┐
-                    │   MCP Figma API    │
-                    │ (localhost:3333)   │
-                    └────────────────────┘
-```
+---
 
-### Pipeline Stages
+## 📋 Stratégie Actuelle : Mega Agent POC
 
-The complete pipeline follows this pattern:
+**Approche validée ensemble** :
+1. ✅ Commencer par un **Mega Agent unique** qui fait tout
+2. ✅ Mesurer les métriques (tokens, temps, qualité)
+3. ✅ **Décider ensuite** si un split en plusieurs agents est nécessaire
 
-```
-[MCP JSON] → [Validation Script] → [Architect] → [Initializer]
-                                                      ↓
-[Optimizer] ← [Assembler] ← [Test Loop] ← [Design System] ←─┘
-```
+**Pas de multi-agents pour l'instant !** On valide le concept d'abord.
 
-**11-Step Pipeline:**
+---
 
-1. **Validation Script** - Fetch JSON from MCP and validate structure (no agent, direct MCP call)
-2. **Architect** - Create generation plan (atomic design)
-3. **Initializer** - Setup React project structure
-4. **Design System** - Generate Tailwind config from tokens
-5. **Test Planner** - Define test specifications (TDD)
-6. **Test Writer** - Write test files
-7. **Coder** - Implement components to pass tests
-8. **Test Runner** - Execute test suite
-9. **Debugger** - Fix failing tests
-10. **Assembler** - Create pages from components
-11. **Optimizer** - Bundle analysis and optimization
+## 🔧 Stack Technique
 
-## Project Structure
+### MCP Servers (Déjà configurés ou à configurer)
 
-```
-figmAgentReactCode/
-├── src/
-│   ├── index.ts                      # Main VoltAgent configuration
-│   ├── utils/                        # Utility functions (no agents)
-│   │   └── fetch-and-validate-figma.ts  # Step 1: Direct MCP call + validation
-│   ├── agents/                       # Agent definitions (10 agents)
-│   │   ├── architect.ts              # Step 2: Architecture planning
-│   │   ├── initializer.ts            # Step 3: Project initialization
-│   │   ├── design-system.ts          # Step 4: Design tokens → Tailwind
-│   │   ├── test-planner.ts           # Step 5: Test strategy
-│   │   ├── test-writer.ts            # Step 6: Write tests
-│   │   ├── coder.ts                  # Step 7: Component implementation
-│   │   ├── test-runner.ts            # Step 8: Test execution
-│   │   ├── debugger.ts               # Step 9: Fix failures
-│   │   ├── assembler.ts              # Step 10: Page assembly
-│   │   └── optimizer.ts              # Step 11: Bundle optimization
-│   ├── workflows/                    # Workflow chains
-│   │   └── complete.ts               # Full pipeline workflow
-│   └── tools/                        # Custom VoltAgent tools
-│       ├── index.ts
-│       └── weather.ts                # Example tool
-├── workspace/                # Agent outputs
-│   ├── json/                 # Extracted Figma data
-│   ├── project/              # Generated React app
-│   └── reports/              # Validation/audit reports
-├── sampleData/               # Example inputs for testing
-│   └── sample-portfolio.json # Portfolio design example
-├── examples/                 # Example outputs
-│   └── sample-button.json    # Button component example
-├── .env                      # Environment configuration
-├── CLAUDE.md                 # This file
-├── plan.md                   # Detailed implementation plan
-├── package.json
-└── tsconfig.json
-```
-
-## Environment Configuration
-
-### Required Variables
-
-```env
-# Google Generative AI (for agents using gpt-4o-mini or gpt-4o)
-GOOGLE_GENERATIVE_AI_API_KEY=your_google_api_key
-
-# MCP Figma Server
-MCP_ENDPOINT=http://localhost:3333
-
-# VoltOps Platform (Optional - for observability)
-VOLTAGENT_PUBLIC_KEY=your_public_key
-VOLTAGENT_SECRET_KEY=your_secret_key
-```
-
-### MCP Server Integration
-
-The project integrates with the existing Figma MCP server located in `../back/`:
-
-- **Development Server**: `http://localhost:3333` (stdio mode)
-- **Production Server**: `https://figma-mcp-server-1045310654832.europe-west9.run.app`
-
-**MCP Tools Used:**
-- `get_figma_context` - Simplified Figma data extraction
-- `get_figma_data` - Full Figma file data extraction
-
-**Note**: The MCP server must be running before starting the VoltAgent pipeline.
-
-## Agent Development Guidelines
-
-### Agent Structure
-
-Each agent follows this pattern:
-
-```typescript
-import { Agent } from "@voltagent/core";
-import { VercelAIProvider } from "@voltagent/vercel-ai";
-import { openai } from "@ai-sdk/openai";
-import { z } from "zod";
-
-export const myAgent = new Agent({
-  id: "my-agent",
-  name: "Descriptive Agent Name",
-  instructions: `
-    Clear, concise instructions for the agent.
-    1. Step one
-    2. Step two
-    3. Expected output
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o-mini"), // Or gpt-4o for complex tasks
-  maxSteps: 3, // Limit agent iterations
-  tools: [], // Optional tools
-  markdown: false, // Set to true for code generation agents
-});
-```
-
-### Model Selection
-
-Choose models based on task complexity:
-
-**gpt-4o-mini** (Fast & Cheap)
-- JSON extraction and parsing
-- Validation and simple analysis
-- Test execution
-- File operations
-
-**gpt-4o** (Reasoning & Quality)
-- Architecture planning
-- Test strategy design
-- Code generation (components)
-- Debugging complex errors
-
-### Agent-Specific Patterns
-
-#### 1. Validation Script (Step 1) - Token Optimized
-
-**Purpose**: Fetch JSON from MCP and validate structure
-**Approach**: Direct MCP call (NO AGENT - saves tokens!)
-**Output**: ValidationResult with errors, warnings, and stats
-
-**Key Concept**: Using an agent just to fetch data wastes tokens. Instead, we call MCP tools directly and use TypeScript + Zod for validation.
-
-```typescript
-import { MCPConfiguration } from "@voltagent/core";
-import { z } from "zod";
-
-// Configure MCP connection to Figma server
-const mcpConfig = new MCPConfiguration({
-  servers: {
-    figma: {
-      type: "http",
-      url: process.env.MCP_ENDPOINT || "http://localhost:3333",
-      timeout: 30000,
-    },
-  },
-});
-
-export async function fetchAndValidateFigma(
-  figmaUrl: string
-): Promise<ValidationResult> {
-  // 1. Get MCP tools
-  const toolsets = await mcpConfig.getToolsets();
-  const figmaTools = toolsets.figma.getTools();
-
-  // 2. Find get_figma_context tool
-  const getFigmaContextTool = figmaTools.find(
-    (tool) => tool.name === "get_figma_context"
-  );
-
-  // 3. Call MCP tool directly (no agent!)
-  const response = await getFigmaContextTool.execute({
-    url: figmaUrl,
-    scope: "auto",
-  });
-
-  // 4. Parse JSON response
-  const figmaData = JSON.parse(response.content[0].text);
-
-  // 5. Validate with Zod schema
-  FigmaContextSchema.parse(figmaData);
-
-  // 6. Custom validation checks
-  // - Single root node (reject multi-page)
-  // - Components presence (warning if none)
-  // - Design tokens (warning if none)
-
-  return {
-    success: true,
-    errors: [],
-    warnings: [],
-    stats: { /* ... */ },
-    data: figmaData,
-  };
-}
-```
-
-**Why this approach?**
-- **No AI tokens used** for simple data fetching
-- **Faster execution** (no LLM round-trip)
-- **More reliable** (deterministic validation)
-- **Cost effective** (only uses MCP bandwidth)
-
-**Usage:**
-```bash
-npm run test:validation
-```
-
-#### 2. Architect Agent (Step 2)
-
-**Purpose**: Create component generation plan
-**Model**: gpt-4o (needs reasoning)
-**Output**: Atomic design hierarchy
-
-```typescript
-export const architectAgent = new Agent({
-  id: "architect",
-  name: "Project Architect",
-  instructions: `
-    Analyze Figma JSON and create:
-    1. Component order (atoms → molecules → organisms)
-    2. Folder structure
-    3. Required dependencies
-    Return structured plan in JSON.
-  `,
-  llm: new VercelAIProvider(),
-  model: openai("gpt-4o"),
-  maxSteps: 5,
-});
-```
-
-#### 4. Test-Driven Development Loop (Steps 6-10)
-
-**TDD Pattern**:
-1. Test Planner → Define test specs
-2. Test Writer → Write .test.tsx files
-3. Coder → Implement component
-4. Test Runner → Execute tests
-5. Debugger → Fix failures (if any)
-
-**Key Principle**: Tests are written BEFORE implementation.
-
-### Tool Development
-
-#### Using MCP Tools (Recommended)
-
-For external services like Figma, **always use MCP tools** instead of creating custom HTTP fetch tools:
-
-```typescript
-import { MCPConfiguration } from "@voltagent/core";
-
-// Connect to MCP server
-const mcpConfig = new MCPConfiguration({
-  servers: {
-    figma: {
-      type: "http",
-      url: "http://localhost:3333",
-      timeout: 30000,
-    },
-  },
-});
-
-// Get tools automatically
-const mcpTools = await mcpConfig.getTools();
-// Now you have: get_figma_context, get_figma_data, audit_figma_design, etc.
-```
-
-#### Custom Local Tools (When Needed)
-
-For agent-specific functionality (like file operations), create custom tools:
-
-```typescript
-import { createTool } from "@voltagent/core";
-import { z } from "zod";
-import fs from "fs/promises";
-
-export const writeFileTool = createTool({
-  name: "write_file",
-  description: "Write content to a file in workspace",
-  parameters: z.object({  // Note: 'parameters' not 'input'
-    path: z.string(),
-    content: z.string(),
-  }),
-  execute: async ({ path, content }) => {  // Note: 'execute' not 'handler'
-    const fullPath = `workspace/${path}`;
-    await fs.writeFile(fullPath, content);
-    return { success: true, path: fullPath };
-  },
-});
-```
-
-**Key Differences:**
-- MCP tools: Use for external services (Figma, GitHub, databases)
-- Custom tools: Use for local operations (file I/O, calculations)
-- MCP handles protocol complexity automatically
-
-### Workflow Development
-
-Workflows chain agents together:
-
-```typescript
-import { createWorkflowChain } from "@voltagent/core";
-import { z } from "zod";
-
-export const validationWorkflow = createWorkflowChain({
-  id: "validation-pipeline",
-  name: "Extract and Validate JSON",
-  purpose: "Fetch Figma data and validate structure",
-  input: z.object({
-    figmaUrl: z.string().url(),
-  }),
-  result: z.object({
-    json: z.string(),
-    validationReport: z.object({
-      valid: z.boolean(),
-      warnings: z.array(z.string()),
-    }),
-  }),
-})
-  .andAgent(
-    () => "Fetch the JSON from MCP endpoint",
-    extractorAgent,
-    { schema: z.object({ json: z.string() }) }
-  )
-  .andAgent(
-    ({ data }) => `Validate this JSON: ${data.json}`,
-    validatorAgent,
-    { schema: validationSchema }
-  );
-```
-
-## Figma Data Structure
-
-Understanding the Figma JSON structure is crucial for agent development.
-
-### Key Top-Level Properties
-
-```typescript
-interface FigmaContext {
-  name: string;                    // File name
-  lastModified: string;            // ISO timestamp
-  thumbnailUrl: string;            // Preview image
-  nodes: Node[];                   // All design nodes
-  components: Record<string, ComponentMetadata>;
-  componentSets: Record<string, ComponentSetMetadata>;
-  globalVars: {
-    designSystem: DesignSystem;    // Design tokens
-    localStyles: LocalStyles;      // Component-specific styles
-    images: Record<string, ImageRef>;
-  };
-}
-```
-
-### Node Structure
-
-Nodes follow a recursive tree structure:
-
-```typescript
-interface Node {
-  id: string;                      // Figma node ID
-  name: string;                    // Layer name
-  type: NodeType;                  // FRAME, TEXT, INSTANCE, etc.
-  layout?: string;                 // Layout reference (e.g., "l1")
-  children?: Node[];               // Nested nodes
-  text?: string;                   // For TEXT nodes
-  textStyle?: string;              // Text style reference
-  fills?: string;                  // Fill style reference
-  componentId?: string;            // For INSTANCE nodes
-  componentProperties?: Property[];
-}
-```
-
-### Design System Tokens
-
-```typescript
-interface DesignSystem {
-  text: Record<string, TextStyle>;        // Typography
-  colors: Record<string, ColorStyle>;     // Color palette
-  strokes: Record<string, StrokeStyle>;   // Borders
-  layout: Record<string, LayoutStyle>;    // Spacing, sizing
-}
-```
-
-**Example Text Style:**
 ```json
 {
-  "197:31": {
-    "name": "Poppins Paragraph",
-    "value": {
-      "fontFamily": "Poppins",
-      "fontWeight": 400,
-      "fontSize": 24,
-      "lineHeight": "1.5em"
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./workspace"]
+    },
+    "figma": {
+      "command": "node",
+      "args": ["./mcp-figma/index.js"]
     }
   }
 }
 ```
 
-**Example Color:**
-```json
-{
-  "2:106": {
-    "name": "primary-dark",
-    "hexValue": "#03045E"
-  }
-}
-```
+- **Filesystem** : Gestion des fichiers (lecture/écriture)
+- **Figma** : Accès au JSON Figma (composants, design system)
 
-## Development Workflow
+### VoltAgent Tools (À créer)
 
-### Starting Development
+**7 tools custom** à implémenter :
 
-```bash
-# 1. Start the MCP server (in ../back/)
-cd ../back
-pnpm dev
+#### Tools NPM (Commandes whitelistées)
+1. `run_npm_install` - Installe les deps (retour : OK/KO)
+2. `run_tests` - Lance les tests (retour : résumé)
+3. `build_project` - Build le projet (retour : OK/KO)
+4. `lint_code` - ESLint (retour : top 5 erreurs)
 
-# 2. In a new terminal, start VoltAgent
-cd ../figmAgentReactCode
-npm run dev
-```
+#### Meta-Tools IA (Analyse intelligente)
+5. `intelligent_diff` - Compare Figma vs React (via LLM)
+6. `detect_missing_deps` - Détecte les packages manquants (via LLM)
+7. `generate_skeleton` - Génère un composant (via LLM)
 
-### Testing the Validation Script
-
-Test the validation utility before using it in workflows:
-
-```bash
-npm run test:validation
-```
-
-This will:
-1. Connect to the MCP server
-2. Fetch Figma data using `get_figma_context` tool
-3. Validate JSON structure with Zod
-4. Check for single root node, components, and design tokens
-5. Save validated JSON to `workspace/json/validated-figma-data.json`
-
-### Incremental Pipeline Development
-
-**Phase 1: Core Pipeline (Steps 1-4)**
-1. Run validation script to fetch and validate Figma data
-2. Architect agent creates generation plan
-3. Human review of architecture plan
-4. Initializer → Design System
-5. Verify project structure and Tailwind config
-
-**Phase 2: TDD Loop (Steps 6-10)**
-1. Test Planner → Test Writer
-2. Verify test files are syntactically correct
-3. Coder → Test Runner
-4. Debugger (if tests fail)
-5. Iterate until all tests pass
-
-**Phase 3: Assembly & Optimization (Steps 11-12)**
-1. Assembler creates pages
-2. Optimizer analyzes bundle
-3. Final manual review
-
-### Context Management
-
-To prevent context window overflow:
-
-1. **Save intermediate results** to `workspace/` between agents
-2. **Clear agent memory** after each major step
-3. **Use file-based communication** instead of in-memory data
-4. **Limit agent maxSteps** to prevent runaway iterations
-
-```typescript
-// Example: Validation script saves output to file
-const validationResult = await fetchAndValidateFigma(figmaUrl);
-await fs.writeFile(
-  "workspace/json/validated-figma-data.json",
-  JSON.stringify(validationResult.data, null, 2)
-);
-
-// Next agent (Architect) reads from file instead of context
-const figmaData = await fs.readFile(
-  "workspace/json/validated-figma-data.json",
-  "utf-8"
-);
-```
-
-## VoltOps Observability
-
-### Local Development
-
-VoltOps console connects automatically to `http://localhost:3141`:
-- Real-time agent execution visualization
-- Step-by-step debugging
-- Performance metrics
-- Local-only (no data leaves your machine)
-
-### Production Monitoring
-
-For deployed agents, configure VoltOpsClient:
-
-```typescript
-import { VoltOpsClient } from "@voltagent/logger";
-
-const client = new VoltOpsClient({
-  publicKey: process.env.VOLTAGENT_PUBLIC_KEY!,
-  secretKey: process.env.VOLTAGENT_SECRET_KEY!,
-});
-```
-
-## Common Commands
-
-```bash
-# Development
-npm run dev              # Start with hot reload
-npm run volt             # VoltAgent CLI tools
-
-# Build & Deploy
-npm run build            # Compile TypeScript
-npm start                # Run production build
-
-# Code Quality
-npm run lint             # Check code with Biome
-npm run lint:fix         # Auto-fix issues
-npm run typecheck        # TypeScript validation
-
-# Testing
-# (Will be added as agents are developed)
-npm test                 # Run test suite
-npm run test:watch       # Watch mode
-```
-
-## Integration with Main Project
-
-This VoltAgent pipeline is part of the larger Figma-Context-MCP monorepo:
-
-```
-Figma-Context-MCP/
-├── back/                    # MCP Server (Figma API integration)
-├── front/                   # React Audit UI
-├── figmAgentReactCode/      # This project (VoltAgent pipeline)
-├── CLAUDE.md                # Main project guidelines
-└── README.md
-```
-
-**Relationship:**
-- `back/` provides the MCP tools that agents consume
-- `front/` is an example of a React app (manual development)
-- `figmAgentReactCode/` automates React app generation from Figma
-
-## Troubleshooting
-
-### MCP Server Connection Issues
-
-**Problem**: Agent fails to fetch JSON from MCP endpoint
-
-**Solutions**:
-1. Verify MCP server is running: `cd ../back && pnpm dev`
-2. Check endpoint URL in `.env`: `MCP_ENDPOINT=http://localhost:3333`
-3. Test endpoint manually: `curl http://localhost:3333/api/figma-context`
-
-### Agent Not Progressing
-
-**Problem**: Agent stuck in infinite loop or not completing
-
-**Solutions**:
-1. Reduce `maxSteps` to force termination
-2. Simplify agent instructions
-3. Check VoltOps console for execution trace
-4. Add explicit termination conditions in instructions
-
-### Out of Memory / Context Overflow
-
-**Problem**: Agent runs out of context or memory
-
-**Solutions**:
-1. Save intermediate results to files
-2. Clear agent history between major steps
-3. Use smaller data samples for testing
-4. Switch to gpt-4o-mini for parsing tasks
-
-## Future Enhancements
-
-Planned improvements beyond the initial 12-agent pipeline:
-
-1. **Multi-file Support**: Handle multiple Figma files
-2. **Component Library**: Reusable component repository
-3. **Style Variants**: Support for dark mode, themes
-4. **Accessibility**: Automated a11y improvements
-5. **Storybook Integration**: Auto-generate stories
-6. **CI/CD Pipeline**: Automated testing and deployment
-
-## Resources
-
-- **VoltAgent Docs**: [voltagent.dev/docs](https://voltagent.dev/docs/)
-- **Figma API**: [figma.com/developers/api](https://www.figma.com/developers/api)
-- **Plan Details**: See `plan.md` for detailed implementation steps
-- **Sample Data**: Check `sampleData/sample-portfolio.json` for structure examples
+**Important** : Les meta-tools appellent **Gemini Flash** en interne pour l'analyse.
 
 ---
 
-## Summary for Claude Code
+## 💡 Ce que j'aime (Mon style de travail)
 
-As Claude Code working on this project, you should:
+### Descriptions & Explications
+- ✅ **Concis** : Va droit au but
+- ✅ **Humour léger** : Une touche d'humour est bienvenue (emoji ok)
+- ✅ **Exemples concrets** : Montre-moi du code réel plutôt que des concepts abstraits
+- ❌ **Pas de blabla** : Évite les longs paragraphes théoriques
 
-1. **Understand the pipeline**: 12 agents in sequence, each with a specific role
-2. **Follow the philosophy**: Incremental, simple-first, context-managed
-3. **Use the right models**: gpt-4o-mini for simple tasks, gpt-4o for reasoning
-4. **Test incrementally**: Validate each agent before moving to the next
-5. **Manage context**: Save to files, clear memory between steps
-6. **Integrate with MCP**: Use the existing Figma MCP server for data
-7. **Document decisions**: Update this file when making architectural changes
+### Questions & Clarifications
+- ✅ **Pose des questions** si tu manques d'infos
+- ✅ **Reste pertinent** : Pas 10 questions d'un coup
+- ✅ **Propose des alternatives** si tu vois un meilleur chemin
 
-When in doubt, refer to:
-- Agent patterns in this file
-- Detailed plan in `plan.md`
-- Main project guidelines in `../CLAUDE.md`
-- VoltAgent documentation at [voltagent.dev](https://voltagent.dev)
+### Code & Architecture
+- ✅ **TypeScript** : Tout le projet est en TypeScript
+- ✅ **Pragmatique** : Si un MCP ou une lib existe, utilise-le !
+- ✅ **Testé isolément** : Chaque tool doit pouvoir être testé seul
+- ✅ **Sécurisé** : Whitelist les commandes, jamais de `exec()` sauvage
+
+---
+
+## 🚫 Ce que je ne veux PAS
+
+### Architecture
+- ❌ **Over-engineering** : Pas besoin de 20 agents pour le POC
+- ❌ **Abstractions prématurées** : On optimise APRÈS avoir validé
+- ❌ **Frameworks lourds** : VoltAgent suffit, pas besoin d'ajouter des couches
+
+### Communication
+- ❌ **Trop verbeux** : Pas de pavés de 50 lignes
+- ❌ **Trop de disclaimers** : "Attention, ceci pourrait...", "Il faut noter que..." → évite ça
+- ❌ **Fausse modestie** : Si tu sais, dis-le directement
+
+### Code
+- ❌ **Placeholders** : Pas de `// TODO: implement this`, donne-moi du code qui marche
+- ❌ **Commandes dangereuses** : Jamais de `rm -rf`, `sudo`, ou commandes non-whitelistées
+- ❌ **Logs verbeux** : Les tools doivent retourner des résumés, pas 500 lignes de logs
+
+---
+
+## 📊 Métriques Importantes
+
+Quand je teste le POC, je track :
+- **Tokens consommés** (priorité #1)
+- **Temps d'exécution** (secondes)
+- **Qualité du code** (tests, build, lint)
+- **Taux de succès** (composants générés correctement)
+
+**Objectif POC** :
+- < 50K tokens pour 5 composants
+- < 5 min pour 5 composants
+- Tests passent à 100%
+- Build réussit
+
+---
+
+## 🎯 Use Cases Principaux
+
+### Use Case 1 : Génération Complète
+**Input** : URL Figma d'une landing page (3-5 composants)
+**Output** : Projet React complet avec Vite + tests
+
+### Use Case 2 : Update d'un Composant
+**Input** : URL Figma + composant existant modifié
+**Output** : Code du composant mis à jour (détection automatique des changements)
+
+### Use Case 3 : Projet Moyen
+**Input** : URL Figma d'un dashboard (10-15 composants)
+**Output** : Projet React avec routing + tous les composants
+
+---
+
+## 🔍 Comment M'Aider Efficacement
+
+### Quand je demande du code :
+1. **Donne-moi du code fonctionnel** (pas de pseudo-code)
+2. **Inclus les imports** nécessaires
+3. **Ajoute des commentaires** pour les parties complexes
+4. **Montre un exemple d'utilisation** si c'est pas évident
+
+### Quand je demande des conseils :
+1. **Propose 2-3 options** avec leurs pros/cons
+2. **Recommande celle que tu préfères** et explique pourquoi
+3. **Reste concis** : pas besoin de 3 pages d'analyse
+
+### Quand je debug :
+1. **Identifie la cause racine** (pas juste le symptôme)
+2. **Propose une solution** testable immédiatement
+3. **Explique POURQUOI** ça marchera
+
+---
+
+## 🛠️ Workflow de Développement
+
+### Phase Actuelle : POC Mega Agent
+1. [ ] Setup VoltAgent + MCP
+2. [ ] Créer les 7 tools VoltAgent
+3. [ ] Créer le Mega Agent
+4. [ ] Tester sur projets simples
+5. [ ] Mesurer et analyser
+6. [ ] Décider : split ou pas ?
+
+### Prochaines Phases (Si POC validé)
+- Optimisation des prompts
+- Ajout de cas d'erreur (retry, fallback)
+- Split en agents (si nécessaire)
+- Production-ready features
+
+---
+
+## 📚 Ressources & Documentation
+
+### VoltAgent
+- Framework d'orchestration d'agents
+- Supporte les MCP servers
+- Permet de créer des tools custom
+- Gestion du contexte entre étapes
+
+### MCPs Utilisés
+- `@modelcontextprotocol/server-filesystem` - [npm](https://www.npmjs.com/package/@modelcontextprotocol/server-filesystem)
+- MCP Figma custom (déjà implémenté)
+
+### LLMs
+- **Gemini 2.0 Flash** : Modèle principal (rapide, économique)
+- **Gemini 1.5 Pro** : Si besoin de tâches très complexes (rare)
+
+---
+
+## 🎨 Exemples de Réponses Idéales
+
+### ✅ GOOD : Concis et actionable
+```
+Voilà le tool `run_tests` :
+
+```typescript
+export const runTestsTool = {
+  name: "run_tests",
+  description: "Lance les tests npm et retourne un résumé",
+  parameters: z.object({
+    projectPath: z.string(),
+    testFile: z.string().optional(),
+  }),
+  execute: async ({ projectPath, testFile }) => {
+    const cmd = testFile ? `npm test -- ${testFile}` : `npm test`;
+    const result = await execAsync(cmd, { cwd: projectPath, timeout: 60000 });
+    
+    return {
+      success: result.exitCode === 0,
+      summary: extractTestSummary(result.stdout),
+      failedTests: extractFailedTests(result.stdout),
+    };
+  },
+};
+```
+
+Utilisation :
+```typescript
+const result = await runTestsTool.execute({ 
+  projectPath: "./workspace/my-app" 
+});
+```
+
+Tu veux que je te montre `extractTestSummary()` aussi ?
+```
+
+### ❌ BAD : Trop verbeux et théorique
+```
+Alors, pour créer un tool de tests dans VoltAgent, il faut d'abord comprendre l'architecture des tools. Un tool est essentiellement une fonction qui prend des paramètres et retourne un résultat. Il est important de noter que les tools doivent être bien typés avec Zod pour assurer la validation des paramètres. 
+
+Dans le cas des tests, il y a plusieurs approches possibles. On pourrait utiliser Jest, Vitest, ou même Mocha. Il faut aussi penser à la gestion des erreurs, au timeout, et à la façon dont on parse les résultats. 
+
+Voici quelques considérations importantes :
+- La gestion du timeout est cruciale car les tests peuvent prendre du temps
+- Il faut parser correctement les outputs de npm test
+- Il faut gérer les cas où le projet n'a pas de tests
+- [... 20 lignes de plus ...]
+```
+
+---
+
+## 🚀 Go Time !
+
+Maintenant que tu as lu tout ça, tu sais comment m'aider au mieux ! 
+
+**N'oublie pas** :
+1. Reste concis et pragmatique
+2. Propose du code fonctionnel
+3. Pose des questions si besoin
+4. Ajoute une touche d'humour 😄
+
+Let's build this thing! 🎉
+
+---
+
+**Dernière mise à jour** : 24 octobre 2025
